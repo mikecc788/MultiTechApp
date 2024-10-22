@@ -1,0 +1,101 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter attach
+
+## exception
+
+StateError: Bad state: Stream has already been listened to.
+
+```
+#0      _StreamController._subscribe (dart:async/stream_controller.dart:679:7)
+#1      _ControllerStream._createSubscription (dart:async/stream_controller.dart:830:19)
+#2      _StreamImpl.listen (dart:async/stream_impl.dart:498:9)
+#3      new _ForwardingStreamSubscription (dart:async/stream_pipe.dart:112:10)
+#4      _ForwardingStream._createSubscription (dart:async/stream_pipe.dart:84:16)
+#5      _ForwardingStream.listen (dart:async/stream_pipe.dart:79:12)
+#6      FlutterDevice.connect (package:flutter_tools/src/resident_runner.dart:264:35)
+#7      ResidentRunner.connectToServiceProtocol (package:flutter_tools/src/resident_runner.dart:1361:21)
+#8      HotRunner.attach (package:flutter_tools/src/run_hot.dart:233:13)
+#9      AttachCommand._attachToDevice (package:flutter_tools/src/commands/attach.dart:402:31)
+<asynchronous suspension>
+#10     AttachCommand.runCommand (package:flutter_tools/src/commands/attach.dart:265:5)
+<asynchronous suspension>
+#11     FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1450:27)
+<asynchronous suspension>
+#12     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#13     CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+<asynchronous suspension>
+#14     FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:421:9)
+<asynchronous suspension>
+#15     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#16     FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:364:5)
+<asynchronous suspension>
+#17     run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:131:9)
+<asynchronous suspension>
+#18     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#19     main (package:flutter_tools/executable.dart:94:3)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[32m[✓][39m Flutter (Channel master, 3.26.0-1.0.pre.393, on macOS 15.0.1 24A348 darwin-arm64, locale zh-Hans-CN)
+    [32m•[39m Flutter version 3.26.0-1.0.pre.393 on channel master at /Users/feellife/flutter
+    [32m•[39m Upstream repository https://github.com/flutter/flutter.git
+    [32m•[39m Framework revision a6f3a1b8b4 (2 weeks ago), 2024-10-08 02:15:14 -0400
+    [32m•[39m Engine revision 012029ee19
+    [32m•[39m Dart version 3.6.0 (build 3.6.0-329.0.dev)
+    [32m•[39m DevTools version 2.40.0
+    [32m•[39m Pub download mirror https://pub.flutter-io.cn
+    [32m•[39m Flutter download mirror https://storage.flutter-io.cn
+
+[32m[✓][39m Android toolchain - develop for Android devices (Android SDK version 35.0.0)
+    [32m•[39m Android SDK at /Users/feellife/Library/Android/sdk
+    [32m•[39m Platform android-34, build-tools 35.0.0
+    [32m•[39m Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+    [32m•[39m Java version OpenJDK Runtime Environment (build 17.0.11+0-17.0.11b1207.24-11852314)
+    [32m•[39m All Android licenses accepted.
+
+[32m[✓][39m Xcode - develop for iOS and macOS (Xcode 16.0)
+    [32m•[39m Xcode at /Applications/Xcode.app/Contents/Developer
+    [32m•[39m Build 16A242d
+    [32m•[39m CocoaPods version 1.15.2
+
+[32m[✓][39m Chrome - develop for the web
+    [32m•[39m Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[32m[✓][39m Android Studio (version 2024.1)
+    [32m•[39m Android Studio at /Applications/Android Studio.app/Contents
+    [32m•[39m Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    [32m•[39m Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    [32m•[39m Java version OpenJDK Runtime Environment (build 17.0.11+0-17.0.11b1207.24-11852314)
+
+[32m[✓][39m VS Code (version 1.94.2)
+    [32m•[39m VS Code at /Applications/Visual Studio Code.app/Contents
+    [32m•[39m Flutter extension version 3.96.0
+
+[32m[✓][39m Connected device (5 available)
+    [32m•[39m ALI AN00 (mobile)               • AN5H6R4719000978                     • android-arm64  • Android 14 (API 34)
+    [32m•[39m iPhone 16 Pro Max (mobile)      • 2BF2D8D5-1D82-476C-AB97-6699670F8B75 • ios            • com.apple.CoreSimulator.SimRuntime.iOS-18-0
+      (simulator)
+    [32m•[39m macOS (desktop)                 • macos                                • darwin-arm64   • macOS 15.0.1 24A348 darwin-arm64
+    [32m•[39m Mac Designed for iPad (desktop) • mac-designed-for-ipad                • darwin         • macOS 15.0.1 24A348 darwin-arm64
+    [32m•[39m Chrome (web)                    • chrome                               • web-javascript • Google Chrome 129.0.6668.103
+    [33m![39m Error: Browsing on the local area network for Leeeeeeee. Ensure the device is unlocked and attached with a cable or associated with the
+      same local area network as this Mac.
+      The device must be opted into Developer Mode to connect wirelessly. (code -27)
+
+[32m[✓][39m Network resources
+    [32m•[39m All expected network resources are available.
+
+[32m•[39m No issues found!
+```

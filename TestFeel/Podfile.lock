@@ -1,0 +1,143 @@
+PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - BRPickerView (2.7.6):
+    - BRPickerView/AddressPickerView (= 2.7.6)
+    - BRPickerView/Base (= 2.7.6)
+    - BRPickerView/DatePickerView (= 2.7.6)
+    - BRPickerView/StringPickerView (= 2.7.6)
+  - BRPickerView/AddressPickerView (2.7.6):
+    - BRPickerView/Base
+  - BRPickerView/Base (2.7.6)
+  - BRPickerView/DatePickerView (2.7.6):
+    - BRPickerView/Base
+  - BRPickerView/StringPickerView (2.7.6):
+    - BRPickerView/Base
+  - FLAnimatedImage (1.0.17)
+  - IQKeyboardManager (6.5.10)
+  - JXCategoryView (1.6.1)
+  - KafkaRefresh (1.5.0):
+    - KafkaRefresh/Category (= 1.5.0)
+    - KafkaRefresh/Configuration (= 1.5.0)
+    - KafkaRefresh/Core (= 1.5.0)
+    - KafkaRefresh/Default (= 1.5.0)
+    - KafkaRefresh/Style (= 1.5.0)
+    - KafkaRefresh/UIKit (= 1.5.0)
+  - KafkaRefresh/Category (1.5.0)
+  - KafkaRefresh/Configuration (1.5.0):
+    - KafkaRefresh/UIKit/FootKit
+    - KafkaRefresh/UIKit/HeadKit
+  - KafkaRefresh/Core (1.5.0):
+    - KafkaRefresh/Category
+  - KafkaRefresh/Default (1.5.0):
+    - KafkaRefresh/Style
+  - KafkaRefresh/Style (1.5.0)
+  - KafkaRefresh/UIKit (1.5.0):
+    - KafkaRefresh/UIKit/FootKit (= 1.5.0)
+    - KafkaRefresh/UIKit/HeadKit (= 1.5.0)
+    - KafkaRefresh/UIKit/LayerKit (= 1.5.0)
+  - KafkaRefresh/UIKit/FootKit (1.5.0):
+    - KafkaRefresh/Category
+    - KafkaRefresh/Core
+    - KafkaRefresh/Default
+    - KafkaRefresh/Style
+    - KafkaRefresh/UIKit/LayerKit
+  - KafkaRefresh/UIKit/HeadKit (1.5.0):
+    - KafkaRefresh/Category
+    - KafkaRefresh/Core
+    - KafkaRefresh/Default
+    - KafkaRefresh/Style
+    - KafkaRefresh/UIKit/LayerKit
+  - KafkaRefresh/UIKit/LayerKit (1.5.0):
+    - KafkaRefresh/Category
+    - KafkaRefresh/Default
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.2.0)
+  - MJExtension (3.4.1)
+  - MJRefresh (3.7.5)
+  - PNChart (0.8.9):
+    - UICountingLabel (~> 1.2.0)
+  - RSAObjC (0.1.1)
+  - SDWebImage (5.13.2):
+    - SDWebImage/Core (= 5.13.2)
+  - SDWebImage/Core (5.13.2)
+  - SGPagingView (1.7.2)
+  - TZImagePickerController/Basic (3.8.3)
+  - UICountingLabel (1.2.0)
+  - YYImage (1.0.4):
+    - YYImage/Core (= 1.0.4)
+  - YYImage/Core (1.0.4)
+
+DEPENDENCIES:
+  - AFNetworking (~> 4.0)
+  - BRPickerView
+  - FLAnimatedImage (~> 1.0)
+  - IQKeyboardManager
+  - JXCategoryView
+  - KafkaRefresh
+  - Masonry
+  - MBProgressHUD
+  - MJExtension
+  - MJRefresh
+  - PNChart
+  - RSAObjC
+  - SDWebImage
+  - SGPagingView (~> 1.7.2)
+  - TZImagePickerController/Basic
+  - YYImage
+
+SPEC REPOS:
+  trunk:
+    - AFNetworking
+    - BRPickerView
+    - FLAnimatedImage
+    - IQKeyboardManager
+    - JXCategoryView
+    - KafkaRefresh
+    - Masonry
+    - MBProgressHUD
+    - MJExtension
+    - MJRefresh
+    - PNChart
+    - RSAObjC
+    - SDWebImage
+    - SGPagingView
+    - TZImagePickerController
+    - UICountingLabel
+    - YYImage
+
+SPEC CHECKSUMS:
+  AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
+  BRPickerView: 2a1620caf218e37a3aca9626732719a419928b15
+  FLAnimatedImage: bbf914596368867157cc71b38a8ec834b3eeb32b
+  IQKeyboardManager: 45a1fa55c1a5b02c61ac0fd7fd5b62bb4ad20d97
+  JXCategoryView: 7b1ee69ede4843c581688afe84d0f047723262f2
+  KafkaRefresh: 01645b1509b8647809f6bb666629c80855bd3fdd
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  MJExtension: 21c5f6f8c4d5d8844b7ae8fbae08fed0b501f961
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
+  PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
+  RSAObjC: 4282b19be6da23a95ed7d43872cc1d0715c5b09a
+  SDWebImage: 72f86271a6f3139cc7e4a89220946489d4b9a866
+  SGPagingView: 0b91bd360370e56a6496b06df9b3e28bc3f075cc
+  TZImagePickerController: e9909edbadf7381140efc5b5c9f5bdbfd630f7d4
+  UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
+  YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
+
+PODFILE CHECKSUM: d8babf91767b7f2ede4b4c063b4f43cf42d60331
+
+COCOAPODS: 1.15.2

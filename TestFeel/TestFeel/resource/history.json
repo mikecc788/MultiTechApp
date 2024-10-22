@@ -1,0 +1,14 @@
+{
+        "data": [
+            {"contents":[{"device":"制氧机","image":"AirBarPro_his"},],
+                "title":"制氧机"
+            },
+            {"contents":[{"device":"Air Smart Extra","image":"smartextra_his"},{"device":"Air Smart T1","image":"smartT1_his"},{"device":"AirFit Smart T","image":"Air Fit Smart T1_his"},{"device":"Others","image":"Others"}],
+                "title":"肺功能"
+            },
+            
+            {"contents":[{"device":"AirRight","image":"Airight_his"},{"device":"AeroIns","image":"Aeroins_his"},{"device":"Others","image":"Others"}],
+                "title":"雾化器"
+            },
+        ]
+}

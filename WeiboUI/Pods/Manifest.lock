@@ -1,0 +1,40 @@
+PODS:
+  - Alamofire (5.6.4)
+  - Charts (4.1.0):
+    - Charts/Core (= 4.1.0)
+  - Charts/Core (4.1.0):
+    - SwiftAlgorithms (~> 1.0)
+  - SDWebImage (5.13.4):
+    - SDWebImage/Core (= 5.13.4)
+  - SDWebImage/Core (5.13.4)
+  - SDWebImageSwiftUI (2.2.1):
+    - SDWebImage (~> 5.10)
+  - SwiftAlgorithms (1.0.0)
+  - SwiftUI-Pull-To-Refresh (1.1.9)
+
+DEPENDENCIES:
+  - Alamofire
+  - Charts
+  - SDWebImageSwiftUI
+  - SwiftUI-Pull-To-Refresh (~> 1.1.9)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Charts
+    - SDWebImage
+    - SDWebImageSwiftUI
+    - SwiftAlgorithms
+    - SwiftUI-Pull-To-Refresh
+
+SPEC CHECKSUMS:
+  Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
+  Charts: 354f86803d11d9c35de280587fef50d1af063978
+  SDWebImage: e5cc87bf736e60f49592f307bdf9e157189298a3
+  SDWebImageSwiftUI: 2ecf5ab6f574526326b10ecb155e72a88059d0f0
+  SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
+  SwiftUI-Pull-To-Refresh: 334b72e9c23d5bb9d309e63ec7348dcd06e6e069
+
+PODFILE CHECKSUM: 98a4b8150bdb9765360563c01b35c185466bb79a
+
+COCOAPODS: 1.11.3
