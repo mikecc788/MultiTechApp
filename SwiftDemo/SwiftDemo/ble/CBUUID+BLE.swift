@@ -7,6 +7,6 @@
 
 import CoreBluetooth
 extension CBUUID {
-    static public let deviceNameUUID                                     = CBUUID(string: "2A00")
+    static public let deviceNameUUID = CBUUID(string: "2A00")
     
 }

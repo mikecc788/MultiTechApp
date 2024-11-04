@@ -99,6 +99,8 @@
 		D12D40002CC73CE700D2F98C /* FlutterPluginRegistrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D12D3FFF2CC73CE700D2F98C /* FlutterPluginRegistrant.framework */; };
 		D12D40022CC7771700D2F98C /* FlutterEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12D40012CC7771700D2F98C /* FlutterEngineManager.swift */; };
 		D12D40042CC779D900D2F98C /* FlutterViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12D40032CC779D900D2F98C /* FlutterViewVC.swift */; };
+		D1951C492CD871B0008F11EE /* BLEDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */; };
+		D1951C4D2CD88882008F11EE /* BLEVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1951C4C2CD88882008F11EE /* BLEVC.xib */; };
 		D1BC268D27D06B3900AF1C9C /* LFSBLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */; };
 		D1BC268F27D06BD100AF1C9C /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC268E27D06BD100AF1C9C /* BluetoothDelegate.swift */; };
 		D1BC269127D06D9100AF1C9C /* CBUUID+BLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC269027D06D9100AF1C9C /* CBUUID+BLE.swift */; };
@@ -202,6 +204,8 @@
 		D12D3FFF2CC73CE700D2F98C /* FlutterPluginRegistrant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlutterPluginRegistrant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12D40012CC7771700D2F98C /* FlutterEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterEngineManager.swift; sourceTree = "<group>"; };
 		D12D40032CC779D900D2F98C /* FlutterViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterViewVC.swift; sourceTree = "<group>"; };
+		D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceModel.swift; sourceTree = "<group>"; };
+		D1951C4C2CD88882008F11EE /* BLEVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BLEVC.xib; sourceTree = "<group>"; };
 		D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFSBLEManager.swift; sourceTree = "<group>"; };
 		D1BC268E27D06BD100AF1C9C /* BluetoothDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDelegate.swift; sourceTree = "<group>"; };
 		D1BC269027D06D9100AF1C9C /* CBUUID+BLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBUUID+BLE.swift"; sourceTree = "<group>"; };
@@ -393,6 +397,7 @@
 				A48ABF022775CCBB0030BB51 /* KingfisherViewController.swift */,
 				A4873BE1277C000A009F80A1 /* GenericViewController.swift */,
 				D1BC269227D0716000AF1C9C /* BLEVC.swift */,
+				D1951C4C2CD88882008F11EE /* BLEVC.xib */,
 				D12D40032CC779D900D2F98C /* FlutterViewVC.swift */,
 			);
 			path = home;
@@ -499,6 +504,7 @@
 				D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */,
 				D1BC268E27D06BD100AF1C9C /* BluetoothDelegate.swift */,
 				D1BC269027D06D9100AF1C9C /* CBUUID+BLE.swift */,
+				D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */,
 			);
 			path = ble;
 			sourceTree = "<group>";
@@ -588,6 +594,7 @@
 				A46C1F45277AC9C100816435 /* icon_document@2x.png in Resources */,
 				A46C1F4C277AC9C100816435 /* home@2x.png in Resources */,
 				A46C1F4A277AC9C100816435 /* icon_course@2x.png in Resources */,
+				D1951C4D2CD88882008F11EE /* BLEVC.xib in Resources */,
 				A46C1F40277AC9C100816435 /* icon_live@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -724,6 +731,7 @@
 				A4873C06277C5F71009F80A1 /* INN+UITableView.swift in Sources */,
 				A4873C07277C5F71009F80A1 /* CALayer+Extension.swift in Sources */,
 				D1BC268D27D06B3900AF1C9C /* LFSBLEManager.swift in Sources */,
+				D1951C492CD871B0008F11EE /* BLEDeviceModel.swift in Sources */,
 				A491AD53277954560054AF21 /* TextJSON.swift in Sources */,
 				A46C1F68277B131900816435 /* CommonList.swift in Sources */,
 				A4873C21277C618E009F80A1 /* INNClosure.swift in Sources */,
@@ -901,9 +909,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V6HCVK8WA7;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = YES;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -930,9 +940,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V6HCVK8WA7;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = YES;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

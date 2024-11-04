@@ -8,79 +8,29 @@
 import Foundation
 import CoreBluetooth
 
-@objc public protocol BluetoothDelegate : NSObjectProtocol{
+@objc protocol BLEManagerDelegate: NSObjectProtocol {
     
-    /**
-     - parameter state: The newest state
-     */
-    @objc optional func didUpdateState(_ state:CBManagerState)
+    @objc optional func bleManagerDidUpdateState(_ state: CBManagerState)
+    @objc optional func bleManagerDidStartScan()
+    @objc optional func bleManagerDidStopScan()
+        
+    @objc optional func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel])
     
+    @objc optional func bleManagerDidConnect(_ peripheral: CBPeripheral)
     
-    @objc optional func didDiscoverPeripheral(_ peripheral: CBPeripheral, advertisementData: [String : Any], RSSI: NSNumber)
+    @objc optional func bleManagerDidDisconnect(_ peripheral: CBPeripheral, error: Error?)
     
-    @objc optional func didConnectedPeripheral(_ connectedPeripheral: CBPeripheral)
-    /**
-     The callback function when central manager failed to connect the peripheral.
-     
-     - parameter connectedPeripheral: The peripheral which connected failure.
-     - parameter error:               The connected failed error message.
-     */
-    @objc optional func failToConnectPeripheral(_ peripheral: CBPeripheral, error: Error)
-    /**
-     The callback function when the services has been discovered.
-     
-     - parameter peripheral: Peripheral which provide this information and contain services information
-     */
-    @objc optional func didDiscoverServices(_ peripheral: CBPeripheral)
-    /**
-    The callback function when the peripheral disconnected.
+    @objc optional func bleManagerDidFailToConnect(_ peripheral: CBPeripheral, error: Error)
     
-    - parameter peripheral: The peripheral which provide this action
-    */
-    @objc optional func didDisconnectPeripheral(_ peripheral: CBPeripheral)
-    /**
-     The callback function when interrogate the peripheral is timeout
-     
-     - parameter peripheral: The peripheral which is failed to discover service
-     */
-    @objc optional func didFailedToInterrogate(_ peripheral: CBPeripheral)
+    @objc optional func bleManagerDidDiscoverServices(_ services: [CBService])
     
-    /**
-     The callback function when discover characteritics successfully.
-     
-     - parameter service: The service information include characteritics.
-     */
-    @objc optional func didDiscoverCharacteritics(_ service: CBService)
-    /**
-     The callback function when peripheral failed to discover charateritics.
-     
-     - parameter error: The error information.
-     */
+    @objc optional func bleManagerDidDiscoverCharacteristics(_ characteristics: [CBCharacteristic], for service: CBService)
     @objc optional func didFailToDiscoverCharacteritics(_ error: Error)
-    
-    /**
-     The callback function when discover descriptor for characteristic successfully
-     
-     - parameter characteristic: The characteristic which has the descriptor
-     */
     @objc optional func didDiscoverDescriptors(_ characteristic: CBCharacteristic)
-    /**
-     The callback function when failed to discover descriptor for characteristic
-     
-     - parameter error: The error message
-     */
     @objc optional func didFailToDiscoverDescriptors(_ error: Error)
     
-    /**
-     The callback function invoked when peripheral read value for the characteristic successfully
-     
-     - parameter characteristic: The characteristic withe the value
-     */
-    @objc optional func didReadValueForCharacteristic(_ characteristic: CBCharacteristic)
-    /**
-     The callback function invoked when failed to read value for the characteristic
-     
-     - parameter error: The error message
-     */
+    @objc optional func bleManagerDidUpdateValue(_ data: Data, for characteristic: CBCharacteristic)
+    @objc optional func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: Error?)
+    
     @objc optional func didFailToReadValueForCharacteristic(_ error: Error)
 }
