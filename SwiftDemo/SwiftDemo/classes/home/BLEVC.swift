@@ -23,39 +23,39 @@ class BLEVC:BaseViewController{
     }
     
     private func setupUI() {
-          // 配置TableView
+        // 配置TableView
         tableView.rowHeight = 80
         tableView.register(DeviceTableViewCell.self, forCellReuseIdentifier: "DeviceCell")
-          // 创建HeaderView
-          let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60))
-          
-          // 创建扫描按钮
-          scanButton = UIButton(type: .system)
-          scanButton.setTitle("开始扫描", for: .normal)
-          scanButton.translatesAutoresizingMaskIntoConstraints = false
-          scanButton.addTarget(self, action: #selector(scanButtonTapped), for: .touchUpInside)
-          
-          // 创建活动指示器
-          activityIndicator = UIActivityIndicatorView(style: .medium)
-          activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-          activityIndicator.hidesWhenStopped = true
-          
-          // 添加子视图
-          headerView.addSubview(scanButton)
-          headerView.addSubview(activityIndicator)
-          
-          // 设置约束
-          NSLayoutConstraint.activate([
-              scanButton.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
-              scanButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-              
-              activityIndicator.leadingAnchor.constraint(equalTo: scanButton.trailingAnchor, constant: 8),
-              activityIndicator.centerYAnchor.constraint(equalTo: scanButton.centerYAnchor)
-          ])
-          
-          // 设置HeaderView
-          tableView.tableHeaderView = headerView
-      }
+        // 创建HeaderView
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60))
+        
+        // 创建扫描按钮
+        scanButton = UIButton(type: .system)
+        scanButton.setTitle("开始扫描", for: .normal)
+        scanButton.translatesAutoresizingMaskIntoConstraints = false
+        scanButton.addTarget(self, action: #selector(scanButtonTapped), for: .touchUpInside)
+        
+        // 创建活动指示器
+        activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        
+        // 添加子视图
+        headerView.addSubview(scanButton)
+        headerView.addSubview(activityIndicator)
+        
+        // 设置约束
+        NSLayoutConstraint.activate([
+            scanButton.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            scanButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            
+            activityIndicator.leadingAnchor.constraint(equalTo: scanButton.trailingAnchor, constant: 8),
+            activityIndicator.centerYAnchor.constraint(equalTo: scanButton.centerYAnchor)
+        ])
+        
+        // 设置HeaderView
+        tableView.tableHeaderView = headerView
+    }
     
     private func setupBluetooth() {
         BLEManager.shared.delegate = self
@@ -64,33 +64,33 @@ class BLEVC:BaseViewController{
             startScan()
         }
     }
-
+    
     @objc func scanButtonTapped(){
         if BLEManager.shared.isCurrentlyScanning {
-              BLEManager.shared.stopScanning()
-              scanButton.setTitle("开始扫描", for: .normal)
-              activityIndicator.stopAnimating()
+            BLEManager.shared.stopScanning()
+            scanButton.setTitle("开始扫描", for: .normal)
+            activityIndicator.stopAnimating()
         } else {
             startScan()
         }
     }
     
     private func startScan() {
-       guard BLEManager.shared.isBluetoothAvailable else {
-           showAlert(message: "请打开蓝牙")
-           return
-       }
-       
-       // 清空设备列表
-       devices.removeAll()
-       tableView.reloadData()
-       
-       // 更新 UI 状态
-       scanButton.setTitle("停止扫描", for: .normal)
-       activityIndicator.startAnimating()
-       
-       // 开始扫描
-       BLEManager.shared.startScanning(withServices: nil)
+        guard BLEManager.shared.isBluetoothAvailable else {
+            showAlert(message: "请打开蓝牙")
+            return
+        }
+        
+        // 清空设备列表
+        devices.removeAll()
+        tableView.reloadData()
+        
+        // 更新 UI 状态
+        scanButton.setTitle("停止扫描", for: .normal)
+        activityIndicator.startAnimating()
+        
+        // 开始扫描
+        BLEManager.shared.startScanning(withServices: nil)
     }
     
     func didUpdateState(_ state: CBManagerState) {
@@ -144,6 +144,14 @@ extension BLEVC: UITableViewDelegate {
 }
 // MARK: - BLEManagerDelegate
 extension BLEVC: BLEManagerDelegate{
+    func bleManagerDidConnect(_ peripheral: CBPeripheral) {
+        print("成功连接到设备: \(peripheral.name ?? "未知设备")")
+    }
+    
+    func bleManagerDidDisconnect(_ peripheral: CBPeripheral, error: (any Error)?) {
+        print("设备已断开连接: \(peripheral.name ?? "未知设备")")
+    }
+    
     func bleManagerDidUpdateState(_ state: CBManagerState) {
         switch state {
         case .poweredOn:
@@ -159,42 +167,41 @@ extension BLEVC: BLEManagerDelegate{
         }
     }
     
-    func bleManagerDidStartScan() {
-        DispatchQueue.main.async { [weak self] in
-            self?.scanButton.setTitle("停止扫描", for: .normal)
-            self?.activityIndicator.startAnimating()
-        }
+    func bleManagerDidFailToConnect(_ peripheral: CBPeripheral, error: any Error) {
+        print("连接失败: \(peripheral.name ?? "未知设备"), 错误: \(error.localizedDescription)")
     }
     
-    func bleManagerDidStopScan() {
-        DispatchQueue.main.async { [weak self] in
-            self?.scanButton.setTitle("开始扫描", for: .normal)
-            self?.activityIndicator.stopAnimating()
-        }
+    func bleManagerDidDiscoverServices(_ services: [CBService]) {
+        print("发现服务: \(services)")
     }
     
-    func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel]) {
+    func bleManagerDidDiscoverCharacteristics(_ characteristics: [CBCharacteristic], for service: CBService) {
+        print("发现特征: \(characteristics) for service: \(service)")
+    }
+    
+    func bleManagerDidUpdateValue(_ data: Data, for characteristic: CBCharacteristic) {
         DispatchQueue.main.async { [weak self] in
-            self?.devices = devices
+            
             self?.tableView.reloadData()
         }
     }
     
-    func bleManagerDidConnect(_ peripheral: CBPeripheral) {
+    func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel]) {
+        // 更新设备列表
+        self.devices = devices
         DispatchQueue.main.async { [weak self] in
-            self?.showAlert(message: "设备已连接")
+            self?.tableView.reloadData()
+        }
+    }
+    func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: (any Error)?) {
+        if let error = error {
+            print("写入特征失败: \(error.localizedDescription)")
+        } else {
+            print("成功写入特征: \(characteristic)")
         }
     }
     
-    func bleManagerDidDisconnect(_ peripheral: CBPeripheral, error: Error?) {
-        DispatchQueue.main.async { [weak self] in
-            if let error = error {
-                self?.showAlert(message: "设备断开连接: \(error.localizedDescription)")
-            } else {
-                self?.showAlert(message: "设备已断开连接")
-            }
-        }
-    }
+    
 }
 
 // MARK: - Custom TableViewCell (可选)

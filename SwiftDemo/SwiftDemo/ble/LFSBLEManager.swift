@@ -13,55 +13,48 @@ class BLEManager:NSObject{
     static let shared = BLEManager()
     
     // MARK: - Properties
-    private var centralManager : CBCentralManager!
+    private lazy var centralManager : CBCentralManager = {
+        CBCentralManager(delegate: self, queue: .main, options: [
+                   CBCentralManagerOptionShowPowerAlertKey: true
+        ])
+    }()
+    
+    // 弱引用代理，避免循环引用
     weak var delegate : BLEManagerDelegate?{
         didSet {
-                print("Delegate set to: \(String(describing: delegate))")
-            }
+            print("Delegate set to: \(String(describing: delegate))")
+        }
     }
-    private var connectedPeripheral : CBPeripheral?
-    private var characteristics: [CBUUID: CBCharacteristic] = [:]
-    private var scanTimer: Timer?
+    // 配置常量
+   private struct Constants {
+       static let scanTimeout: TimeInterval = 10.0
+       static let connectionTimeout: TimeInterval = 5.0
+       static let deviceUpdateThreshold: TimeInterval = 5.0
+   }
+    // 私有状态管理
+   private(set) var isScanning = false
+   private(set) var isConnecting = false
+   private var connectedPeripheral: CBPeripheral?
     
-    private(set) var connected = false
-    
-    // 配置
-    private let scanTimeout: TimeInterval = 10.0
-    private var shouldScanAfterPoweredOn = false
-    private var isScanning = false
-    
-    private let serviceUUID = CBUUID(string: "AE00")
-    private let characteristicUUIDs = [
-           CBUUID(string: "AE01"),
-           CBUUID(string: "AE02"),
-           CBUUID(string: "1001"),
-           CBUUID(string: "1002")
-    ]
     // 已发现的设备缓存
     private var discoveredDevices: [UUID: BLEDeviceModel] = [:]
-    private let deviceUpdateThreshold: TimeInterval = 5.0 // 设备更新阈值
     
-    // 连接配置
-    private let connectionTimeout: TimeInterval = 5.0
+    // 扫描和连接管理
+    private var scanTimer: Timer?
     private var connectionTimer: Timer?
     
-    private var isConnecting = false
-    private(set) var connectedServices : [CBService]?
+
     
     // MARK: - Initialization
     private override init() {
         super.init()
-        initCBCentralManager()
     }
     
-    func initCBCentralManager() {
-        centralManager = CBCentralManager(delegate: self, queue: nil,options: [CBCentralManagerOptionShowPowerAlertKey: true])
-    }
     
     // MARK: - Public Methods
     func startScanning(withServices services: [CBUUID]? = nil) {
         guard centralManager.state == .poweredOn else {
-            shouldScanAfterPoweredOn = true
+            print("❌ Bluetooth not ready for scanning")
             return
         }
         
@@ -79,7 +72,7 @@ class BLEManager:NSObject{
         )
         if let delegate = delegate {
             print("Delegate exists, calling didStartScan")
-            delegate.bleManagerDidStartScan?()
+            delegate.bleManagerDidStartScan()
         } else {
             print("No delegate set")
         }
@@ -88,46 +81,19 @@ class BLEManager:NSObject{
        
     }
     private func setupScanTimer() {
-       
         scanTimer?.invalidate()
-        scanTimer = Timer.scheduledTimer(withTimeInterval: scanTimeout, repeats: false) { [weak self] _ in
+        scanTimer = Timer.scheduledTimer(withTimeInterval: Constants.scanTimeout, repeats: false) { [weak self] _ in
             self?.stopScanning()
         }
     }
     private func setupConnectionTimer() {
         connectionTimer?.invalidate()
-        connectionTimer = Timer.scheduledTimer(withTimeInterval: connectionTimeout, repeats: false) { [weak self] _ in
+        connectionTimer = Timer.scheduledTimer(withTimeInterval: Constants.connectionTimeout, repeats: false) { [weak self] _ in
             if let peripheral = self?.connectedPeripheral {
                 self?.centralManager.cancelPeripheralConnection(peripheral)
             }
         }
     }
-    
-    private func updateDevice(_ peripheral: CBPeripheral, advertisementData: [String: Any], rssi: NSNumber) {
-           let device = BLEDeviceModel(
-               peripheral: peripheral,
-               advertisementData: advertisementData,
-               rssi: rssi,
-               lastUpdatedTime: Date()
-           )
-           
-           // 更新设备信息
-           if let existingDevice = discoveredDevices[peripheral.identifier] {
-               // 仅在信号强度变化超过阈值或超过更新时间时更新
-               let timeSinceLastUpdate = device.lastUpdatedTime.timeIntervalSince(existingDevice.lastUpdatedTime)
-               let rssiDifference = abs(existingDevice.rssi.intValue - rssi.intValue)
-               
-               if timeSinceLastUpdate >= deviceUpdateThreshold || rssiDifference >= 5 {
-                   discoveredDevices[peripheral.identifier] = device
-                   delegate?.bleManagerDidUpdateDevices?(discoveredDevicesList)
-               }
-           } else {
-               // 新设备直接添加
-               discoveredDevices[peripheral.identifier] = device
-               delegate?.bleManagerDidUpdateDevices?(discoveredDevicesList)
-           }
-       }
-    
     
     /**
      The method provides for stopping scan near by peripheral
@@ -136,13 +102,30 @@ class BLEManager:NSObject{
         guard isScanning else {
             return
         }
-        centralManager?.stopScan()
+        centralManager.stopScan()
         scanTimer?.invalidate()
         scanTimer = nil
         isScanning = false
-        shouldScanAfterPoweredOn = false
-        delegate?.bleManagerDidStopScan?()
+        delegate?.bleManagerDidStopScan()
     }
+    
+    private func updateDevice(_ peripheral: CBPeripheral, advertisementData: [String: Any], rssi: NSNumber) {
+         let device = BLEDeviceModel(peripheral: peripheral, advertisementData: advertisementData, rssi: rssi, lastUpdatedTime: Date())
+         
+         if let existingDevice = discoveredDevices[peripheral.identifier] {
+             let timeSinceLastUpdate = device.lastUpdatedTime.timeIntervalSince(existingDevice.lastUpdatedTime)
+             let rssiDifference = abs(existingDevice.rssi.intValue - rssi.intValue)
+             
+             if timeSinceLastUpdate >= Constants.deviceUpdateThreshold || rssiDifference >= 5 {
+                 discoveredDevices[peripheral.identifier] = device
+                 delegate?.bleManagerDidUpdateDevices(Array(discoveredDevices.values))
+             }
+         } else {
+             discoveredDevices[peripheral.identifier] = device
+             delegate?.bleManagerDidUpdateDevices(Array(discoveredDevices.values))
+         }
+     }
+    
     /// 刷新扫描
     func refreshScan() {
         startScanning()
@@ -175,22 +158,12 @@ class BLEManager:NSObject{
     func writeData(_ data: Data, for characteristic: CBCharacteristic,type: CBCharacteristicWriteType = .withResponse) {
         connectedPeripheral?.writeValue(data, for: characteristic, type: type)
     }
-    /// 读取数据
-    func readValue(from characteristicUUID: CBUUID) {
-        guard let characteristic = characteristics[characteristicUUID] else { return }
-        connectedPeripheral?.readValue(for: characteristic)
-    }
-    
+
     /// 订阅通知
     func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristic) {
         connectedPeripheral?.setNotifyValue(enabled, for: characteristic)
     }
     
-    /// 取消订阅
-    func unsubscribe(from characteristicUUID: CBUUID) {
-        guard let characteristic = characteristics[characteristicUUID] else { return }
-        connectedPeripheral?.setNotifyValue(false, for: characteristic)
-    }
     
     /// 检查是否正在扫描
     var isCurrentlyScanning: Bool {
@@ -222,9 +195,7 @@ extension BLEManager:CBCentralManagerDelegate{
                     centralManager.cancelPeripheralConnection(peripheral)
                 }
             case .poweredOn:
-                if shouldScanAfterPoweredOn {
-                    startScanning()
-                }
+                startScanning()
             case .resetting:
                 print("State : Resetting")
             case .unauthorized:
@@ -236,7 +207,7 @@ extension BLEManager:CBCentralManagerDelegate{
             @unknown default:
                 print("fail")
             }
-            delegate?.bleManagerDidUpdateState?(central.state)
+            delegate?.bleManagerDidUpdateState(central.state)
         }
     }
     
@@ -250,20 +221,19 @@ extension BLEManager:CBCentralManagerDelegate{
         connectionTimer = nil
         peripheral.delegate = self
         peripheral.discoverServices(nil)
-        delegate?.bleManagerDidConnect?(peripheral)
+        delegate?.bleManagerDidConnect(peripheral)
        }
        
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-       characteristics.removeAll()
        connectedPeripheral = nil
-        delegate?.bleManagerDidDisconnect?(peripheral, error: error)
+        delegate?.bleManagerDidDisconnect(peripheral, error: error)
     }
    
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         connectionTimer?.invalidate()
         connectionTimer = nil
         connectedPeripheral = nil
-        delegate?.bleManagerDidFailToConnect?(peripheral, error: error!)
+        delegate?.bleManagerDidFailToConnect(peripheral, error: error!)
     }
     
     
@@ -273,25 +243,24 @@ extension BLEManager: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard error == nil, let services = peripheral.services else { return }
         for service in services {
-            peripheral.discoverCharacteristics(characteristicUUIDs, for: service)
-            delegate?.bleManagerDidDiscoverServices?(services)
+            peripheral.discoverCharacteristics(nil, for: service)
+            delegate?.bleManagerDidDiscoverServices(services)
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil, let characteristics = service.characteristics else { return }
         for characteristic in characteristics {
-            self.characteristics[characteristic.uuid] = characteristic
-            delegate?.bleManagerDidDiscoverCharacteristics?(characteristics, for: service)
+            delegate?.bleManagerDidDiscoverCharacteristics(characteristics, for: service)
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard error == nil, let data = characteristic.value else { return }
-        delegate?.bleManagerDidUpdateValue?(data, for: characteristic)
+        delegate?.bleManagerDidUpdateValue(data, for: characteristic)
     }
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        delegate?.bleManagerDidWriteValue?(for: characteristic, error: error)
+        delegate?.bleManagerDidWriteValue(for: characteristic, error: error)
     }
 }
 

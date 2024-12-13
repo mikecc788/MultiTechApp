@@ -6,3 +6,8 @@
 //
 
 import Foundation
+protocol NetworkRequest {
+    associatedtype ResponseDataType
+    func fetch(completion: @escaping (Result<ResponseDataType, Error>) -> Void)
+}
+

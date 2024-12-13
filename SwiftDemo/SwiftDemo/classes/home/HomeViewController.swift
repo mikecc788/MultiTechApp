@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import Flutter
+// 创建一个管理自定义类型数据的实例
+
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -17,11 +19,39 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nameArr = ["多线程", "Kingfisher+R.swift", "JSON+Dollar", "Alamofire", "泛型+协议+闭包", "横向滑动", "ble", "Flutter Page1"]
+        nameArr = ["Core Animation", "Kingfisher+R.swift", "JSON+Dollar", "Alamofire", "泛型+协议+闭包", "横向滑动", "ble", "Flutter Page1"]
         self.tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
         self.tableView.register(UINib(nibName: "INNHomeViewCell", bundle: nil), forCellReuseIdentifier: "INNHomeViewCell")
+        
+        let url = URL(string: "http://110.41.41.11:8080/test")!
+        let versionManager = GenericNetworkManager<Version>(url: url)
+        versionManager.fetch { result in
+            switch result {
+                case .success(let user):
+                print("User: \(user.message), Email: \(user.timestamp) :\(user.version)")
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+        }
+        
+        let rawUrl = URL(string: "http://110.41.41.11:8080/test")!
+        let rawDataManager = RawDataManager(url: rawUrl)
+
+        rawDataManager.fetch { result in
+            switch result {
+            case .success(let data):
+                print("Raw data size: \(data.count) bytes \(result)")
+                if let string = String(data: data, encoding: .utf8) {
+                           print("Received string: \(string)")
+                       } else {
+                           print("Failed to decode data as a string.")
+                       }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -53,12 +83,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         case 4, 5:
             navigationController?.pushViewController(GenericViewController(), animated: true)
         case 6:
-            navigationController?.pushViewController(BLEVC(), animated: true)
+            pushViewController(BLEVC())
+        case 0:
+            pushViewController(AnimationVC())
         case 7:
             openFlutterPage()
         default:
             break
         }
+    }
+    
+    func pushViewController(_ viewController:UIViewController) {
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     private func openFlutterPage() {

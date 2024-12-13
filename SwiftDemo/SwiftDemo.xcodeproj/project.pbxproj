@@ -96,9 +96,16 @@
 		A4AB506C276B13A1003C5C97 /* DeLorean.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AB506B276B13A1003C5C97 /* DeLorean.swift */; };
 		A4AB506E276B1586003C5C97 /* ACustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AB506D276B1586003C5C97 /* ACustomButton.swift */; };
 		A4F19F070A090A231F7618A8 /* Pods_SwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89AAA4056A059C2FE981732D /* Pods_SwiftDemo.framework */; };
+		D126DCC52D0ACBCD000447EE /* AnimationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D126DCC42D0ACBCD000447EE /* AnimationVC.swift */; };
 		D12D40002CC73CE700D2F98C /* FlutterPluginRegistrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D12D3FFF2CC73CE700D2F98C /* FlutterPluginRegistrant.framework */; };
 		D12D40022CC7771700D2F98C /* FlutterEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12D40012CC7771700D2F98C /* FlutterEngineManager.swift */; };
 		D12D40042CC779D900D2F98C /* FlutterViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12D40032CC779D900D2F98C /* FlutterViewVC.swift */; };
+		D17CC7112D08191D000EC023 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7102D08191D000EC023 /* DataProvider.swift */; };
+		D17CC7132D081EEF000EC023 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7122D081EEF000EC023 /* NetworkRequest.swift */; };
+		D17CC7162D081F29000EC023 /* GenericNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7152D081F29000EC023 /* GenericNetworkManager.swift */; };
+		D17CC7182D08203C000EC023 /* version.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7172D08203C000EC023 /* version.swift */; };
+		D17CC71A2D0821EA000EC023 /* RawDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7192D0821EA000EC023 /* RawDataManager.swift */; };
+		D17CC71C2D084EE0000EC023 /* MobileNetV2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D17CC71B2D084EE0000EC023 /* MobileNetV2.mlmodel */; };
 		D1951C492CD871B0008F11EE /* BLEDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */; };
 		D1951C4D2CD88882008F11EE /* BLEVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1951C4C2CD88882008F11EE /* BLEVC.xib */; };
 		D1BC268D27D06B3900AF1C9C /* LFSBLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */; };
@@ -201,9 +208,16 @@
 		A4AB5068276B1373003C5C97 /* TimeTraveling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTraveling.swift; sourceTree = "<group>"; };
 		A4AB506B276B13A1003C5C97 /* DeLorean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeLorean.swift; sourceTree = "<group>"; };
 		A4AB506D276B1586003C5C97 /* ACustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACustomButton.swift; sourceTree = "<group>"; };
+		D126DCC42D0ACBCD000447EE /* AnimationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationVC.swift; sourceTree = "<group>"; };
 		D12D3FFF2CC73CE700D2F98C /* FlutterPluginRegistrant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlutterPluginRegistrant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12D40012CC7771700D2F98C /* FlutterEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterEngineManager.swift; sourceTree = "<group>"; };
 		D12D40032CC779D900D2F98C /* FlutterViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterViewVC.swift; sourceTree = "<group>"; };
+		D17CC7102D08191D000EC023 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		D17CC7122D081EEF000EC023 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		D17CC7152D081F29000EC023 /* GenericNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericNetworkManager.swift; sourceTree = "<group>"; };
+		D17CC7172D08203C000EC023 /* version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = version.swift; sourceTree = "<group>"; };
+		D17CC7192D0821EA000EC023 /* RawDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawDataManager.swift; sourceTree = "<group>"; };
+		D17CC71B2D084EE0000EC023 /* MobileNetV2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetV2.mlmodel; sourceTree = "<group>"; };
 		D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceModel.swift; sourceTree = "<group>"; };
 		D1951C4C2CD88882008F11EE /* BLEVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BLEVC.xib; sourceTree = "<group>"; };
 		D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFSBLEManager.swift; sourceTree = "<group>"; };
@@ -244,6 +258,7 @@
 		A46C1EC4277AA34000816435 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D17CC71B2D084EE0000EC023 /* MobileNetV2.mlmodel */,
 				A46C1F31277AC9C100816435 /* book@2x.png */,
 				A46C1F38277AC9C100816435 /* defaultAvatar@2x.jpg */,
 				A46C1F3C277AC9C100816435 /* detailBg@2x.png */,
@@ -396,6 +411,7 @@
 				A48ABF002775C6730030BB51 /* AlamofireViewController.swift */,
 				A48ABF022775CCBB0030BB51 /* KingfisherViewController.swift */,
 				A4873BE1277C000A009F80A1 /* GenericViewController.swift */,
+				D126DCC42D0ACBCD000447EE /* AnimationVC.swift */,
 				D1BC269227D0716000AF1C9C /* BLEVC.swift */,
 				D1951C4C2CD88882008F11EE /* BLEVC.xib */,
 				D12D40032CC779D900D2F98C /* FlutterViewVC.swift */,
@@ -445,6 +461,7 @@
 		A4AB504F276B1338003C5C97 /* SwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D17CC7142D081F1D000EC023 /* http */,
 				D1BC268B27D06B0E00AF1C9C /* ble */,
 				A4873C1C277C6150009F80A1 /* tools */,
 				A4873BE9277C5B01009F80A1 /* common */,
@@ -473,6 +490,8 @@
 			isa = PBXGroup;
 			children = (
 				A4AB5068276B1373003C5C97 /* TimeTraveling.swift */,
+				D17CC7102D08191D000EC023 /* DataProvider.swift */,
+				D17CC7122D081EEF000EC023 /* NetworkRequest.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -485,6 +504,7 @@
 				A46C1EF1277AA5BD00816435 /* Product.swift */,
 				A46C1EF3277AA62100816435 /* Deal.swift */,
 				A46C1EF7277AA64C00816435 /* FakeData.swift */,
+				D17CC7172D08203C000EC023 /* version.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -496,6 +516,15 @@
 				89AAA4056A059C2FE981732D /* Pods_SwiftDemo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D17CC7142D081F1D000EC023 /* http */ = {
+			isa = PBXGroup;
+			children = (
+				D17CC7152D081F29000EC023 /* GenericNetworkManager.swift */,
+				D17CC7192D0821EA000EC023 /* RawDataManager.swift */,
+			);
+			path = http;
 			sourceTree = "<group>";
 		};
 		D1BC268B27D06B0E00AF1C9C /* ble */ = {
@@ -692,7 +721,9 @@
 				A4873C16277C5F71009F80A1 /* INN+UIButton.swift in Sources */,
 				A4AB505B276B1338003C5C97 /* SwiftDemo.xcdatamodeld in Sources */,
 				A4AB506E276B1586003C5C97 /* ACustomButton.swift in Sources */,
+				D17CC7162D081F29000EC023 /* GenericNetworkManager.swift in Sources */,
 				A4873C04277C5F71009F80A1 /* CGFloat+Extension.swift in Sources */,
+				D17CC7182D08203C000EC023 /* version.swift in Sources */,
 				A491AD5B2779ACB10054AF21 /* TestPerson.swift in Sources */,
 				A46C1F66277B12E300816435 /* DealListViewController.swift in Sources */,
 				A46C1F5E277AEA7300816435 /* ProductList.swift in Sources */,
@@ -703,16 +734,20 @@
 				A4873C10277C5F71009F80A1 /* UIControl+Extension.swift in Sources */,
 				A4AB506C276B13A1003C5C97 /* DeLorean.swift in Sources */,
 				A4873C0D277C5F71009F80A1 /* INN+UIDevice.swift in Sources */,
+				D17CC7112D08191D000EC023 /* DataProvider.swift in Sources */,
 				A4873C0B277C5F71009F80A1 /* INN+CLLocation.swift in Sources */,
 				A4873C12277C5F71009F80A1 /* INN+NSObject.swift in Sources */,
 				D1BC269127D06D9100AF1C9C /* CBUUID+BLE.swift in Sources */,
 				A4873C26277C61BE009F80A1 /* INNGlobalTools.swift in Sources */,
 				A4873C05277C5F71009F80A1 /* INN+Timer.swift in Sources */,
 				A4873C02277C5F71009F80A1 /* INN+String.swift in Sources */,
+				D17CC71C2D084EE0000EC023 /* MobileNetV2.mlmodel in Sources */,
 				A48ABEF82775BB570030BB51 /* HomeViewController.swift in Sources */,
 				A46C1F64277B0C4F00816435 /* CommonCell.swift in Sources */,
 				A4873C17277C5F71009F80A1 /* INN+UIApplication.swift in Sources */,
 				A4873C0A277C5F71009F80A1 /* INN+Color.swift in Sources */,
+				D17CC7132D081EEF000EC023 /* NetworkRequest.swift in Sources */,
+				D126DCC52D0ACBCD000447EE /* AnimationVC.swift in Sources */,
 				A4873C13277C5F71009F80A1 /* INN+UILabel.swift in Sources */,
 				A4AB5055276B1338003C5C97 /* ViewController.swift in Sources */,
 				A48ABF032775CCBB0030BB51 /* KingfisherViewController.swift in Sources */,
@@ -753,6 +788,7 @@
 				A491AD5927795C8C0054AF21 /* PersonModel.swift in Sources */,
 				D12D40022CC7771700D2F98C /* FlutterEngineManager.swift in Sources */,
 				A491AD562779579A0054AF21 /* Teacher.swift in Sources */,
+				D17CC71A2D0821EA000EC023 /* RawDataManager.swift in Sources */,
 				A4873C0E277C5F71009F80A1 /* INN+UIImage.swift in Sources */,
 				A46C1F5C277AE35E00816435 /* BannerView.swift in Sources */,
 				A4AB5069276B1373003C5C97 /* TimeTraveling.swift in Sources */,
@@ -919,6 +955,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -950,6 +987,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

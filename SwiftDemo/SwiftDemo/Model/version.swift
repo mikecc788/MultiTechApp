@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Version:Decodable {
+    let message: String
+        let timestamp: String
+        let version: String
+}

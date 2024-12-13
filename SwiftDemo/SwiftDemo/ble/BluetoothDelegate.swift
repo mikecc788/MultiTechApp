@@ -8,29 +8,36 @@
 import Foundation
 import CoreBluetooth
 
-@objc protocol BLEManagerDelegate: NSObjectProtocol {
+/// 蓝牙管理器代理协议
+protocol BLEManagerDelegate: AnyObject {
+    /// 蓝牙状态更新
+    func bleManagerDidUpdateState(_ state: CBManagerState)
     
-    @objc optional func bleManagerDidUpdateState(_ state: CBManagerState)
-    @objc optional func bleManagerDidStartScan()
-    @objc optional func bleManagerDidStopScan()
-        
-    @objc optional func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel])
+    /// 扫描状态回调
+    func bleManagerDidStartScan()
+    func bleManagerDidStopScan()
     
-    @objc optional func bleManagerDidConnect(_ peripheral: CBPeripheral)
+    /// 设备列表更新
+    func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel])
     
-    @objc optional func bleManagerDidDisconnect(_ peripheral: CBPeripheral, error: Error?)
+    /// 连接状态回调
+    func bleManagerDidConnect(_ peripheral: CBPeripheral)
+    func bleManagerDidDisconnect(_ peripheral: CBPeripheral, error: Error?)
+    func bleManagerDidFailToConnect(_ peripheral: CBPeripheral, error: Error)
     
-    @objc optional func bleManagerDidFailToConnect(_ peripheral: CBPeripheral, error: Error)
+    /// 服务和特征发现
+    func bleManagerDidDiscoverServices(_ services: [CBService])
+    func bleManagerDidDiscoverCharacteristics(_ characteristics: [CBCharacteristic], for service: CBService)
     
-    @objc optional func bleManagerDidDiscoverServices(_ services: [CBService])
-    
-    @objc optional func bleManagerDidDiscoverCharacteristics(_ characteristics: [CBCharacteristic], for service: CBService)
-    @objc optional func didFailToDiscoverCharacteritics(_ error: Error)
-    @objc optional func didDiscoverDescriptors(_ characteristic: CBCharacteristic)
-    @objc optional func didFailToDiscoverDescriptors(_ error: Error)
-    
-    @objc optional func bleManagerDidUpdateValue(_ data: Data, for characteristic: CBCharacteristic)
-    @objc optional func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: Error?)
-    
-    @objc optional func didFailToReadValueForCharacteristic(_ error: Error)
+    /// 数据交互
+    func bleManagerDidUpdateValue(_ data: Data, for characteristic: CBCharacteristic)
+    func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: Error?)
+}
+/// 提供默认实现，减少必须实现的方法
+extension BLEManagerDelegate {
+    func bleManagerDidUpdateState(_ state: CBManagerState) {}
+    func bleManagerDidStartScan() {}
+    func bleManagerDidStopScan() {}
+    func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel]) {}
+    // ... 其他方法的默认空实现
 }

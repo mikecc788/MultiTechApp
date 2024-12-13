@@ -649,10 +649,20 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.nib` struct is generated, and contains static references to 1 nibs.
+  /// This `R.nib` struct is generated, and contains static references to 2 nibs.
   struct nib {
+    /// Nib `BLEVC`.
+    static let blevC = _R.nib._BLEVC()
     /// Nib `INNHomeViewCell`.
     static let innHomeViewCell = _R.nib._INNHomeViewCell()
+
+    #if os(iOS) || os(tvOS)
+    /// `UINib(name: "BLEVC", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.blevC) instead")
+    static func blevC(_: Void = ()) -> UIKit.UINib {
+      return UIKit.UINib(resource: R.nib.blevC)
+    }
+    #endif
 
     #if os(iOS) || os(tvOS)
     /// `UINib(name: "INNHomeViewCell", in: bundle)`
@@ -661,6 +671,10 @@ struct R: Rswift.Validatable {
       return UIKit.UINib(resource: R.nib.innHomeViewCell)
     }
     #endif
+
+    static func blevC(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.blevC.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
 
     static func innHomeViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> INNHomeViewCell? {
       return R.nib.innHomeViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? INNHomeViewCell
@@ -699,6 +713,17 @@ struct _R: Rswift.Validatable {
 
   #if os(iOS) || os(tvOS)
   struct nib {
+    struct _BLEVC: Rswift.NibResourceType {
+      let bundle = R.hostingBundle
+      let name = "BLEVC"
+
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+        return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+      }
+
+      fileprivate init() {}
+    }
+
     struct _INNHomeViewCell: Rswift.NibResourceType, Rswift.ReuseIdentifierType {
       typealias ReusableType = INNHomeViewCell
 
