@@ -1,0 +1,481 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Swift 开发规范 (适用于 iOS 项目混合开发)
+
+## 概述
+当项目需要引入 Swift 代码或进行混合开发时，遵循以下 Swift 编码规范，确保与现有 Objective-C 代码和谐共存。
+
+## Swift 与 Objective-C 混合开发
+
+### 1. 桥接文件配置
+```swift
+// TestFeel-Bridging-Header.h
+#import "NetworkManager.h"
+#import "AES128Util.h"
+#import "LFSDefaultType.h"
+```
+
+### 2. 互操作性
+```swift
+// Swift 中使用 Objective-C 类
+let networkManager = NetworkManager()
+
+// 使 Swift 类在 Objective-C 中可用
+@objc class SwiftViewController: UIViewController {
+    @objc func handleButtonTap() {
+        // 实现
+    }
+}
+```
+
+## Swift 编码规范
+
+### 1. 命名约定
+```swift
+// 类型使用 PascalCase
+class UserProfileViewController: UIViewController { }
+struct UserModel { }
+enum NetworkResult { }
+
+// 变量和函数使用 camelCase
+let userName = "John"
+var isLoggedIn = false
+func updateUserProfile() { }
+
+// 常量使用描述性名称
+private let maxRetryAttempts = 3
+static let defaultTimeout: TimeInterval = 30.0
+```
+
+### 2. 属性声明
+```swift
+class ViewController: UIViewController {
+    // 优先使用 let 声明不可变属性
+    private let titleLabel = UILabel()
+    private let tableView = UITableView()
+    
+    // 只在需要时使用 var
+    private var dataSource: [String] = []
+    
+    // 使用 weak 避免循环引用
+    weak var delegate: CustomDelegate?
+    
+    // 使用计算属性
+    var isDataLoaded: Bool {
+        return !dataSource.isEmpty
+    }
+}
+```
+
+### 3. 可选值处理
+```swift
+// 优先使用 if let 和 guard let
+func processUser(_ user: User?) {
+    guard let user = user else { return }
+    
+    if let email = user.email {
+        sendEmail(to: email)
+    }
+}
+
+// 使用 nil 合并操作符
+let displayName = user.name ?? "Unknown User"
+
+// 避免强制解包，除非确定不为 nil
+let count = dataSource.count // 优于 dataSource!.count
+```
+
+### 4. 错误处理
+```swift
+enum NetworkError: Error {
+    case invalidURL
+    case noData
+    case decodingFailed
+}
+
+func fetchData() async throws -> [UserModel] {
+    guard let url = URL(string: apiEndpoint) else {
+        throw NetworkError.invalidURL
+    }
+    
+    let (data, _) = try await URLSession.shared.data(from: url)
+    
+    do {
+        let users = try JSONDecoder().decode([UserModel].self, from: data)
+        return users
+    } catch {
+        throw NetworkError.decodingFailed
+    }
+}
+
+// 使用 do-catch 处理错误
+do {
+    let users = try await fetchData()
+    updateUI(with: users)
+} catch {
+    showError(error.localizedDescription)
+}
+```
+
+### 5. 异步编程
+```swift
+// 使用 async/await
+class DataManager {
+    func loadUserData() async -> [User] {
+        do {
+            let users = try await networkService.fetchUsers()
+            return users
+        } catch {
+            print("Failed to load users: \(error)")
+            return []
+        }
+    }
+}
+
+// 在 UI 更新中使用 MainActor
+@MainActor
+func updateUserInterface(with data: [User]) {
+    tableView.reloadData()
+}
+```
+
+## 架构模式
+
+### 1. MVVM 模式
+```swift
+// ViewModel
+class UserListViewModel: ObservableObject {
+    @Published var users: [User] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    
+    private let networkService: NetworkService
+    
+    init(networkService: NetworkService = NetworkService()) {
+        self.networkService = networkService
+    }
+    
+    func loadUsers() async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            users = try await networkService.fetchUsers()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+}
+
+// View Controller
+class UserListViewController: UIViewController {
+    private let viewModel = UserListViewModel()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Task {
+            await viewModel.loadUsers()
+        }
+    }
+}
+```
+
+### 2. 协议导向编程
+```swift
+// 定义协议
+protocol UserServiceProtocol {
+    func fetchUsers() async throws -> [User]
+    func updateUser(_ user: User) async throws -> User
+}
+
+// 实现协议
+class NetworkUserService: UserServiceProtocol {
+    func fetchUsers() async throws -> [User] {
+        // 网络请求实现
+    }
+    
+    func updateUser(_ user: User) async throws -> User {
+        // 更新用户实现
+    }
+}
+
+// 依赖注入
+class UserRepository {
+    private let userService: UserServiceProtocol
+    
+    init(userService: UserServiceProtocol) {
+        self.userService = userService
+    }
+}
+```
+
+## UI 开发
+
+### 1. 约束布局
+```swift
+// 使用 NSLayoutAnchor (推荐)
+private func setupConstraints() {
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    
+    NSLayoutConstraint.activate([
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+    ])
+}
+
+// 或者继续使用 Masonry (与 Objective-C 代码保持一致)
+private func setupMasonryConstraints() {
+    titleLabel.mas_makeConstraints { make in
+        make?.top.equalTo()(view.mas_safeAreaLayoutGuideTop)?.offset()(20)
+        make?.left.right().equalTo()(view)?.insets()(UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
+    }
+}
+```
+
+### 2. SwiftUI 集成 (iOS 13+)
+```swift
+import SwiftUI
+
+struct UserListView: View {
+    @StateObject private var viewModel = UserListViewModel()
+    
+    var body: some View {
+        NavigationView {
+            List(viewModel.users) { user in
+                UserRowView(user: user)
+            }
+            .navigationTitle("Users")
+            .task {
+                await viewModel.loadUsers()
+            }
+        }
+    }
+}
+
+// 在 UIKit 中使用 SwiftUI
+class HostingViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let swiftUIView = UserListView()
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.didMove(toParent: self)
+    }
+}
+```
+
+## 数据模型
+
+### 1. Codable 协议
+```swift
+struct User: Codable, Identifiable {
+    let id: String
+    let name: String
+    let email: String?
+    let avatarURL: URL?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case email
+        case avatarURL = "avatar_url"
+    }
+}
+
+// 自定义解码
+extension User {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(String.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        email = try container.decodeIfPresent(String.self, forKey: .email)
+        
+        if let urlString = try container.decodeIfPresent(String.self, forKey: .avatarURL) {
+            avatarURL = URL(string: urlString)
+        } else {
+            avatarURL = nil
+        }
+    }
+}
+```
+
+### 2. 类型安全
+```swift
+// 使用枚举替代字符串常量
+enum UserRole: String, CaseIterable {
+    case admin = "admin"
+    case user = "user"
+    case guest = "guest"
+}
+
+// 使用泛型提高代码复用性
+protocol Repository {
+    associatedtype T
+    func save(_ item: T) async throws
+    func fetch(by id: String) async throws -> T?
+    func fetchAll() async throws -> [T]
+}
+
+class UserRepository: Repository {
+    typealias T = User
+    
+    func save(_ user: User) async throws {
+        // 实现
+    }
+    
+    func fetch(by id: String) async throws -> User? {
+        // 实现
+    }
+    
+    func fetchAll() async throws -> [User] {
+        // 实现
+    }
+}
+```
+
+## 测试
+
+### 1. 单元测试
+```swift
+import XCTest
+@testable import TestFeel
+
+class UserViewModelTests: XCTestCase {
+    var viewModel: UserListViewModel!
+    var mockNetworkService: MockNetworkService!
+    
+    override func setUp() {
+        super.setUp()
+        mockNetworkService = MockNetworkService()
+        viewModel = UserListViewModel(networkService: mockNetworkService)
+    }
+    
+    func testLoadUsersSuccess() async {
+        // Given
+        let expectedUsers = [User(id: "1", name: "Test User", email: "test@example.com", avatarURL: nil)]
+        mockNetworkService.usersToReturn = expectedUsers
+        
+        // When
+        await viewModel.loadUsers()
+        
+        // Then
+        XCTAssertEqual(viewModel.users.count, 1)
+        XCTAssertEqual(viewModel.users.first?.name, "Test User")
+        XCTAssertFalse(viewModel.isLoading)
+    }
+}
+
+// Mock 对象
+class MockNetworkService: UserServiceProtocol {
+    var usersToReturn: [User] = []
+    var shouldThrowError = false
+    
+    func fetchUsers() async throws -> [User] {
+        if shouldThrowError {
+            throw NetworkError.noData
+        }
+        return usersToReturn
+    }
+    
+    func updateUser(_ user: User) async throws -> User {
+        return user
+    }
+}
+```
+
+## 性能优化
+
+### 1. 内存管理
+```swift
+// 避免循环引用
+class ViewController: UIViewController {
+    private var completion: (() -> Void)?
+    
+    func setupCompletion() {
+        completion = { [weak self] in
+            self?.updateUI()
+        }
+    }
+}
+
+// 使用值类型优于引用类型
+struct UserSettings {
+    let theme: Theme
+    let notifications: Bool
+    let language: String
+}
+```
+
+### 2. 集合操作优化
+```swift
+// 使用惰性求值
+let processedUsers = users
+    .lazy
+    .filter { $0.isActive }
+    .map { UserViewModel(user: $0) }
+
+// 避免不必要的数组拷贝
+extension Array where Element == User {
+    func activeUsers() -> [User] {
+        return filter { $0.isActive }
+    }
+}
+```
+
+## 与现有 Objective-C 代码集成
+
+### 1. 使用现有工具类
+```swift
+// 使用 Objective-C 的加密工具
+class SwiftCryptoManager {
+    static func encrypt(_ data: String) -> String? {
+        return AES128Util.encrypt(data)
+    }
+    
+    static func decrypt(_ encryptedData: String) -> String? {
+        return AES128Util.decrypt(encryptedData)
+    }
+}
+```
+
+### 2. 扩展现有功能
+```swift
+// 为 Objective-C 类添加 Swift 扩展
+extension NetworkManager {
+    func fetchDataAsync<T: Codable>(_ type: T.Type, from url: String) async throws -> T {
+        return try await withCheckedThrowingContinuation { continuation in
+            self.fetchData(from: url) { data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                
+                guard let data = data else {
+                    continuation.resume(throwing: NetworkError.noData)
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(T.self, from: data)
+                    continuation.resume(returning: result)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+}
+```
+
+---
+
+**注意**: 本规范适用于在现有 Objective-C 项目中引入 Swift 代码的场景，确保两种语言的代码能够良好协作。

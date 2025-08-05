@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)timestampToDate:(NSString *)timeStamp;
 +(NSString*)hexadecimalString:(NSData *)data;
 +(NSArray*)getDeviceSortArr:(NSArray*)deviceArr;
++ (NSString *)calculateCRCFromHexString:(NSString *)hexStr;
 @end
 
 NS_ASSUME_NONNULL_END

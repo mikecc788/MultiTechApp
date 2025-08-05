@@ -1,0 +1,177 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# DealMind 项目特定规则
+
+## 项目概述
+DealMind 是一个使用 Swift 开发的 iOS 应用程序，采用 MVC 架构模式，集成了 Core Data 数据持久化。
+
+## 项目结构
+
+### 主要文件
+- **应用入口**: [AppDelegate.swift](mdc:DealMind/AppDelegate.swift) - 应用程序生命周期管理
+- **场景管理**: [SceneDelegate.swift](mdc:DealMind/SceneDelegate.swift) - 场景生命周期管理
+- **主控制器**: [ViewController.swift](mdc:DealMind/ViewController.swift) - 主视图控制器
+- **数据模型**: [DealMind.xcdatamodeld](mdc:DealMind/DealMind.xcdatamodeld) - Core Data 数据模型
+
+### 目录结构
+- **Models/**: 数据模型和实体类
+- **Services/**: 网络服务和数据处理服务
+- **ViewModels/**: 视图模型和业务逻辑
+- **Utilities/**: 工具类和扩展
+- **Resources/**: 资源文件和常量
+
+## 开发规范
+
+### AppDelegate 改进建议
+基于 [AppDelegate.swift](mdc:DealMind/AppDelegate.swift) 的当前实现：
+
+1. **错误处理优化**
+   - 替换 `fatalError()` 为更优雅的错误处理
+   - 添加用户友好的错误提示
+   - 实现错误恢复机制
+
+2. **Core Data 管理**
+   - 创建专门的 `CoreDataManager` 类管理数据栈
+   - 实现数据迁移策略
+   - 添加数据备份和恢复功能
+
+3. **代码示例**
+   ```swift
+   // 推荐：创建专门的 CoreDataManager
+   class CoreDataManager {
+       static let shared = CoreDataManager()
+       
+       lazy var persistentContainer: NSPersistentContainer = {
+           // 改进的 Core Data 配置
+       }()
+   }
+   ```
+
+### ViewController 改进建议
+基于 [ViewController.swift](mdc:DealMind/ViewController.swift) 的当前实现：
+
+1. **架构优化**
+   - 将业务逻辑移至 ViewModel
+   - 使用协议导向编程
+   - 实现依赖注入
+
+2. **代码组织**
+   - 使用 `MARK:` 注释组织代码
+   - 创建扩展分离功能
+   - 添加详细的文档注释
+
+3. **推荐结构**
+   ```swift
+   // MARK: - Properties
+   private let viewModel: MainViewModel
+   
+   // MARK: - Lifecycle
+   override func viewDidLoad() {
+       super.viewDidLoad()
+       setupUI()
+       bindViewModel()
+   }
+   
+   // MARK: - Private Methods
+   private func setupUI() { }
+   private func bindViewModel() { }
+   ```
+
+## 数据模型规范
+
+### Core Data 使用指南
+参考 [DealMind.xcdatamodeld](mdc:DealMind/DealMind.xcdatamodeld)：
+
+1. **实体设计**
+   - 使用清晰的实体名称
+   - 合理设置属性类型
+   - 添加适当的索引
+
+2. **关系管理**
+   - 正确设置删除规则
+   - 使用反向关系
+   - 避免循环引用
+
+3. **版本控制**
+   - 为数据模型创建版本
+   - 实现数据迁移策略
+   - 测试升级路径
+
+## 项目特定最佳实践
+
+### 蓝牙功能集成
+如果项目需要蓝牙功能：
+1. 在 `Services/` 目录创建 `BluetoothManager.swift`
+2. 使用 `CoreBluetooth` 框架
+3. 实现适当的权限请求
+
+### 网络服务
+在 `Services/` 目录中：
+1. 创建 `NetworkManager.swift` 处理网络请求
+2. 使用 `URLSession` 和 `async/await`
+3. 实现错误处理和重试机制
+
+### 用户界面
+1. 使用 Auto Layout 进行界面布局
+2. 支持多种屏幕尺寸和方向
+3. 实现深色模式支持
+
+## 测试策略
+
+### 单元测试
+参考 [DealMindTests.swift](mdc:DealMindTests/DealMindTests.swift)：
+1. 为业务逻辑编写单元测试
+2. 测试 Core Data 操作
+3. 模拟网络请求
+
+### UI 测试
+参考 [DealMindUITests.swift](mdc:DealMindUITests/DealMindUITests.swift)：
+1. 测试关键用户流程
+2. 验证界面响应
+3. 测试无障碍功能
+
+## 性能优化
+
+### 内存管理
+1. 在 [AppDelegate.swift](mdc:DealMind/AppDelegate.swift) 中正确管理 Core Data 上下文
+2. 使用 `weak` 引用避免循环引用
+3. 及时释放大型对象
+
+### 启动优化
+1. 延迟加载非必需组件
+2. 优化 Core Data 初始化
+3. 减少启动时的网络请求
+
+## 安全性
+
+### 数据保护
+1. 使用 Core Data 的数据保护功能
+2. 敏感数据存储在 Keychain 中
+3. 实现适当的访问控制
+
+### 网络安全
+1. 使用 HTTPS 进行网络通信
+2. 实现证书固定
+3. 验证服务器响应
+
+## 国际化
+
+### 多语言支持
+1. 使用 `NSLocalizedString` 进行字符串国际化
+2. 创建 `Localizable.strings` 文件
+3. 支持从右到左的语言
+
+## 持续改进
+
+### 代码质量
+1. 定期使用 SwiftLint 检查代码质量
+2. 进行代码审查
+3. 重构冗余代码
+
+### 性能监控
+1. 使用 Instruments 分析性能
+2. 监控内存使用情况
+3. 优化启动时间和响应速度

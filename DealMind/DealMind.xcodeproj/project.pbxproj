@@ -1,0 +1,616 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D1D965A42E1CEEBA002D0DC0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D1D965A32E1CEEBA002D0DC0 /* SnapKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D1FEC1242E1CCA6A0075F757 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1FEC1022E1CCA680075F757 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1FEC1092E1CCA680075F757;
+			remoteInfo = DealMind;
+		};
+		D1FEC12E2E1CCA6A0075F757 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1FEC1022E1CCA680075F757 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1FEC1092E1CCA680075F757;
+			remoteInfo = DealMind;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D1FEC10A2E1CCA680075F757 /* DealMind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DealMind.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1FEC1232E1CCA6A0075F757 /* DealMindTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DealMindTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1FEC12D2E1CCA6A0075F757 /* DealMindUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DealMindUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D1FEC1352E1CCA6A0075F757 /* Exceptions for "DealMind" folder in "DealMind" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D1FEC1092E1CCA680075F757 /* DealMind */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D1FEC10C2E1CCA680075F757 /* DealMind */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D1FEC1352E1CCA6A0075F757 /* Exceptions for "DealMind" folder in "DealMind" target */,
+			);
+			path = DealMind;
+			sourceTree = "<group>";
+		};
+		D1FEC1262E1CCA6A0075F757 /* DealMindTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DealMindTests;
+			sourceTree = "<group>";
+		};
+		D1FEC1302E1CCA6A0075F757 /* DealMindUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DealMindUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D1FEC1072E1CCA680075F757 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1D965A42E1CEEBA002D0DC0 /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1FEC1202E1CCA6A0075F757 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1FEC12A2E1CCA6A0075F757 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D1D965A22E1CEEBA002D0DC0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D1FEC1012E1CCA680075F757 = {
+			isa = PBXGroup;
+			children = (
+				D1FEC10C2E1CCA680075F757 /* DealMind */,
+				D1FEC1262E1CCA6A0075F757 /* DealMindTests */,
+				D1FEC1302E1CCA6A0075F757 /* DealMindUITests */,
+				D1D965A22E1CEEBA002D0DC0 /* Frameworks */,
+				D1FEC10B2E1CCA680075F757 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D1FEC10B2E1CCA680075F757 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D1FEC10A2E1CCA680075F757 /* DealMind.app */,
+				D1FEC1232E1CCA6A0075F757 /* DealMindTests.xctest */,
+				D1FEC12D2E1CCA6A0075F757 /* DealMindUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D1FEC1092E1CCA680075F757 /* DealMind */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1FEC1362E1CCA6A0075F757 /* Build configuration list for PBXNativeTarget "DealMind" */;
+			buildPhases = (
+				D1FEC1062E1CCA680075F757 /* Sources */,
+				D1FEC1072E1CCA680075F757 /* Frameworks */,
+				D1FEC1082E1CCA680075F757 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D1FEC10C2E1CCA680075F757 /* DealMind */,
+			);
+			name = DealMind;
+			packageProductDependencies = (
+				D1D965A32E1CEEBA002D0DC0 /* SnapKit */,
+			);
+			productName = DealMind;
+			productReference = D1FEC10A2E1CCA680075F757 /* DealMind.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D1FEC1222E1CCA6A0075F757 /* DealMindTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1FEC13B2E1CCA6A0075F757 /* Build configuration list for PBXNativeTarget "DealMindTests" */;
+			buildPhases = (
+				D1FEC11F2E1CCA6A0075F757 /* Sources */,
+				D1FEC1202E1CCA6A0075F757 /* Frameworks */,
+				D1FEC1212E1CCA6A0075F757 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1FEC1252E1CCA6A0075F757 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1FEC1262E1CCA6A0075F757 /* DealMindTests */,
+			);
+			name = DealMindTests;
+			packageProductDependencies = (
+			);
+			productName = DealMindTests;
+			productReference = D1FEC1232E1CCA6A0075F757 /* DealMindTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D1FEC12C2E1CCA6A0075F757 /* DealMindUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1FEC13E2E1CCA6A0075F757 /* Build configuration list for PBXNativeTarget "DealMindUITests" */;
+			buildPhases = (
+				D1FEC1292E1CCA6A0075F757 /* Sources */,
+				D1FEC12A2E1CCA6A0075F757 /* Frameworks */,
+				D1FEC12B2E1CCA6A0075F757 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1FEC12F2E1CCA6A0075F757 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1FEC1302E1CCA6A0075F757 /* DealMindUITests */,
+			);
+			name = DealMindUITests;
+			packageProductDependencies = (
+			);
+			productName = DealMindUITests;
+			productReference = D1FEC12D2E1CCA6A0075F757 /* DealMindUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D1FEC1022E1CCA680075F757 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					D1FEC1092E1CCA680075F757 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					D1FEC1222E1CCA6A0075F757 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = D1FEC1092E1CCA680075F757;
+					};
+					D1FEC12C2E1CCA6A0075F757 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = D1FEC1092E1CCA680075F757;
+					};
+				};
+			};
+			buildConfigurationList = D1FEC1052E1CCA680075F757 /* Build configuration list for PBXProject "DealMind" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D1FEC1012E1CCA680075F757;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D1FEC15C2E1CE89D0075F757 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				D1365CF12E409A6100D32DB5 /* XCLocalSwiftPackageReference "../BluetoothKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D1FEC10B2E1CCA680075F757 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D1FEC1092E1CCA680075F757 /* DealMind */,
+				D1FEC1222E1CCA6A0075F757 /* DealMindTests */,
+				D1FEC12C2E1CCA6A0075F757 /* DealMindUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D1FEC1082E1CCA680075F757 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1FEC1212E1CCA6A0075F757 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1FEC12B2E1CCA6A0075F757 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D1FEC1062E1CCA680075F757 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1FEC11F2E1CCA6A0075F757 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1FEC1292E1CCA6A0075F757 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D1FEC1252E1CCA6A0075F757 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1FEC1092E1CCA680075F757 /* DealMind */;
+			targetProxy = D1FEC1242E1CCA6A0075F757 /* PBXContainerItemProxy */;
+		};
+		D1FEC12F2E1CCA6A0075F757 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1FEC1092E1CCA680075F757 /* DealMind */;
+			targetProxy = D1FEC12E2E1CCA6A0075F757 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D1FEC1372E1CCA6A0075F757 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DealMind/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cl.DealMind;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D1FEC1382E1CCA6A0075F757 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DealMind/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cl.DealMind;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D1FEC1392E1CCA6A0075F757 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D1FEC13A2E1CCA6A0075F757 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D1FEC13C2E1CCA6A0075F757 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cl.DealMindTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DealMind.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DealMind";
+			};
+			name = Debug;
+		};
+		D1FEC13D2E1CCA6A0075F757 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cl.DealMindTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DealMind.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DealMind";
+			};
+			name = Release;
+		};
+		D1FEC13F2E1CCA6A0075F757 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cl.DealMindUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DealMind;
+			};
+			name = Debug;
+		};
+		D1FEC1402E1CCA6A0075F757 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A5JCEG67BA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cl.DealMindUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DealMind;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D1FEC1052E1CCA680075F757 /* Build configuration list for PBXProject "DealMind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1FEC1392E1CCA6A0075F757 /* Debug */,
+				D1FEC13A2E1CCA6A0075F757 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1FEC1362E1CCA6A0075F757 /* Build configuration list for PBXNativeTarget "DealMind" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1FEC1372E1CCA6A0075F757 /* Debug */,
+				D1FEC1382E1CCA6A0075F757 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1FEC13B2E1CCA6A0075F757 /* Build configuration list for PBXNativeTarget "DealMindTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1FEC13C2E1CCA6A0075F757 /* Debug */,
+				D1FEC13D2E1CCA6A0075F757 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1FEC13E2E1CCA6A0075F757 /* Build configuration list for PBXNativeTarget "DealMindUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1FEC13F2E1CCA6A0075F757 /* Debug */,
+				D1FEC1402E1CCA6A0075F757 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		D1365CF12E409A6100D32DB5 /* XCLocalSwiftPackageReference "../BluetoothKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../BluetoothKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1FEC15C2E1CE89D0075F757 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D1D965A32E1CEEBA002D0DC0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1FEC15C2E1CE89D0075F757 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D1FEC1022E1CCA680075F757 /* Project object */;
+}

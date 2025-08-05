@@ -1,0 +1,225 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# iOS TestFeel 项目开发规范
+
+## 项目概述
+TestFeel 是一个基于 Objective-C 的 iOS 应用项目，使用 CocoaPods 进行依赖管理。项目包含多个功能模块，如图表显示、图片处理、UI 组件等。
+
+## 项目结构
+
+### 主要目录结构
+- [TestFeel/AppDelegate.h](mdc:TestFeel/AppDelegate.h) - 应用程序入口点
+- [TestFeel/class/](mdc:TestFeel/class) - 主要业务逻辑和视图控制器
+- [TestFeel/tools/](mdc:TestFeel/tools) - 工具类和辅助函数
+- [TestFeel/views/](mdc:TestFeel/views) - 自定义视图组件
+- [TestFeel/model/](mdc:TestFeel/model) - 数据模型
+- [TestFeel/http/](mdc:TestFeel/http) - 网络请求管理
+- [TestFeel/define/](mdc:TestFeel/define) - 全局定义和常量
+- [Podfile](mdc:Podfile) - CocoaPods 依赖配置
+
+## Objective-C 编码规范
+
+### 1. 命名约定
+```objc
+// 类名使用 Pascal 大小写，添加前缀避免命名冲突
+@interface LFSLineChartVC : UIViewController
+
+// 方法名使用小驼峰，描述性强
+- (void)configureLineChartWithData:(NSArray *)data;
+
+// 属性名使用小驼峰
+@property (nonatomic, strong) UITableView *tableView;
+
+// 常量使用 k 前缀
+static const NSInteger kMaxRetryCount = 3;
+```
+
+### 2. 内存管理
+- 始终使用 ARC (Automatic Reference Counting)
+- 优先使用 `strong` 和 `weak` 属性修饰符
+- 避免循环引用，delegate 使用 `weak`
+- 及时移除通知观察者和 KVO
+
+### 3. 头文件组织
+```objc
+// 导入顺序：系统框架 -> 第三方库 -> 项目文件
+#import <UIKit/UIKit.h>
+#import <Masonry/Masonry.h>
+#import "LFSDefaultType.h"
+```
+
+### 4. 属性声明
+```objc
+// 优先在头文件中声明公共属性
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, weak) id<CustomDelegate> delegate;
+@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, assign) BOOL isEnabled;
+```
+
+## 项目依赖管理
+
+### CocoaPods 库使用指南
+参考 [Podfile](mdc:Podfile) 中的依赖配置：
+
+- **AFNetworking** - 网络请求，参考 [NetworkManager](mdc:TestFeel/http/NetworkManager.h)
+- **Masonry** - 自动布局
+- **MJRefresh** - 下拉刷新组件
+- **SDWebImage** - 图片加载和缓存
+- **MBProgressHUD** - 加载提示
+- **BRPickerView** - 选择器组件
+- **PNChart** - 图表展示，配合 [LFSLineChartVC](mdc:TestFeel/class/LFSLineChartVC.h)
+
+### 添加新依赖
+1. 在 [Podfile](mdc:Podfile) 中添加 pod 声明
+2. 运行 `pod install` 更新依赖
+3. 在相关文件中导入对应的头文件
+
+## 架构模式
+
+### MVC 架构
+- **Model**: 数据模型放在 [TestFeel/model/](mdc:TestFeel/model) 目录
+- **View**: 自定义视图放在 [TestFeel/views/](mdc:TestFeel/views) 目录
+- **Controller**: 视图控制器放在 [TestFeel/class/](mdc:TestFeel/class) 目录
+
+### 网络层架构
+- 网络管理统一使用 [NetworkManager](mdc:TestFeel/http/NetworkManager.h)
+- 基于 AFNetworking 封装
+- 支持请求拦截和响应处理
+
+## 代码质量要求
+
+### 1. 注释规范
+```objc
+/**
+ * 配置折线图数据
+ * @param data 图表数据数组
+ * @param animated 是否启用动画
+ */
+- (void)configureChartWithData:(NSArray *)data animated:(BOOL)animated;
+```
+
+### 2. 错误处理
+```objc
+- (BOOL)performOperationWithError:(NSError **)error {
+    // 具体实现
+    if (someCondition) {
+        if (error) {
+            *error = [NSError errorWithDomain:@"AppErrorDomain" 
+                                        code:1001 
+                                    userInfo:nil];
+        }
+        return NO;
+    }
+    return YES;
+}
+```
+
+### 3. 异步操作
+```objc
+// 使用 GCD 处理异步任务
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    // 后台任务
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // 更新 UI
+    });
+});
+```
+
+## 工具类使用
+
+### 加密工具
+- [AES128Util](mdc:TestFeel/tools/AES128Util.h) - AES 加密解密
+- [AESCipher](mdc:TestFeel/tools/AESCipher.h) - 高级加密功能
+
+### 常用工具
+- 工具类统一放在 [TestFeel/tools/](mdc:TestFeel/tools) 目录
+- 使用类方法提供静态功能
+- 避免创建不必要的实例
+
+## UI 开发规范
+
+### 1. 自动布局
+```objc
+// 优先使用 Masonry 进行约束布局
+[self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(20);
+    make.left.right.equalTo(self.view).insets(UIEdgeInsetsMake(0, 16, 0, 16));
+}];
+```
+
+### 2. 颜色和字体
+```objc
+// 使用系统预定义或项目统一的颜色
+self.view.backgroundColor = [UIColor systemBackgroundColor];
+self.titleLabel.textColor = [UIColor labelColor];
+
+// 使用系统字体或项目统一字体
+self.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
+```
+
+### 3. 自定义视图
+- 自定义视图继承自合适的基类
+- 实现必要的初始化方法
+- 参考 [TopTipsView](mdc:TestFeel/views/TopTipsView.h) 的实现方式
+
+## 调试和测试
+
+### 调试工具配置
+- 启用 Xcode 断点和 LLDB 调试
+- 使用 Instruments 进行性能分析
+- 合理使用 NSLog 和断言
+
+### 测试策略
+- 为核心业务逻辑编写单元测试
+- 使用模拟器和真机进行功能测试
+- 定期进行内存泄漏检测
+
+## 性能优化
+
+### 1. 图片处理
+- 使用 SDWebImage 进行图片缓存
+- 合理设置图片压缩和缓存策略
+- 参考项目中的图片缓存实现
+
+### 2. 列表优化
+- UITableView 和 UICollectionView 的 cell 复用
+- 避免在主线程进行耗时操作
+- 合理使用 MJRefresh 进行数据加载
+
+### 3. 内存管理
+- 及时释放不需要的对象
+- 使用 weak 引用避免循环引用
+- 监控内存使用情况
+
+## 国际化和本地化
+
+### 字符串管理
+```objc
+// 使用 NSLocalizedString 进行国际化
+self.titleLabel.text = NSLocalizedString(@"welcome_message", @"Welcome message");
+```
+
+### 资源管理
+- 图片资源统一放在 [Assets.xcassets](mdc:TestFeel/Assets.xcassets) 中
+- 支持不同分辨率的图片资源
+- 合理组织资源文件结构
+
+## 版本控制和部署
+
+### Git 工作流
+- 使用有意义的提交信息
+- 定期合并和同步代码
+- 避免提交敏感信息和临时文件
+
+### 构建配置
+- 区分 Debug 和 Release 配置
+- 合理设置编译选项
+- 使用 Xcode Workspace 进行项目管理
+
+---
+
+**注意**: 本规范基于当前项目结构制定，开发过程中应持续完善和更新。

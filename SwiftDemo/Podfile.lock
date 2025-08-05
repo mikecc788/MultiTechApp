@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (5.10.1)
+  - DGCharts (5.1.0):
+    - DGCharts/Core (= 5.1.0)
+  - DGCharts/Core (5.1.0)
   - Dollar (9.0.0)
   - Flutter (1.0.0)
   - FlutterPluginRegistrant (0.0.1):
@@ -14,6 +17,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - DGCharts
   - Dollar
   - Flutter (from `../demo_flutter/.ios/Flutter`)
   - FlutterPluginRegistrant (from `../demo_flutter/.ios/Flutter/FlutterPluginRegistrant`)
@@ -26,6 +30,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DGCharts
     - Dollar
     - Kingfisher
     - MonkeyKing
@@ -42,6 +47,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 840d2a1ad82355b536ec6ba5f97e5bfa54600ca3
+  DGCharts: 1c6daf585b6cfc78807af44ea690d357c410627f
   Dollar: 2fc9bdeeb2d3ae1f251461803240d5c93829ee0c
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   FlutterPluginRegistrant: 0b732256b4829f9783c18c68e2f9adacc1536955
@@ -52,6 +58,6 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 1e242dbc49a5dcf990578951f31b58ea524c8772
+PODFILE CHECKSUM: b2d08cf021564e63e63587180fa7dcf6329d62e1
 
 COCOAPODS: 1.16.2

@@ -350,5 +350,27 @@
     NSLog(@"%@", sortedDeviceArr);
     return sortedDeviceArr;
 }
++ (NSString *)calculateCRCFromHexString:(NSString *)hexStr {
+    int sum = 0;
+
+    // 每两个字符一组
+    for (int i = 0; i < hexStr.length; i += 2) {
+        NSString *hexPair = [hexStr substringWithRange:NSMakeRange(i, 2)];
+        NSString *decimalString = [HYRadix hy_convertToDecimalFromHexadecimal:hexPair];
+        sum += [decimalString intValue];
+    }
+
+    // 转换为16进制字符串
+    NSString *crcHex = [HYRadix hy_convertToHexadecimalFromDecimal:[NSString stringWithFormat:@"%d", sum]];
+    
+    // 取最后两位作为CRC校验值
+    if (crcHex.length >= 2) {
+        return [crcHex substringFromIndex:crcHex.length - 2].uppercaseString;
+    } else if (crcHex.length == 1) {
+        return [NSString stringWithFormat:@"0%@", crcHex].uppercaseString;
+    } else {
+        return @"00";
+    }
+}
 
 @end

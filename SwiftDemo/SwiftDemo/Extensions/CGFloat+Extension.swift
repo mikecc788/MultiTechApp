@@ -58,3 +58,23 @@ public extension INNPOP where Base == CGFloat {
     }
 }
 
+extension CGFloat {
+    /// 根据设计稿尺寸适配
+    var adapted: CGFloat {
+        let screenWidth = UIScreen.main.bounds.width
+        return (screenWidth / 375.0) * self
+    }
+}
+// Double 扩展
+extension Double {
+    var adapted: CGFloat {
+           return CGFloat(self).adapted
+       }
+}
+
+// Int 扩展
+extension Int {
+    var adapted: CGFloat {
+            return CGFloat(self).adapted
+        }
+}

@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Swift 项目最佳实践
+
+本项目建议遵循以下 Swift 代码规范和最佳实践：
+
+1. 遵循 Swift 官方代码风格指南，推荐使用 SwiftLint 工具进行代码检查。
+2. 优先使用 let 声明常量，只有在需要可变时才使用 var。
+3. 使用 async/await 处理异步操作，避免嵌套回调。
+4. 为所有公共 API、类、属性、方法编写 /// 文档注释，提升可维护性。
+5. 业务逻辑与 UI 代码分离，推荐使用 MVC、MVVM 或 Clean Architecture。
+6. 通过协议和构造函数注入实现依赖注入，提升模块可测试性。
+7. 字符串常量集中管理，使用 Localizable.strings 进行国际化，避免硬编码。
+8. 优先使用 struct 代替 class，除非需要引用语义。
+9. 使用 typealias 简化复杂闭包类型。
+10. 遵循 SOLID 原则，确保代码可扩展、低耦合。
+11. 跨组件数据共享推荐使用 Combine 或 NotificationCenter。
+12. 启用自动导入功能，提升开发效率。
+13. 配置 Xcode 调试工具，便于断点、性能分析和调试。
+14. 蓝牙功能推荐使用 CoreBluetooth 框架。
+15. 单元测试和 UI 测试分别放在 AudioTestTests 和 AudioTestUITests 目录下，测试代码应覆盖主要业务逻辑。
+
+## 代码可读性与维护性
+- 优化变量命名，避免拼写错误，提升可读性。
+- 拆分大方法为单一功能的小方法。
+- 自动添加注释，便于团队协作。
+- 分析和修复潜在 bug，持续改进代码质量。

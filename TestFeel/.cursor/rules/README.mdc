@@ -1,0 +1,105 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# TestFeel 项目 Cursor 规则索引
+
+## 概述
+本目录包含了 TestFeel iOS 项目的完整开发规范和最佳实践指南。这些规则将帮助 Cursor AI 更好地理解项目结构、编码规范和开发流程。
+
+## 规则文件列表
+
+### 1. [iOS Objective-C 项目规范](mdc:ios-objc-project.mdc)
+- **内容**: 项目结构、Objective-C 编码规范、架构模式
+- **适用场景**: 主要开发语言为 Objective-C 的 iOS 项目
+- **主要内容**:
+  - 项目目录结构说明
+  - Objective-C 命名约定和编码规范
+  - MVC 架构模式应用
+  - 内存管理和性能优化
+  - UI 开发规范
+
+### 2. [Swift 开发规范](mdc:swift-guidelines.mdc)
+- **内容**: Swift 语言规范、与 Objective-C 混合开发
+- **适用场景**: 项目中引入 Swift 代码或混合开发
+- **主要内容**:
+  - Swift 与 Objective-C 互操作性
+  - Swift 编码规范和命名约定
+  - 现代 Swift 特性使用 (async/await, SwiftUI)
+  - 协议导向编程
+  - 类型安全和错误处理
+
+### 3. [第三方库使用规范](mdc:third-party-libraries.mdc)
+- **内容**: 项目中所有第三方库的使用指南
+- **适用场景**: 使用 [Podfile](mdc:../Podfile) 中定义的依赖库
+- **主要内容**:
+  - AFNetworking 网络请求
+  - SDWebImage 图片加载缓存
+  - Masonry 自动布局
+  - UI 组件库 (MBProgressHUD, BRPickerView 等)
+  - 图表库 (PNChart)
+  - 数据模型库 (MJExtension)
+
+### 4. [代码质量标准](mdc:code-quality-standards.mdc)
+- **内容**: 代码质量要求、重构指导、安全性规范
+- **适用场景**: 代码审查、重构、性能优化
+- **主要内容**:
+  - 代码可读性标准
+  - 性能优化准则
+  - 安全性要求
+  - 代码审查要求
+  - 调试和日志记录
+  - 单元测试标准
+
+## 快速导航
+
+### 项目结构相关
+- 主要源代码: [TestFeel/](mdc:../TestFeel/)
+- 第三方依赖: [Podfile](mdc:../Podfile)
+- 项目配置: [TestFeel.xcworkspace](mdc:../TestFeel.xcworkspace/)
+
+### 核心模块
+- 网络管理: [NetworkManager](mdc:../TestFeel/http/NetworkManager.h)
+- 工具类: [TestFeel/tools/](mdc:../TestFeel/tools/)
+- 自定义视图: [TestFeel/views/](mdc:../TestFeel/views/)
+- 数据模型: [TestFeel/model/](mdc:../TestFeel/model/)
+
+### 功能模块
+- 图表显示: [LFSLineChartVC](mdc:../TestFeel/class/LFSLineChartVC.h)
+- 分页视图: [TestFeel/class/pageview/](mdc:../TestFeel/class/pageview/)
+- 加密工具: [AES128Util](mdc:../TestFeel/tools/AES128Util.h)
+
+## 使用建议
+
+### 新功能开发
+1. 查看 [iOS Objective-C 项目规范](mdc:ios-objc-project.mdc) 了解项目结构
+2. 参考 [第三方库使用规范](mdc:third-party-libraries.mdc) 选择合适的库
+3. 遵循 [代码质量标准](mdc:code-quality-standards.mdc) 编写代码
+
+### 混合开发
+1. 参考 [Swift 开发规范](mdc:swift-guidelines.mdc) 了解互操作性
+2. 确保新的 Swift 代码与现有 Objective-C 代码兼容
+
+### 代码审查
+1. 使用 [代码质量标准](mdc:code-quality-standards.mdc) 中的审查清单
+2. 检查是否遵循项目编码规范
+3. 验证第三方库的正确使用
+
+### 性能优化
+1. 参考性能优化准则进行代码优化
+2. 使用推荐的缓存策略
+3. 正确处理内存管理
+
+## 注意事项
+
+1. **文件路径**: 规则文件中的路径引用都是相对于项目根目录
+2. **持续更新**: 随着项目发展，规则文件需要定期更新
+3. **团队协作**: 确保团队成员都了解并遵循这些规范
+4. **工具集成**: 可以将这些规范集成到 IDE 和 CI/CD 流程中
+
+---
+
+**版本**: 1.0  
+**最后更新**: 根据当前项目结构生成  
+**维护者**: 开发团队

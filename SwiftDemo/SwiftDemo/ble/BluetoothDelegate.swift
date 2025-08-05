@@ -40,4 +40,5 @@ extension BLEManagerDelegate {
     func bleManagerDidStopScan() {}
     func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel]) {}
     // ... 其他方法的默认空实现
+    func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: Error?)  {}
 }

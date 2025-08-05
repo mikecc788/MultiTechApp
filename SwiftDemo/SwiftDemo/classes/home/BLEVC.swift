@@ -27,7 +27,7 @@ class BLEVC:BaseViewController{
         tableView.rowHeight = 80
         tableView.register(DeviceTableViewCell.self, forCellReuseIdentifier: "DeviceCell")
         // 创建HeaderView
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60.adapted))
         
         // 创建扫描按钮
         scanButton = UIButton(type: .system)
@@ -193,14 +193,6 @@ extension BLEVC: BLEManagerDelegate{
             self?.tableView.reloadData()
         }
     }
-    func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: (any Error)?) {
-        if let error = error {
-            print("写入特征失败: \(error.localizedDescription)")
-        } else {
-            print("成功写入特征: \(characteristic)")
-        }
-    }
-    
     
 }
 

@@ -1,0 +1,486 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 第三方库使用规范
+
+## 概述
+本文档详细说明了 TestFeel 项目中各个第三方库的正确使用方法和最佳实践。所有库的配置可在 [Podfile](mdc:Podfile) 中查看。
+
+## 网络请求库
+
+### AFNetworking 4.0
+项目使用 AFNetworking 进行网络请求，统一封装在 [NetworkManager](mdc:TestFeel/http/NetworkManager.h) 中。
+
+```objc
+// 基本 GET 请求
+[[NetworkManager sharedInstance] GET:@"api/users" 
+                           parameters:nil 
+                              success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSLog(@"Success: %@", responseObject);
+} failure:^(NSURLSessionDataTask *task, NSError *error) {
+    NSLog(@"Error: %@", error.localizedDescription);
+}];
+
+// POST 请求
+NSDictionary *parameters = @{@"name": @"John", @"email": @"john@example.com"};
+[[NetworkManager sharedInstance] POST:@"api/users" 
+                            parameters:parameters 
+                               success:^(NSURLSessionDataTask *task, id responseObject) {
+    // 处理成功响应
+} failure:^(NSURLSessionDataTask *task, NSError *error) {
+    // 处理错误
+}];
+
+// 文件上传
+NSData *imageData = UIImageJPEGRepresentation(image, 0.8);
+[[NetworkManager sharedInstance] POST:@"api/upload" 
+                            parameters:nil 
+             constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [formData appendPartWithFileData:imageData 
+                                name:@"image" 
+                            fileName:@"photo.jpg" 
+                            mimeType:@"image/jpeg"];
+} success:^(NSURLSessionDataTask *task, id responseObject) {
+    // 上传成功
+} failure:^(NSURLSessionDataTask *task, NSError *error) {
+    // 上传失败
+}];
+```
+
+#### 最佳实践
+- 统一在 NetworkManager 中配置基础 URL、超时时间和请求头
+- 使用 AFJSONResponseSerializer 处理 JSON 响应
+- 实现网络状态监控和错误处理
+- 对敏感数据进行加密，参考 [AES128Util](mdc:TestFeel/tools/AES128Util.h)
+
+## 图片处理库
+
+### SDWebImage
+用于图片的异步加载、缓存和管理。
+
+```objc
+#import <SDWebImage/UIImageView+WebCache.h>
+
+// 基本图片加载
+[imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] 
+             placeholderImage:[UIImage imageNamed:@"placeholder"]];
+
+// 带完成回调的图片加载
+[imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] 
+             placeholderImage:[UIImage imageNamed:@"placeholder"]
+                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    if (error) {
+        NSLog(@"Image loading failed: %@", error.localizedDescription);
+    } else {
+        NSLog(@"Image loaded successfully from %@", cacheType == SDImageCacheTypeMemory ? @"memory" : @"disk");
+    }
+}];
+
+// 预加载图片
+[[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:imageURLs];
+
+// 清除缓存
+[[SDImageCache sharedImageCache] clearMemory];
+[[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+    NSLog(@"Disk cache cleared");
+}];
+```
+
+### FLAnimatedImage & YYImage
+用于 GIF 动画显示，参考项目中的 [gif图片](mdc:TestFeel/class/gif图片/) 模块。
+
+```objc
+#import <FLAnimatedImage/FLAnimatedImage.h>
+
+// 显示 GIF 动画
+FLAnimatedImageView *animatedImageView = [[FLAnimatedImageView alloc] init];
+NSData *gifData = [NSData dataWithContentsOfFile:gifPath];
+FLAnimatedImage *animatedImage = [FLAnimatedImage animatedImageWithGIFData:gifData];
+animatedImageView.animatedImage = animatedImage;
+```
+
+## UI 组件库
+
+### Masonry
+自动布局约束库，项目中广泛使用。
+
+```objc
+#import <Masonry/Masonry.h>
+
+// 基本约束
+[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(20);
+    make.left.right.equalTo(self.view).insets(UIEdgeInsetsMake(0, 16, 0, 16));
+    make.height.equalTo(@44);
+}];
+
+// 更新约束
+[titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    make.height.equalTo(@60);
+}];
+
+// 重新制作约束
+[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    make.center.equalTo(self.view);
+    make.size.equalTo(@CGSizeMake(200, 50));
+}];
+
+// 优先级设置
+[button mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.width.equalTo(@100).priority(750);
+    make.width.lessThanOrEqualTo(@200);
+}];
+```
+
+### MBProgressHUD
+加载提示组件。
+
+```objc
+#import <MBProgressHUD/MBProgressHUD.h>
+
+// 显示加载中
+MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+hud.mode = MBProgressHUDModeIndeterminate;
+hud.label.text = @"加载中...";
+
+// 显示成功提示
+hud.mode = MBProgressHUDModeCustomView;
+hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark"]];
+hud.label.text = @"完成";
+[hud hideAnimatedAfterDelay:2.0];
+
+// 显示错误提示
+[MBProgressHUD hideHUDForView:self.view animated:YES];
+MBProgressHUD *errorHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+errorHUD.mode = MBProgressHUDModeText;
+errorHUD.label.text = @"网络错误";
+[errorHUD hideAnimatedAfterDelay:2.0];
+```
+
+### BRPickerView
+选择器组件，支持时间、地址、字符串选择。
+
+```objc
+#import <BRPickerView/BRPickerView.h>
+
+// 时间选择器
+BRDatePickerView *datePickerView = [[BRDatePickerView alloc] init];
+datePickerView.pickerMode = BRDatePickerModeYMDHM;
+datePickerView.title = @"选择时间";
+datePickerView.selectValue = [NSDate date];
+datePickerView.resultBlock = ^(NSDate *selectDate, NSString *selectValue) {
+    NSLog(@"选择的时间：%@", selectValue);
+};
+[datePickerView show];
+
+// 字符串选择器
+NSArray *dataArray = @[@"选项1", @"选项2", @"选项3"];
+BRStringPickerView *stringPickerView = [[BRStringPickerView alloc] init];
+stringPickerView.title = @"请选择";
+stringPickerView.dataSourceArr = dataArray;
+stringPickerView.selectIndex = 0;
+stringPickerView.resultBlock = ^(id selectValue, NSInteger index) {
+    NSLog(@"选择的值：%@, 索引：%ld", selectValue, (long)index);
+};
+[stringPickerView show];
+```
+
+## 刷新组件
+
+### MJRefresh
+下拉刷新和上拉加载更多组件。
+
+```objc
+#import <MJRefresh/MJRefresh.h>
+
+// 下拉刷新
+self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    // 刷新数据
+    [self loadNewData];
+}];
+
+// 上拉加载更多
+self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    // 加载更多数据
+    [self loadMoreData];
+}];
+
+// 结束刷新
+- (void)loadNewData {
+    // 网络请求...
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView reloadData];
+    });
+}
+
+// 结束加载更多
+- (void)loadMoreData {
+    // 网络请求...
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView.mj_footer endRefreshing];
+        [self.tableView reloadData];
+    });
+}
+```
+
+### KafkaRefresh
+另一个刷新库选择，提供更多自定义效果。
+
+```objc
+#import <KafkaRefresh/KafkaRefresh.h>
+
+// 设置头部刷新
+[self.tableView.headRefreshControl add:^{
+    // 刷新逻辑
+} themeColor:[UIColor blueColor] refreshStyle:KafkaRefreshStyleAnimatableRing];
+
+// 设置尾部刷新
+[self.tableView.footRefreshControl add:^{
+    // 加载更多逻辑
+} themeColor:[UIColor grayColor] refreshStyle:KafkaRefreshStyleAnimatableArrow];
+```
+
+## 图表库
+
+### PNChart
+轻量级图表库，参考 [LFSLineChartVC](mdc:TestFeel/class/LFSLineChartVC.h) 的使用。
+
+```objc
+#import <PNChart/PNChart.h>
+
+// 折线图
+PNLineChart *lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+lineChart.backgroundColor = [UIColor whiteColor];
+
+// 设置数据
+NSArray *xLabels = @[@"1月", @"2月", @"3月", @"4月", @"5月"];
+NSArray *yValues = @[@10, @20, @15, @30, @25];
+
+PNLineChartData *data = [PNLineChartData new];
+data.color = [UIColor blueColor];
+data.itemCount = yValues.count;
+data.getData = ^(NSUInteger index) {
+    return [yValues[index] floatValue];
+};
+
+lineChart.chartData = @[data];
+lineChart.xLabels = xLabels;
+[lineChart strokeChart];
+
+// 饼图
+PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(0, 0, 200, 200) items:@[
+    [PNPieChartDataItem dataItemWithValue:30 color:[UIColor redColor]],
+    [PNPieChartDataItem dataItemWithValue:40 color:[UIColor blueColor]],
+    [PNPieChartDataItem dataItemWithValue:30 color:[UIColor greenColor]]
+]];
+[pieChart strokeChart];
+```
+
+## 分页视图
+
+### SGPagingView
+分页视图组件，参考项目中的 [pageview](mdc:TestFeel/class/pageview/) 模块。
+
+```objc
+#import <SGPagingView/SGPagingView.h>
+
+// 配置分页视图
+SGPageTitleViewConfiguration *config = [SGPageTitleViewConfiguration configuration];
+config.titleColor = [UIColor blackColor];
+config.titleSelectedColor = [UIColor redColor];
+config.indicatorColor = [UIColor redColor];
+
+NSArray *titles = @[@"首页", @"分类", @"购物车", @"个人"];
+SGPageTitleView *pageTitleView = [SGPageTitleView pageTitleViewWithFrame:CGRectMake(0, 0, 320, 44) 
+                                                           delegate:self 
+                                                     titleNames:titles 
+                                                  configuration:config];
+
+// 配置内容视图
+SGPageContentView *pageContentView = [[SGPageContentView alloc] initWithFrame:CGRectMake(0, 44, 320, 400) 
+                                                              parentVC:self 
+                                                            childVCs:childViewControllers];
+pageContentView.delegatePageContentView = self;
+```
+
+### JXCategoryView
+更强大的分类视图库。
+
+```objc
+#import <JXCategoryView/JXCategoryView.h>
+
+// 基本标题分类视图
+JXCategoryTitleView *categoryView = [[JXCategoryTitleView alloc] init];
+categoryView.titles = @[@"推荐", @"热门", @"最新"];
+categoryView.delegate = self;
+
+// 配置指示器
+JXCategoryIndicatorLineView *lineView = [[JXCategoryIndicatorLineView alloc] init];
+lineView.indicatorColor = [UIColor redColor];
+categoryView.indicators = @[lineView];
+
+// 配置容器视图
+JXCategoryListContainerView *listContainerView = [[JXCategoryListContainerView alloc] initWithType:JXCategoryListContainerTypeScrollView 
+                                                                                            delegate:self];
+categoryView.contentScrollView = listContainerView.scrollView;
+```
+
+## 键盘管理
+
+### IQKeyboardManager
+自动键盘管理库，在 AppDelegate 中配置。
+
+```objc
+#import <IQKeyboardManager/IQKeyboardManager.h>
+
+// 在 AppDelegate 中启用
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // 启用键盘管理
+    [IQKeyboardManager sharedManager].enable = YES;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
+    [IQKeyboardManager sharedManager].shouldToolbarUsesTextFieldTintColor = YES;
+    
+    return YES;
+}
+
+// 针对特定视图控制器禁用
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[IQKeyboardManager sharedManager] disableDistanceHandlingInViewControllerClass:[self class]];
+}
+```
+
+## 图片选择器
+
+### TZImagePickerController
+图片选择和编辑库。
+
+```objc
+#import <TZImagePickerController/TZImagePickerController.h>
+
+// 基本图片选择
+TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:9 
+                                                                                         delegate:self];
+imagePickerVc.allowTakePicture = YES;
+imagePickerVc.allowTakeVideo = NO;
+imagePickerVc.allowPickingVideo = NO;
+imagePickerVc.allowPickingImage = YES;
+imagePickerVc.allowPickingMultipleVideo = NO;
+
+[self presentViewController:imagePickerVc animated:YES completion:nil];
+
+// 实现代理方法
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
+    // 处理选择的图片
+    for (UIImage *image in photos) {
+        // 处理每张图片
+    }
+}
+```
+
+## 数据模型
+
+### MJExtension
+JSON 与模型转换库。
+
+```objc
+#import <MJExtension/MJExtension.h>
+
+// 模型定义
+@interface User : NSObject
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *email;
+@property (nonatomic, assign) NSInteger age;
+@property (nonatomic, strong) NSArray<NSString *> *hobbies;
+@end
+
+@implementation User
+// 属性映射
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    return @{
+        @"name" : @"user_name",
+        @"email" : @"user_email"
+    };
+}
+
+// 数组元素类型声明
++ (NSDictionary *)mj_objectClassInArray {
+    return @{
+        @"hobbies" : @"NSString"
+    };
+}
+@end
+
+// JSON 转模型
+NSDictionary *jsonDict = @{@"user_name": @"John", @"user_email": @"john@example.com", @"age": @25};
+User *user = [User mj_objectWithKeyValues:jsonDict];
+
+// 模型转 JSON
+NSDictionary *userDict = [user mj_keyValues];
+
+// JSON 数组转模型数组
+NSArray *userArray = [User mj_objectArrayWithKeyValuesArray:jsonArray];
+```
+
+## 加密工具
+
+### RSAObjC
+RSA 加密库，配合项目中的加密工具使用。
+
+```objc
+#import <RSAObjC/RSAObjC.h>
+
+// RSA 加密
+NSString *publicKey = @"..."; // 公钥字符串
+NSString *plainText = @"需要加密的数据";
+NSString *encryptedText = [RSAObjC encryptString:plainText publicKey:publicKey];
+
+// RSA 解密
+NSString *privateKey = @"..."; // 私钥字符串
+NSString *decryptedText = [RSAObjC decryptString:encryptedText privateKey:privateKey];
+```
+
+## 性能监控和优化
+
+### 内存管理最佳实践
+```objc
+// 使用 weak 引用避免循环引用
+__weak typeof(self) weakSelf = self;
+[[SDWebImageManager sharedManager] loadImageWithURL:imageURL options:0 progress:nil completed:^(UIImage *image, NSData *data, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+    __strong typeof(weakSelf) strongSelf = weakSelf;
+    if (strongSelf) {
+        strongSelf.imageView.image = image;
+    }
+}];
+
+// 及时清理资源
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.timer invalidate];
+    self.timer = nil;
+}
+```
+
+### 缓存策略
+```objc
+// SDWebImage 缓存配置
+SDImageCache *imageCache = [SDImageCache sharedImageCache];
+imageCache.config.maxCacheAge = 60 * 60 * 24 * 7; // 7天
+imageCache.config.maxCacheSize = 100 * 1024 * 1024; // 100MB
+
+// 网络请求缓存
+NSURLRequest *request = [NSURLRequest requestWithURL:url 
+                                         cachePolicy:NSURLRequestReturnCacheDataElseLoad 
+                                     timeoutInterval:30];
+```
+
+---
+
+**注意**: 
+1. 定期更新第三方库版本，检查兼容性
+2. 遵循各库的官方文档和最佳实践
+3. 在项目中统一封装常用功能，避免直接使用第三方库
+4. 做好错误处理和异常情况的处理

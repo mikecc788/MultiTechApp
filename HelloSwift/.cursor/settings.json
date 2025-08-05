@@ -1,0 +1,10 @@
+{
+    "lsp.servers": {
+      "swift": {
+        "command": ["xcrun", "sourcekit-lsp"],
+        "languageId": "swift",
+        "scopes": ["source.swift"],
+        "rootPatterns": ["Package.swift"]
+      }
+    }
+  }

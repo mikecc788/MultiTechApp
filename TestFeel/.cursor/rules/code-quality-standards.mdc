@@ -1,0 +1,736 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 代码质量标准与最佳实践
+
+## 概述
+本文档定义了 TestFeel 项目的代码质量标准，包括代码审查、重构、性能优化和安全性要求。
+
+## 代码质量要求
+
+### 1. 可读性标准
+```objc
+// ✅ 好的命名 - 清晰表达意图
+- (void)calculateUserAgeFromBirthDate:(NSDate *)birthDate {
+    NSTimeInterval ageInterval = [[NSDate date] timeIntervalSinceDate:birthDate];
+    NSInteger age = (NSInteger)(ageInterval / (365.25 * 24 * 60 * 60));
+    self.userAge = age;
+}
+
+// ❌ 差的命名 - 缩写和不清晰的意图
+- (void)calcUA:(NSDate *)bd {
+    NSTimeInterval ai = [[NSDate date] timeIntervalSinceDate:bd];
+    NSInteger a = (NSInteger)(ai / (365.25 * 24 * 60 * 60));
+    self.ua = a;
+}
+```
+
+### 2. 函数和方法设计
+```objc
+// ✅ 单一职责原则 - 每个方法只做一件事
+- (void)validateUserInput:(NSString *)input {
+    if ([self isInputEmpty:input]) {
+        [self showEmptyInputError];
+        return;
+    }
+    
+    if (![self isInputFormatValid:input]) {
+        [self showInvalidFormatError];
+        return;
+    }
+    
+    [self processValidInput:input];
+}
+
+- (BOOL)isInputEmpty:(NSString *)input {
+    return input == nil || input.length == 0;
+}
+
+- (BOOL)isInputFormatValid:(NSString *)input {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^[a-zA-Z0-9]+$" 
+                                                                           options:0 
+                                                                             error:nil];
+    return [regex numberOfMatchesInString:input options:0 range:NSMakeRange(0, input.length)] > 0;
+}
+
+// ❌ 违反单一职责 - 一个方法做太多事情
+- (void)processUserInput:(NSString *)input {
+    // 验证输入
+    if (input == nil || input.length == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" 
+                                                        message:@"输入不能为空" 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"确定" 
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    // 格式验证
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^[a-zA-Z0-9]+$" 
+                                                                           options:0 
+                                                                             error:nil];
+    if ([regex numberOfMatchesInString:input options:0 range:NSMakeRange(0, input.length)] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" 
+                                                        message:@"格式不正确" 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"确定" 
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    // 网络请求
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager POST:@"api/process" parameters:@{@"input": input} success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 处理响应
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.resultLabel.text = responseObject[@"result"];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        // 处理错误
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"网络错误" 
+                                                            message:error.localizedDescription 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:@"确定" 
+                                                  otherButtonTitles:nil];
+            [alert show];
+        });
+    }];
+}
+```
+
+### 3. 错误处理模式
+```objc
+// ✅ 统一的错误处理
+typedef NS_ENUM(NSInteger, AppErrorCode) {
+    AppErrorCodeNetworkFailure = 1001,
+    AppErrorCodeInvalidInput = 1002,
+    AppErrorCodeDataParsingFailed = 1003,
+    AppErrorCodeUserCancelled = 1004
+};
+
+@interface ErrorHandler : NSObject
++ (void)handleError:(NSError *)error inViewController:(UIViewController *)viewController;
++ (NSError *)errorWithCode:(AppErrorCode)code description:(NSString *)description;
+@end
+
+@implementation ErrorHandler
++ (void)handleError:(NSError *)error inViewController:(UIViewController *)viewController {
+    NSString *title = @"提示";
+    NSString *message = error.localizedDescription;
+    
+    switch (error.code) {
+        case AppErrorCodeNetworkFailure:
+            title = @"网络错误";
+            break;
+        case AppErrorCodeInvalidInput:
+            title = @"输入错误";
+            break;
+        case AppErrorCodeDataParsingFailed:
+            title = @"数据错误";
+            break;
+        default:
+            break;
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title 
+                                                                   message:message 
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+    [viewController presentViewController:alert animated:YES completion:nil];
+}
+
++ (NSError *)errorWithCode:(AppErrorCode)code description:(NSString *)description {
+    return [NSError errorWithDomain:@"AppErrorDomain" 
+                               code:code 
+                           userInfo:@{NSLocalizedDescriptionKey: description}];
+}
+@end
+```
+
+## 性能优化准则
+
+### 1. 内存管理最佳实践
+```objc
+// ✅ 正确的内存管理
+@interface UserProfileViewController : UIViewController
+@property (nonatomic, weak) id<UserProfileDelegate> delegate;
+@property (nonatomic, strong) NSTimer *refreshTimer;
+@property (nonatomic, strong) NSMutableArray<UIImage *> *imageCache;
+@end
+
+@implementation UserProfileViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupRefreshTimer];
+    [self setupImageCache];
+}
+
+- (void)setupRefreshTimer {
+    __weak typeof(self) weakSelf = self;
+    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 
+                                                        repeats:YES 
+                                                          block:^(NSTimer *timer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf refreshUserData];
+        }
+    }];
+}
+
+- (void)setupImageCache {
+    self.imageCache = [[NSMutableArray alloc] init];
+}
+
+- (void)dealloc {
+    [self.refreshTimer invalidate];
+    self.refreshTimer = nil;
+    
+    [self.imageCache removeAllObjects];
+    self.imageCache = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+@end
+```
+
+### 2. 列表性能优化
+```objc
+// ✅ 高效的 TableView 实现
+@interface OptimizedTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray<UserModel *> *dataSource;
+@property (nonatomic, strong) NSCache *imageCache;
+@end
+
+@implementation OptimizedTableViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // 设置图片缓存
+    self.imageCache = [[NSCache alloc] init];
+    self.imageCache.countLimit = 100;
+    
+    // 优化 TableView 性能
+    self.tableView.estimatedRowHeight = 80;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    // 注册 cell
+    [self.tableView registerClass:[CustomTableViewCell class] 
+           forCellReuseIdentifier:@"CustomCell"];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell" 
+                                                                 forIndexPath:indexPath];
+    
+    UserModel *user = self.dataSource[indexPath.row];
+    [cell configureWithUser:user imageCache:self.imageCache];
+    
+    return cell;
+}
+
+@end
+
+// CustomTableViewCell 的优化实现
+@implementation CustomTableViewCell
+
+- (void)configureWithUser:(UserModel *)user imageCache:(NSCache *)imageCache {
+    self.nameLabel.text = user.name;
+    self.emailLabel.text = user.email;
+    
+    // 使用缓存优化图片加载
+    UIImage *cachedImage = [imageCache objectForKey:user.avatarURL];
+    if (cachedImage) {
+        self.avatarImageView.image = cachedImage;
+    } else {
+        self.avatarImageView.image = [UIImage imageNamed:@"default_avatar"];
+        
+        __weak typeof(self) weakSelf = self;
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:user.avatarURL] 
+                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image && !error) {
+                [imageCache setObject:image forKey:user.avatarURL];
+            }
+        }];
+    }
+}
+
+@end
+```
+
+### 3. 网络请求优化
+```objc
+// ✅ 优化的网络请求管理
+@interface NetworkOptimizer : NSObject
+@property (nonatomic, strong) NSOperationQueue *requestQueue;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSURLSessionDataTask *> *activeTasks;
+@end
+
+@implementation NetworkOptimizer
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.requestQueue = [[NSOperationQueue alloc] init];
+        self.requestQueue.maxConcurrentOperationCount = 3; // 限制并发数
+        self.activeTasks = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (void)fetchDataWithURL:(NSString *)urlString 
+              completion:(void(^)(id data, NSError *error))completion {
+    
+    // 避免重复请求
+    if (self.activeTasks[urlString]) {
+        NSLog(@"Request already in progress for URL: %@", urlString);
+        return;
+    }
+    
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:urlString] 
+                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // 移除活跃任务记录
+        [self.activeTasks removeObjectForKey:urlString];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion(data, error);
+            }
+        });
+    }];
+    
+    // 记录活跃任务
+    self.activeTasks[urlString] = task;
+    [task resume];
+}
+
+- (void)cancelAllRequests {
+    for (NSURLSessionDataTask *task in self.activeTasks.allValues) {
+        [task cancel];
+    }
+    [self.activeTasks removeAllObjects];
+}
+
+@end
+```
+
+## 安全性要求
+
+### 1. 数据加密
+```objc
+// ✅ 安全的数据处理
+@interface SecurityManager : NSObject
++ (NSString *)encryptSensitiveData:(NSString *)data;
++ (NSString *)decryptSensitiveData:(NSString *)encryptedData;
++ (BOOL)validateUserInput:(NSString *)input;
+@end
+
+@implementation SecurityManager
+
++ (NSString *)encryptSensitiveData:(NSString *)data {
+    if (!data || data.length == 0) {
+        return nil;
+    }
+    
+    // 使用项目中的加密工具
+    return [AES128Util encrypt:data];
+}
+
++ (NSString *)decryptSensitiveData:(NSString *)encryptedData {
+    if (!encryptedData || encryptedData.length == 0) {
+        return nil;
+    }
+    
+    return [AES128Util decrypt:encryptedData];
+}
+
++ (BOOL)validateUserInput:(NSString *)input {
+    if (!input) {
+        return NO;
+    }
+    
+    // 防止 SQL 注入和 XSS 攻击
+    NSArray *dangerousPatterns = @[@"<script", @"javascript:", @"SELECT", @"DROP", @"INSERT", @"UPDATE"];
+    NSString *lowercaseInput = [input lowercaseString];
+    
+    for (NSString *pattern in dangerousPatterns) {
+        if ([lowercaseInput containsString:[pattern lowercaseString]]) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+@end
+```
+
+### 2. 敏感信息保护
+```objc
+// ✅ 安全的数据存储
+@interface SecureStorage : NSObject
++ (void)storeSecureData:(NSString *)data forKey:(NSString *)key;
++ (NSString *)retrieveSecureDataForKey:(NSString *)key;
++ (void)removeSecureDataForKey:(NSString *)key;
+@end
+
+@implementation SecureStorage
+
++ (void)storeSecureData:(NSString *)data forKey:(NSString *)key {
+    if (!data || !key) {
+        return;
+    }
+    
+    // 加密后存储到 Keychain
+    NSData *encryptedData = [[data dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
+    
+    NSDictionary *query = @{
+        (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecAttrAccount: key,
+        (__bridge id)kSecValueData: encryptedData,
+        (__bridge id)kSecAttrAccessible: (__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+    };
+    
+    // 删除旧数据
+    SecItemDelete((__bridge CFDictionaryRef)query);
+    
+    // 添加新数据
+    OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+    if (status != errSecSuccess) {
+        NSLog(@"Failed to store secure data for key: %@", key);
+    }
+}
+
++ (NSString *)retrieveSecureDataForKey:(NSString *)key {
+    if (!key) {
+        return nil;
+    }
+    
+    NSDictionary *query = @{
+        (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecAttrAccount: key,
+        (__bridge id)kSecReturnData: @YES,
+        (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitOne
+    };
+    
+    CFTypeRef result = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
+    
+    if (status == errSecSuccess && result) {
+        NSData *encryptedData = (__bridge_transfer NSData *)result;
+        NSData *decryptedData = [[NSData alloc] initWithBase64EncodedData:encryptedData options:0];
+        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    }
+    
+    return nil;
+}
+
+@end
+```
+
+## 代码审查要求
+
+### 1. 审查清单
+```objc
+// 代码审查时需要检查的要点：
+
+// ✅ 命名规范
+// - 类名、方法名、变量名是否清晰表达意图
+// - 是否遵循 Objective-C 命名约定
+
+// ✅ 内存管理
+// - 是否正确使用 strong、weak、copy 属性修饰符
+// - 是否存在循环引用风险
+// - 是否及时释放资源
+
+// ✅ 错误处理
+// - 是否妥善处理所有可能的错误情况
+// - 错误信息是否对用户友好
+
+// ✅ 性能考虑
+// - 是否存在性能瓶颈
+// - 网络请求是否合理
+// - 图片加载是否优化
+
+// ✅ 安全性
+// - 用户输入是否验证
+// - 敏感数据是否加密存储
+// - 网络请求是否使用 HTTPS
+```
+
+### 2. 重构指导原则
+```objc
+// ✅ 重构前 - 识别代码异味
+- (void)processOrder:(Order *)order {
+    // 超长方法，做太多事情
+    if (order.items.count == 0) {
+        // 显示错误
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"订单为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    // 计算总价
+    float total = 0;
+    for (OrderItem *item in order.items) {
+        total += item.price * item.quantity;
+        if (item.hasDiscount) {
+            total -= item.discountAmount;
+        }
+    }
+    
+    // 应用优惠券
+    if (order.coupon) {
+        if ([order.coupon.type isEqualToString:@"percentage"]) {
+            total *= (1 - order.coupon.value / 100.0);
+        } else if ([order.coupon.type isEqualToString:@"fixed"]) {
+            total -= order.coupon.value;
+        }
+    }
+    
+    // 计算税费
+    total *= 1.08;
+    
+    // 网络请求提交订单
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager POST:@"/api/orders" parameters:@{@"order": order, @"total": @(total)} success:^(NSURLSessionDataTask *task, id responseObject) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"成功" message:@"订单提交成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"订单提交失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        });
+    }];
+}
+
+// ✅ 重构后 - 拆分职责，提高可读性
+- (void)processOrder:(Order *)order {
+    if (![self validateOrder:order]) {
+        return;
+    }
+    
+    CGFloat totalAmount = [self calculateTotalAmount:order];
+    [self submitOrder:order withTotal:totalAmount];
+}
+
+- (BOOL)validateOrder:(Order *)order {
+    if (order.items.count == 0) {
+        [self showErrorMessage:@"订单不能为空"];
+        return NO;
+    }
+    return YES;
+}
+
+- (CGFloat)calculateTotalAmount:(Order *)order {
+    CGFloat subtotal = [self calculateSubtotal:order.items];
+    CGFloat discountedTotal = [self applyDiscount:subtotal withCoupon:order.coupon];
+    return [self addTax:discountedTotal];
+}
+
+- (CGFloat)calculateSubtotal:(NSArray<OrderItem *> *)items {
+    CGFloat total = 0;
+    for (OrderItem *item in items) {
+        total += [self calculateItemTotal:item];
+    }
+    return total;
+}
+
+- (CGFloat)calculateItemTotal:(OrderItem *)item {
+    CGFloat itemTotal = item.price * item.quantity;
+    if (item.hasDiscount) {
+        itemTotal -= item.discountAmount;
+    }
+    return itemTotal;
+}
+
+- (void)submitOrder:(Order *)order withTotal:(CGFloat)total {
+    __weak typeof(self) weakSelf = self;
+    [[NetworkManager sharedInstance] submitOrder:order 
+                                       withTotal:total 
+                                         success:^(id response) {
+        [weakSelf showSuccessMessage:@"订单提交成功"];
+    } failure:^(NSError *error) {
+        [weakSelf showErrorMessage:@"订单提交失败"];
+    }];
+}
+```
+
+## 调试和日志记录
+
+### 1. 日志记录最佳实践
+```objc
+// ✅ 结构化日志记录
+typedef NS_ENUM(NSInteger, LogLevel) {
+    LogLevelDebug = 0,
+    LogLevelInfo = 1,
+    LogLevelWarning = 2,
+    LogLevelError = 3
+};
+
+@interface Logger : NSObject
++ (void)logWithLevel:(LogLevel)level tag:(NSString *)tag message:(NSString *)message;
++ (void)debug:(NSString *)message tag:(NSString *)tag;
++ (void)info:(NSString *)message tag:(NSString *)tag;
++ (void)warning:(NSString *)message tag:(NSString *)tag;
++ (void)error:(NSString *)message tag:(NSString *)tag;
+@end
+
+@implementation Logger
+
++ (void)logWithLevel:(LogLevel)level tag:(NSString *)tag message:(NSString *)message {
+#ifdef DEBUG
+    NSString *levelString = [self stringForLogLevel:level];
+    NSString *timestamp = [self currentTimestamp];
+    NSLog(@"[%@][%@][%@] %@", timestamp, levelString, tag, message);
+#endif
+}
+
++ (NSString *)stringForLogLevel:(LogLevel)level {
+    switch (level) {
+        case LogLevelDebug: return @"DEBUG";
+        case LogLevelInfo: return @"INFO";
+        case LogLevelWarning: return @"WARN";
+        case LogLevelError: return @"ERROR";
+        default: return @"UNKNOWN";
+    }
+}
+
++ (NSString *)currentTimestamp {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss.SSS";
+    return [formatter stringFromDate:[NSDate date]];
+}
+
++ (void)debug:(NSString *)message tag:(NSString *)tag {
+    [self logWithLevel:LogLevelDebug tag:tag message:message];
+}
+
++ (void)info:(NSString *)message tag:(NSString *)tag {
+    [self logWithLevel:LogLevelInfo tag:tag message:message];
+}
+
++ (void)warning:(NSString *)message tag:(NSString *)tag {
+    [self logWithLevel:LogLevelWarning tag:tag message:message];
+}
+
++ (void)error:(NSString *)message tag:(NSString *)tag {
+    [self logWithLevel:LogLevelError tag:tag message:message];
+}
+
+@end
+
+// 使用示例
+- (void)loadUserData {
+    [Logger info:@"开始加载用户数据" tag:@"UserService"];
+    
+    [[NetworkManager sharedInstance] fetchUserInfo:^(User *user, NSError *error) {
+        if (error) {
+            [Logger error:[NSString stringWithFormat:@"加载用户数据失败: %@", error.localizedDescription] 
+                      tag:@"UserService"];
+        } else {
+            [Logger info:[NSString stringWithFormat:@"成功加载用户数据: %@", user.name] 
+                     tag:@"UserService"];
+        }
+    }];
+}
+```
+
+## 代码覆盖率和测试
+
+### 1. 单元测试标准
+```objc
+// ✅ 全面的单元测试
+@interface UserManagerTests : XCTestCase
+@property (nonatomic, strong) UserManager *userManager;
+@property (nonatomic, strong) id mockNetworkService;
+@end
+
+@implementation UserManagerTests
+
+- (void)setUp {
+    [super setUp];
+    self.mockNetworkService = OCMClassMock([NetworkService class]);
+    self.userManager = [[UserManager alloc] initWithNetworkService:self.mockNetworkService];
+}
+
+- (void)tearDown {
+    [self.mockNetworkService stopMocking];
+    self.userManager = nil;
+    [super tearDown];
+}
+
+- (void)testValidateUser_WithValidInput_ReturnsSuccess {
+    // Given
+    User *validUser = [[User alloc] init];
+    validUser.name = @"John Doe";
+    validUser.email = @"john@example.com";
+    validUser.age = 25;
+    
+    // When
+    BOOL result = [self.userManager validateUser:validUser];
+    
+    // Then
+    XCTAssertTrue(result, @"Valid user should pass validation");
+}
+
+- (void)testValidateUser_WithInvalidEmail_ReturnsFalse {
+    // Given
+    User *invalidUser = [[User alloc] init];
+    invalidUser.name = @"John Doe";
+    invalidUser.email = @"invalid-email";
+    invalidUser.age = 25;
+    
+    // When
+    BOOL result = [self.userManager validateUser:invalidUser];
+    
+    // Then
+    XCTAssertFalse(result, @"Invalid email should fail validation");
+}
+
+- (void)testFetchUserData_WithValidResponse_CallsSuccessBlock {
+    // Given
+    User *expectedUser = [[User alloc] init];
+    expectedUser.name = @"John Doe";
+    
+    OCMStub([self.mockNetworkService fetchUserWithCompletion:[OCMArg any]])
+        .andDo(^(NSInvocation *invocation) {
+            void (^completion)(User *, NSError *);
+            [invocation getArgument:&completion atIndex:2];
+            completion(expectedUser, nil);
+        });
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Success block called"];
+    
+    // When
+    [self.userManager fetchUserDataWithSuccess:^(User *user) {
+        XCTAssertEqualObjects(user.name, expectedUser.name);
+        [expectation fulfill];
+    } failure:^(NSError *error) {
+        XCTFail(@"Failure block should not be called");
+    }];
+    
+    // Then
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
+}
+
+@end
+```
+
+---
+
+**持续改进**: 
+1. 定期进行代码审查和重构
+2. 监控应用性能和用户体验
+3. 保持代码质量标准的更新
+4. 建立团队编码规范共识

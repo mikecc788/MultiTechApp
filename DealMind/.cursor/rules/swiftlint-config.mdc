@@ -1,0 +1,293 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# SwiftLint 配置规则
+
+## 概述
+SwiftLint 是一个强制执行 Swift 代码风格和约定的工具，帮助保持代码质量和一致性。
+
+## 配置文件创建
+
+### 基本配置
+在项目根目录创建 `.swiftlint.yml` 文件：
+
+```yaml
+# 包含的文件路径
+included:
+  - DealMind/
+  - DealMindTests/
+  - DealMindUITests/
+
+# 排除的文件路径
+excluded:
+  - Pods/
+  - DealMind.xcodeproj/
+  - DealMind/Resources/
+  - .build/
+
+# 分析器规则
+analyzer_rules:
+  - explicit_self
+  - unused_import
+  - unused_declaration
+
+# 启用的规则
+opt_in_rules:
+  - array_init
+  - attributes
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - contains_over_first_not_nil
+  - convenience_type
+  - empty_count
+  - empty_string
+  - enum_case_associated_values_count
+  - explicit_init
+  - extension_access_modifier
+  - fallthrough
+  - fatal_error_message
+  - file_header
+  - first_where
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - identical_operands
+  - implicit_return
+  - joined_default_parameter
+  - last_where
+  - legacy_random
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+  - modifier_order
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - number_separator
+  - operator_usage_whitespace
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - prefer_self_type_over_type_of_self
+  - private_action
+  - private_outlet
+  - prohibited_super_call
+  - quick_discouraged_call
+  - quick_discouraged_focused_test
+  - quick_discouraged_pending_test
+  - reduce_into
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - single_test_class
+  - sorted_first_last
+  - static_operator
+  - strong_iboutlet
+  - toggle_bool
+  - trailing_closure
+  - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
+  - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - yoda_condition
+
+# 禁用的规则
+disabled_rules:
+  - line_length
+  - function_body_length
+  - type_body_length
+  - file_length
+  - cyclomatic_complexity
+  - identifier_name
+  - nesting
+  - force_cast
+  - force_try
+
+# 规则配置
+attributes:
+  always_on_same_line: ["@IBAction", "@IBOutlet", "@objc"]
+  always_on_line_above: ["@available"]
+
+closure_end_indentation:
+  severity: warning
+
+closure_spacing:
+  severity: warning
+
+collection_alignment:
+  align_colons: true
+
+comma:
+  severity: warning
+
+empty_count:
+  severity: error
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+large_tuple:
+  warning: 3
+  error: 4
+
+multiline_arguments:
+  first_argument_location: next_line
+  only_enforce_after_first_closure_on_first_line: true
+
+multiline_parameters:
+  allows_single_line: true
+
+number_separator:
+  minimum_length: 5
+
+private_outlet:
+  allow_private_set: true
+
+trailing_whitespace:
+  ignores_empty_lines: true
+  ignores_comments: true
+
+vertical_whitespace:
+  max_empty_lines: 2
+
+# 自定义规则
+custom_rules:
+  # 强制使用 MARK: 注释
+  mark_comment:
+    name: "MARK Comment"
+    regex: "// MARK: - "
+    match_kinds:
+      - comment
+    message: "Use '// MARK: - ' for section comments"
+    severity: warning
+  
+  # 避免使用 print
+  no_print:
+    name: "No Print"
+    regex: "print\\("
+    match_kinds:
+      - identifier
+    message: "Use proper logging instead of print"
+    severity: warning
+  
+  # 强制使用 weak self
+  weak_self:
+    name: "Weak Self"
+    regex: "\\[self\\]"
+    match_kinds:
+      - identifier
+    message: "Use [weak self] to avoid retain cycles"
+    severity: warning
+```
+
+## Xcode 集成
+
+### 构建阶段配置
+在 Xcode 项目中添加 SwiftLint 构建阶段：
+
+1. 选择项目目标
+2. 点击 "Build Phases" 标签
+3. 点击 "+" 按钮添加 "New Run Script Phase"
+4. 添加以下脚本：
+
+```bash
+if which swiftlint >/dev/null; then
+  swiftlint
+else
+  echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+fi
+```
+
+### 安装 SwiftLint
+使用 Homebrew 安装：
+```bash
+brew install swiftlint
+```
+
+或者使用 CocoaPods：
+```ruby
+pod 'SwiftLint'
+```
+
+## 使用指南
+
+### 命令行使用
+```bash
+# 检查代码
+swiftlint lint
+
+# 自动修复
+swiftlint autocorrect
+
+# 检查特定文件
+swiftlint lint --path DealMind/ViewController.swift
+
+# 生成规则文档
+swiftlint rules
+```
+
+### 忽略特定规则
+```swift
+// swiftlint:disable rule_name
+let badCode = "This won't trigger the rule"
+// swiftlint:enable rule_name
+
+// 忽略下一行
+// swiftlint:disable:next rule_name
+let anotherBadCode = "This line won't trigger the rule"
+```
+
+## 规则说明
+
+### 重要规则
+- `force_unwrapping`: 避免强制解包
+- `force_cast`: 避免强制类型转换
+- `weak_self`: 在闭包中使用 weak self
+- `private_outlet`: IBOutlet 应该是私有的
+- `redundant_nil_coalescing`: 避免冗余的 nil 合并
+- `unused_import`: 删除未使用的导入
+
+### 代码组织规则
+- `file_header`: 文件头部注释格式
+- `mark_comment`: 使用 MARK 注释组织代码
+- `extension_access_modifier`: 扩展访问修饰符
+- `multiline_arguments`: 多行参数格式
+
+### 性能规则
+- `empty_count`: 使用 `isEmpty` 而不是 `count == 0`
+- `first_where`: 使用 `first(where:)` 而不是 `filter().first`
+- `contains_over_first_not_nil`: 使用 `contains` 而不是 `first != nil`
+
+## 最佳实践
+
+### 团队协作
+1. 将 `.swiftlint.yml` 文件加入版本控制
+2. 确保所有团队成员安装相同版本的 SwiftLint
+3. 定期更新配置文件以反映团队标准
+
+### 持续集成
+1. 在 CI/CD 流程中集成 SwiftLint 检查
+2. 设置构建失败条件
+3. 生成代码质量报告
+
+### 渐进式采用
+1. 从基本规则开始
+2. 逐步增加更严格的规则
+3. 修复现有代码的警告和错误
+
+## 常见问题解决
+
+### 性能优化
+- 使用 `excluded` 排除不必要的文件
+- 限制启用的规则数量
+- 使用 `--cache-path` 参数缓存结果
+
+### 规则冲突
+- 根据项目需求调整规则配置
+- 使用 `disabled_rules` 禁用冲突规则
+- 创建自定义规则解决特定问题
