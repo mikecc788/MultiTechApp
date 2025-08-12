@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D1257F4F2E41A4C7005191AE /* BluetoothKit in Frameworks */ = {isa = PBXBuildFile; productRef = D1257F4E2E41A4C7005191AE /* BluetoothKit */; };
+		D1257F512E41A4C7005191AE /* NetworkKit in Frameworks */ = {isa = PBXBuildFile; productRef = D1257F502E41A4C7005191AE /* NetworkKit */; };
 		D1D965A42E1CEEBA002D0DC0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D1D965A32E1CEEBA002D0DC0 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1257F512E41A4C7005191AE /* NetworkKit in Frameworks */,
+				D1257F4F2E41A4C7005191AE /* BluetoothKit in Frameworks */,
 				D1D965A42E1CEEBA002D0DC0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +143,8 @@
 			name = DealMind;
 			packageProductDependencies = (
 				D1D965A32E1CEEBA002D0DC0 /* SnapKit */,
+				D1257F4E2E41A4C7005191AE /* BluetoothKit */,
+				D1257F502E41A4C7005191AE /* NetworkKit */,
 			);
 			productName = DealMind;
 			productReference = D1FEC10A2E1CCA680075F757 /* DealMind.app */;
@@ -224,7 +230,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D1FEC15C2E1CE89D0075F757 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				D1365CF12E409A6100D32DB5 /* XCLocalSwiftPackageReference "../BluetoothKit" */,
+				D1257F4D2E41A4C7005191AE /* XCRemoteSwiftPackageReference "MultiTechPackages" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D1FEC10B2E1CCA680075F757 /* Products */;
@@ -586,14 +592,15 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		D1365CF12E409A6100D32DB5 /* XCLocalSwiftPackageReference "../BluetoothKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../BluetoothKit;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
+		D1257F4D2E41A4C7005191AE /* XCRemoteSwiftPackageReference "MultiTechPackages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mikecc788/MultiTechPackages.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		D1FEC15C2E1CE89D0075F757 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -605,6 +612,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D1257F4E2E41A4C7005191AE /* BluetoothKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1257F4D2E41A4C7005191AE /* XCRemoteSwiftPackageReference "MultiTechPackages" */;
+			productName = BluetoothKit;
+		};
+		D1257F502E41A4C7005191AE /* NetworkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1257F4D2E41A4C7005191AE /* XCRemoteSwiftPackageReference "MultiTechPackages" */;
+			productName = NetworkKit;
+		};
 		D1D965A32E1CEEBA002D0DC0 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D1FEC15C2E1CE89D0075F757 /* XCRemoteSwiftPackageReference "SnapKit" */;

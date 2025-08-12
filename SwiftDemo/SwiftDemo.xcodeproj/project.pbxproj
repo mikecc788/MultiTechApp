@@ -100,18 +100,23 @@
 		D12D40002CC73CE700D2F98C /* FlutterPluginRegistrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D12D3FFF2CC73CE700D2F98C /* FlutterPluginRegistrant.framework */; };
 		D12D40022CC7771700D2F98C /* FlutterEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12D40012CC7771700D2F98C /* FlutterEngineManager.swift */; };
 		D12D40042CC779D900D2F98C /* FlutterViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12D40032CC779D900D2F98C /* FlutterViewVC.swift */; };
+		D152721D2E4AD5BA009EB335 /* CharacteristicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D152721C2E4AD5BA009EB335 /* CharacteristicCell.swift */; };
+		D152721F2E4AD813009EB335 /* DeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D152721E2E4AD813009EB335 /* DeviceTableViewCell.swift */; };
+		D15272222E4ADF86009EB335 /* BLEViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15272212E4ADF86009EB335 /* BLEViewModel.swift */; };
 		D17CC7112D08191D000EC023 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7102D08191D000EC023 /* DataProvider.swift */; };
 		D17CC7132D081EEF000EC023 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7122D081EEF000EC023 /* NetworkRequest.swift */; };
 		D17CC7162D081F29000EC023 /* GenericNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7152D081F29000EC023 /* GenericNetworkManager.swift */; };
 		D17CC7182D08203C000EC023 /* version.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7172D08203C000EC023 /* version.swift */; };
 		D17CC71A2D0821EA000EC023 /* RawDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17CC7192D0821EA000EC023 /* RawDataManager.swift */; };
 		D17CC71C2D084EE0000EC023 /* MobileNetV2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D17CC71B2D084EE0000EC023 /* MobileNetV2.mlmodel */; };
-		D1951C492CD871B0008F11EE /* BLEDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */; };
 		D1951C4D2CD88882008F11EE /* BLEVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1951C4C2CD88882008F11EE /* BLEVC.xib */; };
-		D1BC268D27D06B3900AF1C9C /* LFSBLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */; };
 		D1BC268F27D06BD100AF1C9C /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC268E27D06BD100AF1C9C /* BluetoothDelegate.swift */; };
-		D1BC269127D06D9100AF1C9C /* CBUUID+BLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC269027D06D9100AF1C9C /* CBUUID+BLE.swift */; };
 		D1BC269327D0716000AF1C9C /* BLEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BC269227D0716000AF1C9C /* BLEVC.swift */; };
+		D1C8D2A32E499B6500B5DBDE /* ReactiveCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = D1C8D2A22E499B6500B5DBDE /* ReactiveCocoa */; };
+		D1C8D2A52E499E3D00B5DBDE /* BluetoothModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8D2A42E499E3D00B5DBDE /* BluetoothModels.swift */; };
+		D1C8D2A72E499EB400B5DBDE /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8D2A62E499EB400B5DBDE /* BluetoothManager.swift */; };
+		D1C8D2A92E499ED900B5DBDE /* BluetoothExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8D2A82E499ED900B5DBDE /* BluetoothExtensions.swift */; };
+		D1C8D2AB2E49C85D00B5DBDE /* BLEDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C8D2AA2E49C85D00B5DBDE /* BLEDetailVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -212,18 +217,22 @@
 		D12D3FFF2CC73CE700D2F98C /* FlutterPluginRegistrant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlutterPluginRegistrant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12D40012CC7771700D2F98C /* FlutterEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterEngineManager.swift; sourceTree = "<group>"; };
 		D12D40032CC779D900D2F98C /* FlutterViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterViewVC.swift; sourceTree = "<group>"; };
+		D152721C2E4AD5BA009EB335 /* CharacteristicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicCell.swift; sourceTree = "<group>"; };
+		D152721E2E4AD813009EB335 /* DeviceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTableViewCell.swift; sourceTree = "<group>"; };
+		D15272212E4ADF86009EB335 /* BLEViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEViewModel.swift; sourceTree = "<group>"; };
 		D17CC7102D08191D000EC023 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		D17CC7122D081EEF000EC023 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		D17CC7152D081F29000EC023 /* GenericNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericNetworkManager.swift; sourceTree = "<group>"; };
 		D17CC7172D08203C000EC023 /* version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = version.swift; sourceTree = "<group>"; };
 		D17CC7192D0821EA000EC023 /* RawDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawDataManager.swift; sourceTree = "<group>"; };
 		D17CC71B2D084EE0000EC023 /* MobileNetV2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetV2.mlmodel; sourceTree = "<group>"; };
-		D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceModel.swift; sourceTree = "<group>"; };
 		D1951C4C2CD88882008F11EE /* BLEVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BLEVC.xib; sourceTree = "<group>"; };
-		D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFSBLEManager.swift; sourceTree = "<group>"; };
 		D1BC268E27D06BD100AF1C9C /* BluetoothDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDelegate.swift; sourceTree = "<group>"; };
-		D1BC269027D06D9100AF1C9C /* CBUUID+BLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBUUID+BLE.swift"; sourceTree = "<group>"; };
 		D1BC269227D0716000AF1C9C /* BLEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEVC.swift; sourceTree = "<group>"; };
+		D1C8D2A42E499E3D00B5DBDE /* BluetoothModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothModels.swift; sourceTree = "<group>"; };
+		D1C8D2A62E499EB400B5DBDE /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		D1C8D2A82E499ED900B5DBDE /* BluetoothExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothExtensions.swift; sourceTree = "<group>"; };
+		D1C8D2AA2E49C85D00B5DBDE /* BLEDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D12D40002CC73CE700D2F98C /* FlutterPluginRegistrant.framework in Frameworks */,
+				D1C8D2A32E499B6500B5DBDE /* ReactiveCocoa in Frameworks */,
 				A4F19F070A090A231F7618A8 /* Pods_SwiftDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +414,7 @@
 		A48ABEF62775BB3F0030BB51 /* home */ = {
 			isa = PBXGroup;
 			children = (
+				D15272202E4ADF72009EB335 /* viewmodels */,
 				A491AD542779545C0054AF21 /* models */,
 				A48ABEF92775BCBD0030BB51 /* views */,
 				A48ABEF72775BB570030BB51 /* HomeViewController.swift */,
@@ -414,6 +425,7 @@
 				D126DCC42D0ACBCD000447EE /* AnimationVC.swift */,
 				D1BC269227D0716000AF1C9C /* BLEVC.swift */,
 				D1951C4C2CD88882008F11EE /* BLEVC.xib */,
+				D1C8D2AA2E49C85D00B5DBDE /* BLEDetailVC.swift */,
 				D12D40032CC779D900D2F98C /* FlutterViewVC.swift */,
 			);
 			path = home;
@@ -424,6 +436,8 @@
 			children = (
 				A48ABEFB2775BCC50030BB51 /* INNHomeViewCell.swift */,
 				A48ABEFA2775BCC50030BB51 /* INNHomeViewCell.xib */,
+				D152721C2E4AD5BA009EB335 /* CharacteristicCell.swift */,
+				D152721E2E4AD813009EB335 /* DeviceTableViewCell.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -518,6 +532,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D15272202E4ADF72009EB335 /* viewmodels */ = {
+			isa = PBXGroup;
+			children = (
+				D15272212E4ADF86009EB335 /* BLEViewModel.swift */,
+			);
+			path = viewmodels;
+			sourceTree = "<group>";
+		};
 		D17CC7142D081F1D000EC023 /* http */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,10 +552,10 @@
 		D1BC268B27D06B0E00AF1C9C /* ble */ = {
 			isa = PBXGroup;
 			children = (
-				D1BC268C27D06B3900AF1C9C /* LFSBLEManager.swift */,
 				D1BC268E27D06BD100AF1C9C /* BluetoothDelegate.swift */,
-				D1BC269027D06D9100AF1C9C /* CBUUID+BLE.swift */,
-				D1951C482CD871B0008F11EE /* BLEDeviceModel.swift */,
+				D1C8D2A62E499EB400B5DBDE /* BluetoothManager.swift */,
+				D1C8D2A42E499E3D00B5DBDE /* BluetoothModels.swift */,
+				D1C8D2A82E499ED900B5DBDE /* BluetoothExtensions.swift */,
 			);
 			path = ble;
 			sourceTree = "<group>";
@@ -587,6 +609,9 @@
 				Base,
 			);
 			mainGroup = A4AB5044276B1338003C5C97;
+			packageReferences = (
+				D1C8D2A12E499B6500B5DBDE /* XCRemoteSwiftPackageReference "ReactiveCocoa" */,
+			);
 			productRefGroup = A4AB504E276B1338003C5C97 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -729,7 +754,9 @@
 				A46C1F5E277AEA7300816435 /* ProductList.swift in Sources */,
 				A46C1F02277AC5A700816435 /* LoginViewController.swift in Sources */,
 				A4873BE2277C000A009F80A1 /* GenericViewController.swift in Sources */,
+				D15272222E4ADF86009EB335 /* BLEViewModel.swift in Sources */,
 				A4873BE8277C59C1009F80A1 /* LBFMVipAnimationView.swift in Sources */,
+				D152721F2E4AD813009EB335 /* DeviceTableViewCell.swift in Sources */,
 				A48ABEFD2775BCC50030BB51 /* INNHomeViewCell.swift in Sources */,
 				A4873C10277C5F71009F80A1 /* UIControl+Extension.swift in Sources */,
 				A4AB506C276B13A1003C5C97 /* DeLorean.swift in Sources */,
@@ -737,12 +764,13 @@
 				D17CC7112D08191D000EC023 /* DataProvider.swift in Sources */,
 				A4873C0B277C5F71009F80A1 /* INN+CLLocation.swift in Sources */,
 				A4873C12277C5F71009F80A1 /* INN+NSObject.swift in Sources */,
-				D1BC269127D06D9100AF1C9C /* CBUUID+BLE.swift in Sources */,
 				A4873C26277C61BE009F80A1 /* INNGlobalTools.swift in Sources */,
 				A4873C05277C5F71009F80A1 /* INN+Timer.swift in Sources */,
 				A4873C02277C5F71009F80A1 /* INN+String.swift in Sources */,
 				D17CC71C2D084EE0000EC023 /* MobileNetV2.mlmodel in Sources */,
 				A48ABEF82775BB570030BB51 /* HomeViewController.swift in Sources */,
+				D1C8D2A92E499ED900B5DBDE /* BluetoothExtensions.swift in Sources */,
+				D1C8D2A52E499E3D00B5DBDE /* BluetoothModels.swift in Sources */,
 				A46C1F64277B0C4F00816435 /* CommonCell.swift in Sources */,
 				A4873C17277C5F71009F80A1 /* INN+UIApplication.swift in Sources */,
 				A4873C0A277C5F71009F80A1 /* INN+Color.swift in Sources */,
@@ -750,6 +778,7 @@
 				D126DCC52D0ACBCD000447EE /* AnimationVC.swift in Sources */,
 				A4873C13277C5F71009F80A1 /* INN+UILabel.swift in Sources */,
 				A4AB5055276B1338003C5C97 /* ViewController.swift in Sources */,
+				D1C8D2A72E499EB400B5DBDE /* BluetoothManager.swift in Sources */,
 				A48ABF032775CCBB0030BB51 /* KingfisherViewController.swift in Sources */,
 				A4873C11277C5F71009F80A1 /* INN+Array.swift in Sources */,
 				A4873BE6277C5971009F80A1 /* LBFMMineHeaderView.swift in Sources */,
@@ -765,8 +794,6 @@
 				D1BC268F27D06BD100AF1C9C /* BluetoothDelegate.swift in Sources */,
 				A4873C06277C5F71009F80A1 /* INN+UITableView.swift in Sources */,
 				A4873C07277C5F71009F80A1 /* CALayer+Extension.swift in Sources */,
-				D1BC268D27D06B3900AF1C9C /* LFSBLEManager.swift in Sources */,
-				D1951C492CD871B0008F11EE /* BLEDeviceModel.swift in Sources */,
 				A491AD53277954560054AF21 /* TextJSON.swift in Sources */,
 				A46C1F68277B131900816435 /* CommonList.swift in Sources */,
 				A4873C21277C618E009F80A1 /* INNClosure.swift in Sources */,
@@ -774,6 +801,7 @@
 				A4873C14277C5F71009F80A1 /* INN+UICollectionView.swift in Sources */,
 				A46C1EF4277AA62100816435 /* Deal.swift in Sources */,
 				A4873C19277C60C3009F80A1 /* LBFMMineMakeCell.swift in Sources */,
+				D152721D2E4AD5BA009EB335 /* CharacteristicCell.swift in Sources */,
 				A46C1F62277AF74700816435 /* Tab.swift in Sources */,
 				A46C1EFF277AC51D00816435 /* BaseViewController.swift in Sources */,
 				A4873C22277C618E009F80A1 /* INNRuntime.swift in Sources */,
@@ -792,6 +820,7 @@
 				A4873C0E277C5F71009F80A1 /* INN+UIImage.swift in Sources */,
 				A46C1F5C277AE35E00816435 /* BannerView.swift in Sources */,
 				A4AB5069276B1373003C5C97 /* TimeTraveling.swift in Sources */,
+				D1C8D2AB2E49C85D00B5DBDE /* BLEDetailVC.swift in Sources */,
 				A4873C0C277C5F71009F80A1 /* INN+Storyboard.swift in Sources */,
 				A4873C03277C5F71009F80A1 /* INN+Data.swift in Sources */,
 				D12D40042CC779D900D2F98C /* FlutterViewVC.swift in Sources */,
@@ -1023,6 +1052,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1C8D2A12E499B6500B5DBDE /* XCRemoteSwiftPackageReference "ReactiveCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveCocoa/ReactiveCocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D1C8D2A22E499B6500B5DBDE /* ReactiveCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1C8D2A12E499B6500B5DBDE /* XCRemoteSwiftPackageReference "ReactiveCocoa" */;
+			productName = ReactiveCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		A4AB5059276B1338003C5C97 /* SwiftDemo.xcdatamodeld */ = {

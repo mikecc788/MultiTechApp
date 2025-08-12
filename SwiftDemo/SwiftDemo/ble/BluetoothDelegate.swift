@@ -7,38 +7,40 @@
 
 import Foundation
 import CoreBluetooth
+import Combine
 
-/// 蓝牙管理器代理协议
-protocol BLEManagerDelegate: AnyObject {
-    /// 蓝牙状态更新
-    func bleManagerDidUpdateState(_ state: CBManagerState)
-    
-    /// 扫描状态回调
-    func bleManagerDidStartScan()
-    func bleManagerDidStopScan()
-    
-    /// 设备列表更新
-    func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel])
-    
-    /// 连接状态回调
-    func bleManagerDidConnect(_ peripheral: CBPeripheral)
-    func bleManagerDidDisconnect(_ peripheral: CBPeripheral, error: Error?)
-    func bleManagerDidFailToConnect(_ peripheral: CBPeripheral, error: Error)
-    
-    /// 服务和特征发现
-    func bleManagerDidDiscoverServices(_ services: [CBService])
-    func bleManagerDidDiscoverCharacteristics(_ characteristics: [CBCharacteristic], for service: CBService)
-    
-    /// 数据交互
-    func bleManagerDidUpdateValue(_ data: Data, for characteristic: CBCharacteristic)
-    func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: Error?)
+public protocol BluetoothManagerDelegate: AnyObject {
+    func didUpdateState(_ state: CBManagerState) /// 中心状态变更
+    func didStartScanning() /// 开始扫描
+    func didStopScanning() /// 停止扫描
+    func didDiscover(_ peripheral: CBPeripheral, adv: [String: Any], rssi: NSNumber) /// 发现外设
+    func didConnect(_ peripheral: CBPeripheral) /// 已连接
+    func didFailToConnect(_ peripheral: CBPeripheral, error: Error?) /// 连接失败
+    func didDisconnect(_ peripheral: CBPeripheral, error: Error?) /// 断开连接
+    func didRestore(_ peripherals: [CBPeripheral]) /// 状态恢复
+    func didDiscoverServices(_ peripheral: CBPeripheral) /// 服务发现完成
+    func didDiscoverCharacteristics(_ service: CBService) /// 特征发现完成
+    func didUpdateValue(_ characteristic: CBCharacteristic, error: Error?) /// 收到特征值
+    func didWriteValue(_ characteristic: CBCharacteristic, error: Error?) /// 写入回执
+    func didUpdateNotification(_ characteristic: CBCharacteristic, error: Error?) /// 通知状态变更
+    func didTimeoutConnect(_ peripheral: CBPeripheral) /// 连接超时
+    func didTimeoutInterrogate(_ peripheral: CBPeripheral) /// 探测超时
 }
-/// 提供默认实现，减少必须实现的方法
-extension BLEManagerDelegate {
-    func bleManagerDidUpdateState(_ state: CBManagerState) {}
-    func bleManagerDidStartScan() {}
-    func bleManagerDidStopScan() {}
-    func bleManagerDidUpdateDevices(_ devices: [BLEDeviceModel]) {}
-    // ... 其他方法的默认空实现
-    func bleManagerDidWriteValue(for characteristic: CBCharacteristic, error: Error?)  {}
+
+public extension BluetoothManagerDelegate {
+    func didUpdateState(_ state: CBManagerState) {}
+    func didStartScanning() {}
+    func didStopScanning() {}
+    func didDiscover(_ peripheral: CBPeripheral, adv: [String: Any], rssi: NSNumber) {}
+    func didConnect(_ peripheral: CBPeripheral) {}
+    func didFailToConnect(_ peripheral: CBPeripheral, error: Error?) {}
+    func didDisconnect(_ peripheral: CBPeripheral, error: Error?) {}
+    func didRestore(_ peripherals: [CBPeripheral]) {}
+    func didDiscoverServices(_ peripheral: CBPeripheral) {}
+    func didDiscoverCharacteristics(_ service: CBService) {}
+    func didUpdateValue(_ characteristic: CBCharacteristic, error: Error?) {}
+    func didWriteValue(_ characteristic: CBCharacteristic, error: Error?) {}
+    func didUpdateNotification(_ characteristic: CBCharacteristic, error: Error?) {}
+    func didTimeoutConnect(_ peripheral: CBPeripheral) {}
+    func didTimeoutInterrogate(_ peripheral: CBPeripheral) {}
 }

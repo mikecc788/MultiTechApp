@@ -6,13 +6,23 @@
 //
 
 import UIKit
-
+import NetworkKit
 /// 设置页面控制器
 class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        let client = HTTPClient()
+        Task {
+            do {
+                let user: GetUser.Response = try await client.send(GetUser())
+                print("user:", user)
+            } catch {
+                print("network error:", error)
+            }
+        }
     }
     
     private func setupView() {
@@ -40,3 +50,14 @@ class SettingsViewController: UIViewController {
         return settingsVC
     }
 } 
+
+
+struct GetUser: Endpoint {
+    struct Response: Decodable { let id: Int; let name: String }
+    var urlRequest: URLRequest {
+        var r = URLRequest(url: URL(string: "https://api.example.com/user/1")!)
+        r.httpMethod = "GET"
+        return r
+    }
+}
+

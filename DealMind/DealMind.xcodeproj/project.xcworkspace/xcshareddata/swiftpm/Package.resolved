@@ -1,6 +1,15 @@
 {
-  "originHash" : "4cdad746817ac9ed37e44dbe90a2ff25fc018954899b7d513e41a4bfc70f065a",
+  "originHash" : "6b705d81939408c81ccfd1648113189ebd362c68a146cad0896aa423e587f3a0",
   "pins" : [
+    {
+      "identity" : "multitechpackages",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mikecc788/MultiTechPackages.git",
+      "state" : {
+        "revision" : "53c4c98a8660286192fd77460c36a513acf36625",
+        "version" : "1.0.1"
+      }
+    },
     {
       "identity" : "snapkit",
       "kind" : "remoteSourceControl",
