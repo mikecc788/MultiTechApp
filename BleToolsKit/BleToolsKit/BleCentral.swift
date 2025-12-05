@@ -17,6 +17,7 @@ internal final class BleCentral: NSObject {
         queue = DispatchQueue(label: "ble.central.queue")
         super.init()
         central = CBCentralManager(delegate: self, queue: queue)
+        loadDeviceMacMapping()
     }
 
     // MARK: Private state
@@ -36,12 +37,19 @@ internal final class BleCentral: NSObject {
     private var writeCharacteristic: CBCharacteristic?
     private var notifyCharacteristic: CBCharacteristic?
     
-    private var macAddress: String?
+    // MAC 地址映射：设备 UUID -> MAC 地址
+    private var deviceMacMapping: [String: String] = [:]
+    
+    // 当前设备的 MAC 地址（全局变量，供其他地方使用）
+    internal var macAddress: String?
+    
+    // 密钥池索引（用于加密通信）
+    internal var poolIndex: Int = 0
     
     // 目标 UUID 常量
-    private let targetServiceUUID = CBUUID(string: "1000")
-    private let writeCharUUID = CBUUID(string: "1001")
-    private let notifyCharUUID = CBUUID(string: "1002")
+    private let targetServiceUUID = CBUUID(string: BleConstants.ServiceUUIDs.targetService)
+    private let writeCharUUID = CBUUID(string: BleConstants.CharacteristicUUIDs.write)
+    private let notifyCharUUID = CBUUID(string: BleConstants.CharacteristicUUIDs.notify)
 
     // MARK: Scanning
     @discardableResult
@@ -193,6 +201,19 @@ internal final class BleCentral: NSObject {
         }
     }
     
+    // MARK: - MAC 地址映射管理
+    /// 加载已保存的设备 MAC 地址映射
+    private func loadDeviceMacMapping() {
+        deviceMacMapping = BleStorage.shared.loadDeviceMacMapping()
+        #if DEBUG
+        if deviceMacMapping.isEmpty {
+            print("没有找到已保存的设备MAC映射")
+        } else {
+            print("加载已保存的设备MAC映射，共 \(deviceMacMapping.count) 条记录")
+        }
+        #endif
+    }
+    
     // MARK: - 发送绑定指令
     private func sendBindCommand() {
         guard let writeChar = writeCharacteristic,
@@ -222,6 +243,87 @@ internal final class BleCentral: NSObject {
         
         // 写入数据
         peripheral.writeValue(commandData, for: writeChar, type: .withResponse)
+    }
+    
+    // MARK: - 测试方法（fvc, vc, mvv）
+    
+    /// FVC 测试方法
+    /// - Parameter onError: 错误回调
+    internal func fvc(onError: @escaping (Error) -> Void) {
+        sendTestCommand(command: "fvc", onError: onError)
+    }
+    
+    /// VC 测试方法
+    /// - Parameter onError: 错误回调
+    internal func vc(onError: @escaping (Error) -> Void) {
+        sendTestCommand(command: "vc", onError: onError)
+    }
+    
+    /// MVV 测试方法
+    /// - Parameter onError: 错误回调
+    internal func mvv(onError: @escaping (Error) -> Void) {
+        sendTestCommand(command: "mvv", onError: onError)
+    }
+    
+    /// 发送测试命令的通用方法
+    /// - Parameters:
+    ///   - command: 命令字符串（如 "fvc", "vc", "mvv"）
+    ///   - onError: 错误回调
+    private func sendTestCommand(command: String, onError: @escaping (Error) -> Void) {
+        guard let writeChar = writeCharacteristic else {
+            onError(BleError.unknown)
+            return
+        }
+        
+        // 构建原始命令（这里需要根据实际协议调整）
+        let commandHex = command.data(using: .utf8)?.map { String(format: "%02x", $0) }.joined() ?? ""
+        
+        // 发送命令（测试阶段使用固定密钥）
+        sendCommandWithCrc(origin: commandHex, usePool: false, to: writeChar, onError: onError)
+    }
+    
+    // MARK: - 发送命令（带 CRC 和加密）
+    
+    /// 发送带 CRC 的命令（支持加密）- 内部方法
+    /// - Parameters:
+    ///   - origin: 原始十六进制字符串
+    ///   - usePool: 是否使用密钥池加密
+    ///   - characteristic: 写入特征
+    ///   - onError: 错误回调
+    private func sendCommandWithCrc(origin: String, usePool: Bool, to characteristic: CBCharacteristic, onError: @escaping (Error) -> Void) {
+        guard !origin.isEmpty else {
+            onError(BleError.unknown)
+            return
+        }
+        
+        let payload = origin
+        var cipher: String?
+        
+        if usePool {
+            // 使用密钥池加密
+            cipher = AESCBCUtil.encryptHexStringZeroPadding(payload, keyIndex: poolIndex)
+            #if DEBUG
+            print("发送密钥池加密命令: \(cipher ?? "加密失败")")
+            #endif
+        } else {
+            // 测试阶段：先加 CRC，再固定密钥加密
+            let payloadWithCRC = payload + DataConverter.calculateCRCFromHexString(payload)
+            cipher = AESCBCUtil.encryptHexStringWithFixedKey(payloadWithCRC)
+            #if DEBUG
+            print("发送固定密钥命令: \(cipher ?? "加密失败")")
+            #endif
+        }
+        
+        guard let encryptedHex = cipher, !encryptedHex.isEmpty else {
+            onError(BleError.unknown)
+            return
+        }
+        
+        // 转换为 Data
+        let commandData = DataConverter.data(from: encryptedHex)
+        
+        // 写入数据
+        write(data: commandData, to: characteristic, onError: onError)
     }
 }
 
@@ -258,9 +360,29 @@ extension BleCentral: CBCentralManagerDelegate {
             print("发现目标设备: \(peripheral.name ?? "nil")")
             #endif
             
-            // 提取 MAC 地址（存为全局）
-            if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
+            // 提取并保存 MAC 地址
+            let deviceUUID = peripheral.identifier.uuidString
+            
+            // 先检查是否已有保存的 MAC 地址
+            if let existingMacAddress = BleStorage.shared.getMacAddress(for: deviceUUID) {
+                self.macAddress = existingMacAddress
+                // 同步到本地缓存
+                deviceMacMapping[deviceUUID] = existingMacAddress
+                #if DEBUG
+                print("使用已保存的MAC地址映射: \(deviceUUID) -> \(existingMacAddress)")
+                #endif
+            } else if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
+                // 提取新的 MAC 地址
                 self.macAddress = DataConverter.reversedHexString(from: manufacturerData)
+                
+                // 保存新的 MAC 地址映射
+                if let mac = self.macAddress, !mac.isEmpty {
+                    deviceMacMapping[deviceUUID] = mac
+                    BleStorage.shared.saveMacAddress(mac, for: deviceUUID)
+                    #if DEBUG
+                    print("保存新的MAC地址映射: \(deviceUUID) -> \(mac)")
+                    #endif
+                }
             }
             
             onFound?(BleDevice(peripheral: peripheral, rssi: RSSI.intValue, macAddress: self.macAddress))

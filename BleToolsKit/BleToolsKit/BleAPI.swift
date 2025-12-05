@@ -143,6 +143,29 @@ public final class BleAPI {
         currentDeviceId = nil
         characteristics.removeAll()
     }
+    
+    // MARK: - 测试方法
+    
+    /// FVC 测试方法
+    public func fvc() {
+        central.fvc { [weak self] error in
+            self?.onError?("FVC 测试失败: \(error.localizedDescription)")
+        }
+    }
+    
+    /// VC 测试方法
+    public func vc() {
+        central.vc { [weak self] error in
+            self?.onError?("VC 测试失败: \(error.localizedDescription)")
+        }
+    }
+    
+    /// MVV 测试方法
+    public func mvv() {
+        central.mvv { [weak self] error in
+            self?.onError?("MVV 测试失败: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - 内部工具扩展（保持向后兼容，已移至 BleDataConverter）

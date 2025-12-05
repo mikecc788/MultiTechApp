@@ -97,6 +97,45 @@ final class DataConverter {
         }
         return hex
     }
+    
+    /// 计算校验和（Terminator）- 将十六进制字符串每两个字符相加，返回最后两位十六进制
+    /// - Parameter hexString: 十六进制字符串
+    /// - Returns: 校验和（2位十六进制字符串，大写）
+    static func getTerminator(from hexString: String) -> String {
+        var sum = 0
+        var index = hexString.startIndex
+        
+        // 每两个字符一组
+        while index < hexString.endIndex {
+            let endIndex = hexString.index(index, offsetBy: 2, limitedBy: hexString.endIndex) ?? hexString.endIndex
+            let hexPair = String(hexString[index..<endIndex])
+            
+            if let value = Int(hexPair, radix: 16) {
+                sum += value
+            }
+            
+            index = endIndex
+        }
+        
+        // 转换为十六进制字符串
+        let hexResult = String(format: "%X", sum)
+        
+        // 取最后两位作为校验和
+        if hexResult.count >= 2 {
+            return String(hexResult.suffix(2)).uppercased()
+        } else if hexResult.count == 1 {
+            return "0" + hexResult.uppercased()
+        } else {
+            return "00"
+        }
+    }
+    
+    /// 从十六进制字符串计算 CRC 校验值（与 calculateCRC 功能相同，保持兼容性）
+    /// - Parameter hexString: 十六进制字符串
+    /// - Returns: CRC 校验值（2位十六进制字符串，大写）
+    static func calculateCRCFromHexString(_ hexString: String) -> String {
+        return calculateCRC(from: hexString)
+    }
 }
 
 
