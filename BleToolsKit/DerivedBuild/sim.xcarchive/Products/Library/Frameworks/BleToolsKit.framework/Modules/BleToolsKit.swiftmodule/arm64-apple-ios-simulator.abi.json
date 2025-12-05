@@ -1,0 +1,1260 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "BleToolsKit",
+    "printedName": "BleToolsKit",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CommonCrypto",
+        "printedName": "CommonCrypto",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreBluetooth",
+        "printedName": "CoreBluetooth",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "BleAPI",
+        "printedName": "BleAPI",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "BleAPI",
+                "printedName": "BleToolsKit.BleAPI",
+                "usr": "s:11BleToolsKit0A3APIC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11BleToolsKit0A3APIC6sharedACvpZ",
+            "mangledName": "$s11BleToolsKit0A3APIC6sharedACvpZ",
+            "moduleName": "BleToolsKit",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "BleAPI",
+                    "printedName": "BleToolsKit.BleAPI",
+                    "usr": "s:11BleToolsKit0A3APIC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC6sharedACvgZ",
+                "mangledName": "$s11BleToolsKit0A3APIC6sharedACvgZ",
+                "moduleName": "BleToolsKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "timeout",
+            "printedName": "timeout",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11BleToolsKit0A3APIC7timeoutSdvp",
+            "mangledName": "$s11BleToolsKit0A3APIC7timeoutSdvp",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC7timeoutSdvg",
+                "mangledName": "$s11BleToolsKit0A3APIC7timeoutSdvg",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC7timeoutSdvs",
+                "mangledName": "$s11BleToolsKit0A3APIC7timeoutSdvs",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC7timeoutSdvM",
+                "mangledName": "$s11BleToolsKit0A3APIC7timeoutSdvM",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "onDeviceFound",
+            "printedName": "onDeviceFound",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Swift.String, Swift.String, Swift.Int) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.String, Swift.String, Swift.Int) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(Swift.String, Swift.String, Swift.Int)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Int",
+                            "printedName": "Swift.Int",
+                            "usr": "s:Si"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvp",
+            "mangledName": "$s11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvp",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.String, Swift.String, Swift.Int) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String, Swift.String, Swift.Int) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Tuple",
+                            "printedName": "(Swift.String, Swift.String, Swift.Int)",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              },
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              },
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Int",
+                                "printedName": "Swift.Int",
+                                "usr": "s:Si"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvg",
+                "mangledName": "$s11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvg",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.String, Swift.String, Swift.Int) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String, Swift.String, Swift.Int) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Tuple",
+                            "printedName": "(Swift.String, Swift.String, Swift.Int)",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              },
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              },
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Int",
+                                "printedName": "Swift.Int",
+                                "usr": "s:Si"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvs",
+                "mangledName": "$s11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvs",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvM",
+                "mangledName": "$s11BleToolsKit0A3APIC13onDeviceFoundySS_SSSitcSgvM",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "onConnected",
+            "printedName": "onConnected",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11BleToolsKit0A3APIC11onConnectedyycSgvp",
+            "mangledName": "$s11BleToolsKit0A3APIC11onConnectedyycSgvp",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC11onConnectedyycSgvg",
+                "mangledName": "$s11BleToolsKit0A3APIC11onConnectedyycSgvg",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC11onConnectedyycSgvs",
+                "mangledName": "$s11BleToolsKit0A3APIC11onConnectedyycSgvs",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC11onConnectedyycSgvM",
+                "mangledName": "$s11BleToolsKit0A3APIC11onConnectedyycSgvM",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "onDataReceived",
+            "printedName": "onDataReceived",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Swift.String) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.String) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11BleToolsKit0A3APIC14onDataReceivedySScSgvp",
+            "mangledName": "$s11BleToolsKit0A3APIC14onDataReceivedySScSgvp",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.String) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC14onDataReceivedySScSgvg",
+                "mangledName": "$s11BleToolsKit0A3APIC14onDataReceivedySScSgvg",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.String) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC14onDataReceivedySScSgvs",
+                "mangledName": "$s11BleToolsKit0A3APIC14onDataReceivedySScSgvs",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC14onDataReceivedySScSgvM",
+                "mangledName": "$s11BleToolsKit0A3APIC14onDataReceivedySScSgvM",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "onError",
+            "printedName": "onError",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Swift.String) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.String) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11BleToolsKit0A3APIC7onErrorySScSgvp",
+            "mangledName": "$s11BleToolsKit0A3APIC7onErrorySScSgvp",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.String) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC7onErrorySScSgvg",
+                "mangledName": "$s11BleToolsKit0A3APIC7onErrorySScSgvg",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.String) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC7onErrorySScSgvs",
+                "mangledName": "$s11BleToolsKit0A3APIC7onErrorySScSgvs",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11BleToolsKit0A3APIC7onErrorySScSgvM",
+                "mangledName": "$s11BleToolsKit0A3APIC7onErrorySScSgvM",
+                "moduleName": "BleToolsKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "scan",
+            "printedName": "scan()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:11BleToolsKit0A3APIC4scanyyF",
+            "mangledName": "$s11BleToolsKit0A3APIC4scanyyF",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "connect",
+            "printedName": "connect(deviceId:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:11BleToolsKit0A3APIC7connect8deviceIdySS_tF",
+            "mangledName": "$s11BleToolsKit0A3APIC7connect8deviceIdySS_tF",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "send",
+            "printedName": "send(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:11BleToolsKit0A3APIC4sendyySSF",
+            "mangledName": "$s11BleToolsKit0A3APIC4sendyySSF",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "stopScan",
+            "printedName": "stopScan()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:11BleToolsKit0A3APIC8stopScanyyF",
+            "mangledName": "$s11BleToolsKit0A3APIC8stopScanyyF",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "disconnect",
+            "printedName": "disconnect()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:11BleToolsKit0A3APIC10disconnectyyF",
+            "mangledName": "$s11BleToolsKit0A3APIC10disconnectyyF",
+            "moduleName": "BleToolsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:11BleToolsKit0A3APIC",
+        "mangledName": "$s11BleToolsKit0A3APIC",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreBluetooth",
+        "printedName": "CoreBluetooth",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreBluetooth",
+        "printedName": "CoreBluetooth",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreBluetooth",
+        "printedName": "CoreBluetooth",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "BleToolsKit"
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/AESCBCutil.swift",
+      "kind": "Array",
+      "offset": 239,
+      "length": 106,
+      "value": "[0xE4, 0xf5, 0x06, 0x17, 0x28, 0x39, 0x4A, 0x5B, 0x6C, 0x7D, 0x11, 0x33, 0x55, 0x77, 0x99, 0xBB]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/AESCBCutil.swift",
+      "kind": "Array",
+      "offset": 410,
+      "length": 106,
+      "value": "[0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/AESCBCutil.swift",
+      "kind": "Array",
+      "offset": 550,
+      "length": 872,
+      "value": "[[0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C], [0x00, 0x01, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF], [0xFF, 0xEE, 0xDD, 0xCC, 0xBB, 0xAA, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00], [0x1A, 0xCF, 0x78, 0x34, 0x9D, 0xE0, 0x52, 0xB7, 0xAC, 0x6F, 0x05, 0x91, 0xBB, 0x2E, 0x48, 0x7C], [0xA0, 0xB1, 0xC2, 0xD3, 0xE4, 0xF5, 0x06, 0x17, 0x28, 0x39, 0x4A, 0x5B, 0x6C, 0x7D, 0x8E, 0x9F], [0xF0, 0x0E, 0x1D, 0x2C, 0x3B, 0x4A, 0x59, 0x68, 0x77, 0x86, 0x95, 0xA4, 0xB3, 0xC2, 0xD1, 0xE0], [0x09, 0x87, 0x65, 0x43, 0x21, 0x0F, 0xED, 0xCB, 0xA9, 0x87, 0x65, 0x43, 0x21, 0x0F, 0xED, 0xCB], [0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA], [0x13, 0x57, 0x9B, 0xDF, 0x24, 0x68, 0xAC, 0xE0, 0x35, 0x79, 0xBD, 0x01, 0x46, 0x8A, 0xCE, 0x12], [0xC5, 0xE9, 0x0D, 0x31, 0x75, 0xB9, 0xFD, 0x21, 0x65, 0xA9, 0xD3, 0xB7, 0x9B, 0x5F, 0x23, 0x47]]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleAPI.swift",
+      "kind": "IntegerLiteral",
+      "offset": 425,
+      "length": 2,
+      "value": "10"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleAPI.swift",
+      "kind": "Dictionary",
+      "offset": 1051,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleAPI.swift",
+      "kind": "Array",
+      "offset": 1199,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Dictionary",
+      "offset": 864,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Dictionary",
+      "offset": 927,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Dictionary",
+      "offset": 1005,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "StringLiteral",
+      "offset": 1227,
+      "length": 6,
+      "value": "\"1000\""
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "StringLiteral",
+      "offset": 1282,
+      "length": 6,
+      "value": "\"1001\""
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "StringLiteral",
+      "offset": 1338,
+      "length": 6,
+      "value": "\"1002\""
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2070,
+      "length": 2,
+      "value": "10"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "BooleanLiteral",
+      "offset": 7704,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Array",
+      "offset": 14105,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Dictionary",
+      "offset": 14239,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Dictionary",
+      "offset": 16299,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleCentral.swift",
+      "kind": "Dictionary",
+      "offset": 16694,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BleDeviceNameFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 413,
+      "length": 17,
+      "value": "\"Air Smart Extra\""
+    },
+    {
+      "filePath": "\/Users\/feellife\/Desktop\/swift\/BleToolsKit\/BleToolsKit\/BlePublic.swift",
+      "kind": "BooleanLiteral",
+      "offset": 853,
+      "length": 5,
+      "value": "false"
+    }
+  ]
+}

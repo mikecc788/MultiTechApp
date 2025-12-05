@@ -27,6 +27,7 @@
 }
 
 - (void)testData {
+    
     NSData *data = [NSData dataWithBytes:(unsigned char[]){0x9a, 0x05, 0x8e, 0x95, 0xee, 0x1d, 0x3b, 0xf2} length:8];
     NSString *result = [self reversedHexStringFromData:data];
     NSLog(@"输出字符串: %@", result);
@@ -70,8 +71,8 @@
     
     // 演示不同密钥索引产生不同的加密结果
     NSLog(@"\n--- 演示不同密钥索引的加密结果 ---");
-    NSString *result8 = [AESCBCUtil encryptHexStringZeroPadding:[NSString stringWithFormat:@"%@%@",originalData,endStr] withKeyIndex:2];
-    NSString *result88 = [AESCBCUtil decryptHexStringZeroPadding:@"DAE4984CC351AA08F2ABB973E8168EF6ABF92D6E63" withKeyIndex:9];
+    NSString *result8 = [AESCBCUtil encryptHexStringZeroPadding:[NSString stringWithFormat:@"%@%@",originalData,endStr] withKeyIndex:0];
+    NSString *result88 = [AESCBCUtil decryptHexStringZeroPadding:@"52D00A7A26CE52EC0ED933DA34BBD05E72FB74BA21279894A76E18B48F5EE9B8" withKeyIndex:3];
     NSLog(@"密钥索引8加密结果: %@ 解密结果:%@", result8,result88);
     
     NSLog(@"=== AES CBC密钥池测试完成 ===\n");

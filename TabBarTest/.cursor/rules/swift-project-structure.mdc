@@ -1,0 +1,29 @@
+---
+alwaysApply: true
+---
+# Swift TabBarTest 项目结构指南
+
+这是一个基于 TabBar 和 Navigation 架构的 iOS 项目。
+
+## 主要文件结构
+
+- **入口点**: [AppDelegate.swift](mdc:TabBarTest/AppDelegate.swift) - 应用程序生命周期管理
+- **场景管理**: [SceneDelegate.swift](mdc:TabBarTest/SceneDelegate.swift) - Scene 生命周期和窗口配置
+- **主控制器**: [TabBarController.swift](mdc:TabBarTest/TabBarController.swift) - 主要的 TabBar 控制器
+- **主界面**: [HomeViewController.swift](mdc:TabBarTest/HomeViewController.swift) - 首页视图控制器
+- **搜索界面**: [SearchViewController.swift](mdc:TabBarTest/SearchViewController.swift) - 搜索页面
+- **个人中心**: [ProfileViewController.swift](mdc:TabBarTest/ProfileViewController.swift) - 个人中心页面
+
+## 架构说明
+
+项目采用三层架构：
+1. **TabBarController** - 底部标签栏管理器，包含三个主要 Tab
+2. **NavigationController** - 每个 Tab 都嵌套在 UINavigationController 中
+3. **ViewController** - 具体的业务视图控制器
+
+## Core Data 集成
+
+项目集成了 Core Data 持久化存储：
+- 数据模型：[TabBarTest.xcdatamodeld](mdc:TabBarTest/TabBarTest.xcdatamodeld)
+- 持久化容器在 AppDelegate 中配置
+- 保存上下文在 SceneDelegate 的 sceneDidEnterBackground 中调用

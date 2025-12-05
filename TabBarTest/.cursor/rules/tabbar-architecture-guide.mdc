@@ -1,0 +1,61 @@
+---
+description: TabBar 架构使用指南
+---
+# TabBar + Navigation 架构使用指南
+
+## 架构概览
+
+这个项目实现了一个完整的 TabBar + Navigation 架构，包含三个主要模块：
+
+### 主要组件
+
+1. **TabBarController** - 主容器控制器
+   - 管理三个 Tab 页面
+   - 配置 TabBar 外观和样式
+   - 为每个 Tab 创建 NavigationController
+
+2. **首页模块 (HomeViewController)**
+   - 显示主要内容和欢迎信息
+   - 包含操作按钮和交互示例
+   - 使用约束布局进行自适应设计
+
+3. **搜索模块 (SearchViewController)**
+   - 集成 UISearchController 搜索功能
+   - TableView 显示搜索结果
+   - 实时搜索过滤功能
+
+4. **个人中心模块 (ProfileViewController)**
+   - ScrollView + TableView 混合布局
+   - 用户信息展示
+   - 功能菜单列表
+
+## 如何扩展功能
+
+### 添加新的 Tab
+1. 在 `TabBarController.swift` 的 `setupViewControllers()` 方法中添加新的视图控制器
+2. 使用 `createNavigationController()` 方法包装新的控制器
+3. 将新的 NavigationController 添加到 `viewControllers` 数组
+
+### 添加导航功能
+每个 Tab 都已经嵌套在 NavigationController 中，可以直接使用：
+```swift
+let detailVC = DetailViewController()
+navigationController?.pushViewController(detailVC, animated: true)
+```
+
+### 自定义 TabBar 外观
+在 `TabBarController.swift` 的 `setupTabBar()` 方法中修改外观设置。
+
+## 数据持久化
+
+项目已集成 Core Data：
+- 在 AppDelegate 中配置 persistentContainer
+- 在 SceneDelegate 中处理保存上下文
+- 可以在各个 ViewController 中使用 Core Data 进行数据操作
+
+## 注意事项
+
+- 所有布局使用 Auto Layout 约束
+- 支持深色模式和浅色模式自动切换
+- 使用 SF Symbols 图标系统
+- 遵循 iOS 设计规范和用户体验最佳实践
