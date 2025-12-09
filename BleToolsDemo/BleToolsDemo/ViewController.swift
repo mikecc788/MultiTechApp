@@ -29,6 +29,42 @@ final class ViewController: UIViewController {
         t.font = .monospacedSystemFont(ofSize: 13, weight: .regular)
         return t
     }()
+    private let fvcBtn: UIButton = {
+        let b = UIButton(type: .system)
+        b.setTitle("测试 FVC", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        return b
+    }()
+    private let vcBtn: UIButton = {
+        let b = UIButton(type: .system)
+        b.setTitle("测试 VC", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        return b
+    }()
+    private let mvvBtn: UIButton = {
+        let b = UIButton(type: .system)
+        b.setTitle("测试 MVV", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        return b
+    }()
+    private let stopFvcBtn: UIButton = {
+        let b = UIButton(type: .system)
+        b.setTitle("停止 FVC", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
+        return b
+    }()
+    private let stopVcBtn: UIButton = {
+        let b = UIButton(type: .system)
+        b.setTitle("停止 VC", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
+        return b
+    }()
+    private let stopMvvBtn: UIButton = {
+        let b = UIButton(type: .system)
+        b.setTitle("停止 MVV", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
+        return b
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +72,12 @@ final class ViewController: UIViewController {
         layoutUI()
         scanBtn.addTarget(self, action: #selector(onScan), for: .touchUpInside)
         disconnectBtn.addTarget(self, action: #selector(onDisconnect), for: .touchUpInside)
+        fvcBtn.addTarget(self, action: #selector(onTestFVC), for: .touchUpInside)
+        vcBtn.addTarget(self, action: #selector(onTestVC), for: .touchUpInside)
+        mvvBtn.addTarget(self, action: #selector(onTestMVV), for: .touchUpInside)
+        stopFvcBtn.addTarget(self, action: #selector(onStopFVC), for: .touchUpInside)
+        stopVcBtn.addTarget(self, action: #selector(onStopVC), for: .touchUpInside)
+        stopMvvBtn.addTarget(self, action: #selector(onStopMVV), for: .touchUpInside)
         append("App Ready.")
         // BLE SDK 回调配置
         BleAPI.shared.timeout = 10
@@ -62,6 +104,12 @@ final class ViewController: UIViewController {
         view.addSubview(scanBtn)
         view.addSubview(disconnectBtn)
         view.addSubview(logView)
+        view.addSubview(fvcBtn)
+        view.addSubview(vcBtn)
+        view.addSubview(mvvBtn)
+        view.addSubview(stopFvcBtn)
+        view.addSubview(stopVcBtn)
+        view.addSubview(stopMvvBtn)
 
         scanBtn.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
@@ -75,11 +123,44 @@ final class ViewController: UIViewController {
             make.left.right.height.equalTo(scanBtn)
         }
 
+        // 底部两行按钮：第一行测试，第二行停止
+        stopFvcBtn.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
+            make.height.equalTo(40)
+        }
+        stopMvvBtn.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(12)
+            make.centerY.equalTo(stopFvcBtn)
+            make.width.equalTo(stopFvcBtn)
+            make.height.equalTo(stopFvcBtn)
+        }
+        stopVcBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(stopFvcBtn)
+            make.width.equalTo(stopFvcBtn)
+            make.height.equalTo(stopFvcBtn)
+        }
+
+        fvcBtn.snp.makeConstraints { make in
+            make.left.width.height.equalTo(stopFvcBtn)
+            make.bottom.equalTo(stopFvcBtn.snp.top).offset(-8)
+        }
+        mvvBtn.snp.makeConstraints { make in
+            make.right.width.height.equalTo(stopMvvBtn)
+            make.centerY.equalTo(fvcBtn)
+        }
+        vcBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(stopVcBtn)
+            make.centerY.equalTo(fvcBtn)
+        }
+
         logView.snp.makeConstraints { make in
             make.top.equalTo(disconnectBtn.snp.bottom).offset(16)
             make.left.equalToSuperview().offset(12)
             make.right.equalToSuperview().inset(12)
-            make.bottom.equalToSuperview().inset(12)
+            make.bottom.equalTo(fvcBtn.snp.top).offset(-16)
         }
     }
 
@@ -93,6 +174,32 @@ final class ViewController: UIViewController {
     @objc private func onDisconnect() {
         BleAPI.shared.disconnect()
         append("🔚 已断开连接")
+    }
+
+    // MARK: - FVC / VC / MVV Actions
+    @objc private func onTestFVC() {
+        append("🚀 开始 FVC 测试")
+        // TODO: 这里可以调用 BleAPI.shared.send(...) 下发真实指令
+    }
+
+    @objc private func onTestVC() {
+        append("🚀 开始 VC 测试")
+    }
+
+    @objc private func onTestMVV() {
+        append("🚀 开始 MVV 测试")
+    }
+
+    @objc private func onStopFVC() {
+        append("⏹ 停止 FVC 测试")
+    }
+
+    @objc private func onStopVC() {
+        append("⏹ 停止 VC 测试")
+    }
+
+    @objc private func onStopMVV() {
+        append("⏹ 停止 MVV 测试")
     }
 
     // MARK: - log

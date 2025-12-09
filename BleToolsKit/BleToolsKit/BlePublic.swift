@@ -15,6 +15,7 @@ internal struct BleDevice: Hashable {
     let identifier: String
     let rssi: Int
     let macAddress: String?
+    let isNewDevice: Bool  // 是否为新设备（根据 MAC 地址前缀判断）
 
     init(peripheral: CBPeripheral, rssi: Int, macAddress: String? = nil) {
         self.peripheral = peripheral
@@ -22,6 +23,9 @@ internal struct BleDevice: Hashable {
         self.identifier = peripheral.identifier.uuidString
         self.rssi = rssi
         self.macAddress = macAddress
+        
+        // 在初始化时判断是否为新设备
+        self.isNewDevice = BleStorage.shared.isNewDevice(uuidString: peripheral.identifier.uuidString)
     }
 }
 

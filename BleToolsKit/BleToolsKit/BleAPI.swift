@@ -166,6 +166,29 @@ public final class BleAPI {
             self?.onError?("MVV 测试失败: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - 停止测试方法
+    
+    /// 停止 FVC 测试
+    public func stopFvc() {
+        central.stopFvc { [weak self] error in
+            self?.onError?("停止 FVC 测试失败: \(error.localizedDescription)")
+        }
+    }
+    
+    /// 停止 VC 测试
+    public func stopVc() {
+        central.stopVc { [weak self] error in
+            self?.onError?("停止 VC 测试失败: \(error.localizedDescription)")
+        }
+    }
+    
+    /// 停止 MVV 测试
+    public func stopMvv() {
+        central.stopMvv { [weak self] error in
+            self?.onError?("停止 MVV 测试失败: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - 内部工具扩展（保持向后兼容，已移至 BleDataConverter）

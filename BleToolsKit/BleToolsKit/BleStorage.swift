@@ -52,5 +52,39 @@ internal final class BleStorage {
         mapping[deviceUUID] = macAddress
         saveDeviceMacMapping(mapping)
     }
+    
+    // MARK: - 新设备判断
+    
+    /// 新设备 MAC 地址前缀
+    private static let newPrefix = "059A"
+    
+    /// 判断设备是否为新设备（根据 MAC 地址前缀）
+    /// - Parameter deviceUUID: 设备 UUID
+    /// - Returns: 如果 MAC 地址前缀为 "059A" 则返回 true，否则返回 false
+    func isNewDevice(uuidString: String) -> Bool {
+        let mapping = loadDeviceMacMapping()
+        let macAddress = mapping[uuidString]
+        
+        #if DEBUG
+        print("[MAC] UUID=\(uuidString) -> MAC=\(macAddress ?? "nil")")
+        #endif
+        
+        if let mac = macAddress, mac.count >= 4 {
+            let prefix = String(mac.prefix(4)).uppercased()
+            let isNew = (prefix == Self.newPrefix)
+            
+            #if DEBUG
+            print("[MAC] MAC地址前缀: \(prefix), 是否为新设备: \(isNew ? "是" : "否")")
+            #endif
+            
+            return isNew
+        }
+        
+        #if DEBUG
+        print("[MAC] 未取到有效 MAC 或长度不足，按旧设备处理")
+        #endif
+        
+        return false
+    }
 }
 

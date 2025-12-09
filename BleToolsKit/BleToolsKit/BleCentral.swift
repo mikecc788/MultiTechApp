@@ -37,6 +37,9 @@ internal final class BleCentral: NSObject {
     private var writeCharacteristic: CBCharacteristic?
     private var notifyCharacteristic: CBCharacteristic?
     
+    // 设备缓存：用于在连接时获取设备信息（包括 isNewDevice）
+    private var discoveredDevices: [UUID: BleDevice] = [:]
+    
     // MAC 地址映射：设备 UUID -> MAC 地址
     private var deviceMacMapping: [String: String] = [:]
     
@@ -45,6 +48,7 @@ internal final class BleCentral: NSObject {
     
     // 密钥池索引（用于加密通信）
     internal var poolIndex: Int = 0
+    private var isNewDevice: Bool = false
     
     // 目标 UUID 常量
     private let targetServiceUUID = CBUUID(string: BleConstants.ServiceUUIDs.targetService)
@@ -183,6 +187,7 @@ internal final class BleCentral: NSObject {
     private func stopScan() {
         central.stopScan()
         seen.removeAll()
+        // 注意：不清空 discoveredDevices，以便连接时使用
     }
 
     private func finishConnect(_ p: CBPeripheral, with result: Result<CBPeripheral, Error>) {
@@ -250,24 +255,56 @@ internal final class BleCentral: NSObject {
     /// FVC 测试方法
     /// - Parameter onError: 错误回调
     internal func fvc(onError: @escaping (Error) -> Void) {
-        sendTestCommand(command: "fvc", onError: onError)
+        sendTestCommand(command: "e2010101", onError: onError)
     }
     
     /// VC 测试方法
     /// - Parameter onError: 错误回调
     internal func vc(onError: @escaping (Error) -> Void) {
-        sendTestCommand(command: "vc", onError: onError)
+        sendTestCommand(command: "e2010201", onError: onError)
     }
     
     /// MVV 测试方法
     /// - Parameter onError: 错误回调
     internal func mvv(onError: @escaping (Error) -> Void) {
-        sendTestCommand(command: "mvv", onError: onError)
+        sendTestCommand(command: "e2010301", onError: onError)
+    }
+    
+    // MARK: - 停止测试方法
+    
+    /// 停止 FVC 测试方法
+    /// - Parameter onError: 错误回调
+    internal func stopFvc(onError: @escaping (Error) -> Void) {
+        guard let writeChar = writeCharacteristic else {
+            onError(BleError.unknown)
+            return
+        }
+        sendCommandWithCrc(origin: "e2010100e4", usePool: true, to: writeChar, onError: onError)
+    }
+    
+    /// 停止 VC 测试方法
+    /// - Parameter onError: 错误回调
+    internal func stopVc(onError: @escaping (Error) -> Void) {
+        guard let writeChar = writeCharacteristic else {
+            onError(BleError.unknown)
+            return
+        }
+        sendCommandWithCrc(origin: "e2010200e5", usePool: true, to: writeChar, onError: onError)
+    }
+    
+    /// 停止 MVV 测试方法
+    /// - Parameter onError: 错误回调
+    internal func stopMvv(onError: @escaping (Error) -> Void) {
+        guard let writeChar = writeCharacteristic else {
+            onError(BleError.unknown)
+            return
+        }
+        sendCommandWithCrc(origin: "e2010300e6", usePool: true, to: writeChar, onError: onError)
     }
     
     /// 发送测试命令的通用方法
     /// - Parameters:
-    ///   - command: 命令字符串（如 "fvc", "vc", "mvv"）
+    ///   - command: 命令字符串（如 "e2010101", "e2010201", "e2010301"）
     ///   - onError: 错误回调
     private func sendTestCommand(command: String, onError: @escaping (Error) -> Void) {
         guard let writeChar = writeCharacteristic else {
@@ -275,11 +312,16 @@ internal final class BleCentral: NSObject {
             return
         }
         
-        // 构建原始命令（这里需要根据实际协议调整）
-        let commandHex = command.data(using: .utf8)?.map { String(format: "%02x", $0) }.joined() ?? ""
+        // 使用 getTerminator 计算校验和并拼接
+        let terminator = DataConverter.getTerminator(from: command)
+        let commandHex = command + terminator
+        
+        #if DEBUG
+        print("测试命令: \(command) + Terminator(\(terminator)) = \(commandHex)")
+        #endif
         
         // 发送命令（测试阶段使用固定密钥）
-        sendCommandWithCrc(origin: commandHex, usePool: false, to: writeChar, onError: onError)
+        sendCommandWithCrc(origin: commandHex, usePool: true, to: writeChar, onError: onError)
     }
     
     // MARK: - 发送命令（带 CRC 和加密）
@@ -296,6 +338,17 @@ internal final class BleCentral: NSObject {
             return
         }
         
+        // 如果是老设备，直接发送原始数据，不加密
+        if !isNewDevice {
+            #if DEBUG
+            print("老设备，直接发送原始数据: \(origin)")
+            #endif
+            let commandData = DataConverter.data(from: origin)
+            write(data: commandData, to: characteristic, onError: onError)
+            return
+        }
+        
+        // 新设备：使用加密逻辑
         let payload = origin
         var cipher: String?
         
@@ -385,12 +438,37 @@ extension BleCentral: CBCentralManagerDelegate {
                 }
             }
             
-            onFound?(BleDevice(peripheral: peripheral, rssi: RSSI.intValue, macAddress: self.macAddress))
+            // 创建设备对象（初始化时会自动判断是否为新设备）
+            let device = BleDevice(peripheral: peripheral, rssi: RSSI.intValue, macAddress: self.macAddress)
+            
+            // 缓存设备信息，供连接时使用
+            discoveredDevices[peripheral.identifier] = device
+            
+            #if DEBUG
+            print("缓存设备信息: UUID=\(deviceUUID), MAC=\(self.macAddress ?? "nil"), 是否新设备=\(device.isNewDevice ? "是" : "否")")
+            #endif
+            
+            onFound?(device)
         }
     }
 
     internal func centralManager(_ central: CBCentralManager,
                                didConnect peripheral: CBPeripheral) {
+        // 连接成功后，从缓存获取设备信息（包括 isNewDevice）
+        if let cachedDevice = discoveredDevices[peripheral.identifier] {
+            isNewDevice = cachedDevice.isNewDevice
+            #if DEBUG
+            print("[连接] 设备连接成功（从缓存获取），UUID: \(peripheral.identifier.uuidString), 是否为新设备: \(isNewDevice ? "是" : "否")")
+            #endif
+        } else {
+            // 如果缓存中没有，则重新判断（兜底逻辑）
+            let deviceUUID = peripheral.identifier.uuidString
+            isNewDevice = BleStorage.shared.isNewDevice(uuidString: deviceUUID)
+            #if DEBUG
+            print("[连接] 设备连接成功（重新判断），UUID: \(deviceUUID), 是否为新设备: \(isNewDevice ? "是" : "否")")
+            #endif
+        }
+        
         finishConnect(peripheral, with: .success(peripheral))
     }
 
