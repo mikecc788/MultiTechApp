@@ -41,7 +41,7 @@ final class DataConverter {
     
     /// 从十六进制字符串计算 CRC 校验值
     /// - Parameter hexString: 十六进制字符串
-    /// - Returns: CRC 校验值（2位十六进制字符串）
+    /// - Returns: CRC 校验值（2位十六进制字符串，小写）
     static func calculateCRC(from hexString: String) -> String {
         var sum = 0
         
@@ -58,14 +58,14 @@ final class DataConverter {
             index = endIndex
         }
         
-        // 转换为十六进制字符串
-        let crcHex = String(format: "%X", sum)
+        // 转换为十六进制字符串（小写）
+        let crcHex = String(format: "%x", sum)
         
         // 取最后两位作为 CRC 校验值
         if crcHex.count >= 2 {
-            return String(crcHex.suffix(2)).uppercased()
+            return String(crcHex.suffix(2))
         } else if crcHex.count == 1 {
-            return "0" + crcHex.uppercased()
+            return "0" + crcHex
         } else {
             return "00"
         }
@@ -100,7 +100,7 @@ final class DataConverter {
     
     /// 计算校验和（Terminator）- 将十六进制字符串每两个字符相加，返回最后两位十六进制
     /// - Parameter hexString: 十六进制字符串
-    /// - Returns: 校验和（2位十六进制字符串，大写）
+    /// - Returns: 校验和（2位十六进制字符串，小写）
     static func getTerminator(from hexString: String) -> String {
         var sum = 0
         var index = hexString.startIndex
@@ -117,14 +117,14 @@ final class DataConverter {
             index = endIndex
         }
         
-        // 转换为十六进制字符串
-        let hexResult = String(format: "%X", sum)
+        // 转换为十六进制字符串（小写）
+        let hexResult = String(format: "%x", sum)
         
         // 取最后两位作为校验和
         if hexResult.count >= 2 {
-            return String(hexResult.suffix(2)).uppercased()
+            return String(hexResult.suffix(2))
         } else if hexResult.count == 1 {
-            return "0" + hexResult.uppercased()
+            return "0" + hexResult
         } else {
             return "00"
         }
@@ -132,7 +132,7 @@ final class DataConverter {
     
     /// 从十六进制字符串计算 CRC 校验值（与 calculateCRC 功能相同，保持兼容性）
     /// - Parameter hexString: 十六进制字符串
-    /// - Returns: CRC 校验值（2位十六进制字符串，大写）
+    /// - Returns: CRC 校验值（2位十六进制字符串，小写）
     static func calculateCRCFromHexString(_ hexString: String) -> String {
         return calculateCRC(from: hexString)
     }

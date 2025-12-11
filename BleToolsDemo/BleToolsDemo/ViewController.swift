@@ -3,17 +3,22 @@
 //  BleToolsDemo
 //
 //  Created by app on 2025/10/20.
-//
+// Extra 121A
 
 import UIKit
 import BleToolsKit
 import SnapKit
+
 final class ViewController: UIViewController {
 
+    // MARK: - Properties
+    private var discoveredDevices: [BleDevice] = []
+    private var deviceListView: DeviceListView?
+    
     // MARK: - UI
     private let scanBtn: UIButton = {
         let b = UIButton(type: .system)
-        b.setTitle("开始扫描并连接", for: .normal)
+        b.setTitle("扫描设备", for: .normal)
         b.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
         return b
     }()
@@ -82,12 +87,12 @@ final class ViewController: UIViewController {
         // BLE SDK 回调配置
         BleAPI.shared.timeout = 10
         BleAPI.shared.onDeviceFound = { [weak self] deviceId, deviceName, rssi in
-            self?.append("📱 发现设备: \(deviceName)  RSSI:\(rssi) id:\(deviceId)")
-            if deviceName.contains("Air Smart Extra") {
-                self?.append("🔗 自动连接目标设备: \(deviceName)")
-                BleAPI.shared.stopScan()
-                BleAPI.shared.connect(deviceId: deviceId)
+            if rssi == 0 {
+                self?.append("📱 发现设备: \(deviceName) [系统已连接]")
+            } else {
+                self?.append("📱 发现设备: \(deviceName)  RSSI:\(rssi)")
             }
+            self?.addOrUpdateDevice(deviceId: deviceId, deviceName: deviceName, rssi: rssi)
         }
         BleAPI.shared.onConnected = { [weak self] in
             self?.append("✅ 设备已连接")
@@ -97,6 +102,9 @@ final class ViewController: UIViewController {
         }
         BleAPI.shared.onError = { [weak self] msg in
             self?.append("❌ 错误: \(msg)")
+        }
+        BleAPI.shared.onLog = {[weak self] log in
+            self?.append("📱 [SDK] \(log)")
         }
     }
 
@@ -168,6 +176,8 @@ final class ViewController: UIViewController {
 
     @objc private func onScan() {
         append("🔍 开始扫描设备…")
+        discoveredDevices.removeAll()
+        showDeviceListView()
         BleAPI.shared.scan()
     }
 
@@ -180,28 +190,91 @@ final class ViewController: UIViewController {
     @objc private func onTestFVC() {
         append("🚀 开始 FVC 测试")
         // TODO: 这里可以调用 BleAPI.shared.send(...) 下发真实指令
+        BleAPI.shared.fvc()
     }
 
     @objc private func onTestVC() {
         append("🚀 开始 VC 测试")
+        BleAPI.shared.vc()
     }
 
     @objc private func onTestMVV() {
         append("🚀 开始 MVV 测试")
+        BleAPI.shared.mvv()
     }
 
     @objc private func onStopFVC() {
         append("⏹ 停止 FVC 测试")
+        BleAPI.shared.stopFvc()
     }
 
     @objc private func onStopVC() {
         append("⏹ 停止 VC 测试")
+        BleAPI.shared.stopVc()
     }
 
     @objc private func onStopMVV() {
         append("⏹ 停止 MVV 测试")
+        BleAPI.shared.stopMvv()
     }
 
+    // MARK: - Device Management
+    
+    private func addOrUpdateDevice(deviceId: String, deviceName: String, rssi: Int) {
+        let device = BleDevice(deviceId: deviceId, deviceName: deviceName, rssi: rssi)
+        
+        if let index = discoveredDevices.firstIndex(where: { $0.deviceId == deviceId }) {
+            // 更新已存在的设备
+            discoveredDevices[index] = device
+        } else {
+            // 添加新设备
+            discoveredDevices.append(device)
+        }
+        
+        // 排序规则：
+        // 1. 已连接设备（RSSI=0）排在最前面
+        // 2. 其他设备按信号强度排序（RSSI 从高到低）
+        discoveredDevices.sort { device1, device2 in
+            // 如果设备1是已连接设备，排在前面
+            if device1.isSystemConnected && !device2.isSystemConnected {
+                return true
+            }
+            // 如果设备2是已连接设备，排在前面
+            if !device1.isSystemConnected && device2.isSystemConnected {
+                return false
+            }
+            // 如果都是已连接设备或都不是，按RSSI排序
+            return device1.rssi > device2.rssi
+        }
+        
+        // 更新设备列表视图
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.deviceListView?.updateDevices(self.discoveredDevices)
+        }
+    }
+    
+    private func showDeviceListView() {
+        let listView = DeviceListView()
+        listView.onDeviceSelected = { [weak self] device in
+            self?.connectToDevice(device)
+        }
+        listView.onClose = { [weak self] in
+            BleAPI.shared.stopScan()
+            self?.append("⏸ 停止扫描")
+            self?.deviceListView = nil
+        }
+        listView.show(in: self.view)
+        self.deviceListView = listView
+    }
+    
+    private func connectToDevice(_ device: BleDevice) {
+        BleAPI.shared.stopScan()
+        append("🔗 正在连接: \(device.displayName)")
+        append("📍 设备ID: \(device.deviceId)")
+        BleAPI.shared.connect(deviceId: device.deviceId)
+    }
+    
     // MARK: - log
     private func append(_ s: String) {
         DispatchQueue.main.async {

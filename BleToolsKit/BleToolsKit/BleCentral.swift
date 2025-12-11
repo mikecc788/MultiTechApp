@@ -27,6 +27,9 @@ internal final class BleCentral: NSObject {
     private var onFound: ((BleDevice) -> Void)?
     private var onScanError: ((Error) -> Void)?
     private var scanFilter: BleFilter = .init()
+    
+    // 日志回调
+    internal var onLog: ((String) -> Void)?
 
     // 连接态
     private var connectContinuations: [UUID: (Result<CBPeripheral, Error>) -> Void] = [:]
@@ -178,10 +181,65 @@ internal final class BleCentral: NSObject {
     // MARK: Internal helpers
     private func beginScan() {
         seen.removeAll()
+        
+        // 如果需要包含已连接设备，先获取并返回它们
+        if scanFilter.includeConnectedDevices {
+            retrieveConnectedDevices()
+        }
+        
         let opts: [String: Any] = [
             CBCentralManagerScanOptionAllowDuplicatesKey: scanFilter.allowDuplicates
         ]
         central.scanForPeripherals(withServices: scanFilter.serviceUUIDs, options: opts)
+    }
+    
+    /// 获取系统中已连接的设备
+    private func retrieveConnectedDevices() {
+        // 使用目标服务 UUID 获取已连接的设备
+        let serviceUUIDs = scanFilter.serviceUUIDs ?? [targetServiceUUID]
+        let connectedPeripherals = central.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+        
+        #if DEBUG
+        print("📱 检索到 \(connectedPeripherals.count) 个已连接设备")
+        #endif
+        
+        for peripheral in connectedPeripherals {
+            // 判断是否为目标设备
+            if BleDeviceNameFilter.shared.isTargetDevice(peripheral: peripheral) {
+                let deviceUUID = peripheral.identifier.uuidString
+                
+                #if DEBUG
+                print("✅ 发现已连接的目标设备: \(peripheral.name ?? "nil")")
+                #endif
+                
+                // 尝试从存储中获取 MAC 地址
+                if let existingMacAddress = BleStorage.shared.getMacAddress(for: deviceUUID) {
+                    self.macAddress = existingMacAddress
+                    deviceMacMapping[deviceUUID] = existingMacAddress
+                    #if DEBUG
+                    print("使用已保存的MAC地址映射: \(deviceUUID) -> \(existingMacAddress)")
+                    #endif
+                }
+                
+                // 创建设备对象（RSSI 设为 0，因为已连接设备无法获取实时 RSSI）
+                let device = BleDevice(peripheral: peripheral, rssi: 0, macAddress: self.macAddress)
+                
+                // 缓存设备信息
+                discoveredDevices[peripheral.identifier] = device
+                
+                // 标记为已发现，避免扫描时重复回调
+                if !scanFilter.allowDuplicates {
+                    seen.insert(peripheral.identifier)
+                }
+                
+                #if DEBUG
+                print("缓存已连接设备信息: UUID=\(deviceUUID), MAC=\(self.macAddress ?? "nil"), 是否新设备=\(device.isNewDevice ? "是" : "否")")
+                #endif
+                
+                // 回调给上层
+                onFound?(device)
+            }
+        }
     }
 
     private func stopScan() {
@@ -229,25 +287,52 @@ internal final class BleCentral: NSObject {
             return
         }
         
-        // 构建指令
-        let commandString = "88dd1E00000000000000000000000000000000"
-        
-        // 计算 CRC 校验值
-        let crc = DataConverter.calculateCRC(from: commandString)
-        
-        // 完整指令
-        let fullCommand = commandString + crc
-        
-        // 转换为 Data
-        let commandData = DataConverter.dataWithHexString(fullCommand)
-        
-        #if DEBUG
-        print("发送绑定指令: \(fullCommand)")
-        print("指令数据: \(commandData as NSData)")
-        #endif
-        
-        // 写入数据
-        peripheral.writeValue(commandData, for: writeChar, type: .withResponse)
+        if isNewDevice {
+            // 新设备：发送原绑定指令 88dd1E00000000000000000000000000000000
+            let commandString = "88dd1E00000000000000000000000000000000"
+            
+            // 计算 CRC 校验值
+            let crc = DataConverter.calculateCRC(from: commandString)
+            
+            // 完整指令
+            let fullCommand = commandString + crc
+            
+            // 转换为 Data
+            let commandData = DataConverter.dataWithHexString(fullCommand)
+            
+            let logMsg = "📲 [新设备] 发送绑定指令: \(fullCommand)"
+            onLog?(logMsg)
+            #if DEBUG
+            print(logMsg)
+            print("[新设备] 指令数据: \(commandData as NSData)")
+            #endif
+            
+            // 写入数据
+            peripheral.writeValue(commandData, for: writeChar, type: .withResponse)
+        } else {
+            // 老设备：发送 e200 + 当前时间的十六进制 + 校验和
+            let currentHexTime = BleDataConverter.getCurrentHexTimes()
+            let info = "e200" + currentHexTime
+            
+            // 计算校验和
+            let endStr = DataConverter.getTerminator(from: info)
+            
+            // 完整指令
+            let sendInfo = info + endStr
+            
+            // 转换为 Data
+            let commandData = DataConverter.dataWithHexString(sendInfo)
+            
+            let logMsg = "📲 [老设备] 发送绑定指令: \(sendInfo), 长度: \(sendInfo.count)"
+            onLog?(logMsg)
+            #if DEBUG
+            print(logMsg)
+            print("[老设备] 指令数据: \(commandData as NSData)")
+            #endif
+            
+            // 写入数据
+            peripheral.writeValue(commandData, for: writeChar, type: .withResponse)
+        }
     }
     
     // MARK: - 测试方法（fvc, vc, mvv）
@@ -308,6 +393,11 @@ internal final class BleCentral: NSObject {
     ///   - onError: 错误回调
     private func sendTestCommand(command: String, onError: @escaping (Error) -> Void) {
         guard let writeChar = writeCharacteristic else {
+            let errorMsg = "❌ 写特征未准备好，无法发送测试命令"
+            onLog?(errorMsg)
+            #if DEBUG
+            print(errorMsg)
+            #endif
             onError(BleError.unknown)
             return
         }
@@ -316,8 +406,10 @@ internal final class BleCentral: NSObject {
         let terminator = DataConverter.getTerminator(from: command)
         let commandHex = command + terminator
         
+        let logMsg = "📤 测试命令: \(command) + Terminator(\(terminator)) = \(commandHex)"
+        onLog?(logMsg)
         #if DEBUG
-        print("测试命令: \(command) + Terminator(\(terminator)) = \(commandHex)")
+        print(logMsg)
         #endif
         
         // 发送命令（测试阶段使用固定密钥）
@@ -340,8 +432,10 @@ internal final class BleCentral: NSObject {
         
         // 如果是老设备，直接发送原始数据，不加密
         if !isNewDevice {
+            let logMsg = "📱 [老设备] 直接发送原始数据: \(origin)"
+            onLog?(logMsg)
             #if DEBUG
-            print("老设备，直接发送原始数据: \(origin)")
+            print(logMsg)
             #endif
             let commandData = DataConverter.data(from: origin)
             write(data: commandData, to: characteristic, onError: onError)
@@ -355,15 +449,19 @@ internal final class BleCentral: NSObject {
         if usePool {
             // 使用密钥池加密
             cipher = AESCBCUtil.encryptHexStringZeroPadding(payload, keyIndex: poolIndex)
+            let logMsg = "🔐 [新设备] 密钥池加密(\(poolIndex)): \(cipher ?? "加密失败")"
+            onLog?(logMsg)
             #if DEBUG
-            print("发送密钥池加密命令: \(cipher ?? "加密失败")")
+            print(logMsg)
             #endif
         } else {
             // 测试阶段：先加 CRC，再固定密钥加密
             let payloadWithCRC = payload + DataConverter.calculateCRCFromHexString(payload)
             cipher = AESCBCUtil.encryptHexStringWithFixedKey(payloadWithCRC)
+            let logMsg = "🔑 [新设备] 固定密钥加密: \(cipher ?? "加密失败")"
+            onLog?(logMsg)
             #if DEBUG
-            print("发送固定密钥命令: \(cipher ?? "加密失败")")
+            print(logMsg)
             #endif
         }
         

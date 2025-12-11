@@ -10,43 +10,43 @@
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		rbEzbhiXBCcrSl/Jhg79r77irLw=
+		WYOiS9veC5foDMXnWpIfXLjeKDI=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		DIklyeXrQ4WJPipeq4uQYyBipVA=
+		UG+Cq4moLCnJOInXFzu/Du+Vbhc=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		6M5RcKxDSIzgkD+/FdkP2EC8gcM=
+		HZZk8Cj4yjiBTJktqvZXxxi+DGM=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		DIklyeXrQ4WJPipeq4uQYyBipVA=
+		UG+Cq4moLCnJOInXFzu/Du+Vbhc=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		w53IqckuPy16rwHcHuanRdX91ao=
+		4qB74dAJC/4vrGSHbhr9K1rnQl4=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		rbEzbhiXBCcrSl/Jhg79r77irLw=
+		WYOiS9veC5foDMXnWpIfXLjeKDI=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		OMYo0wlt+V8B9NQRDIrWWS0cBVM=
+		m4YEmUiwverpGvb6irf7LGpBeyk=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		Y3sRGOpGbjefDTWdFLvMm3HfMqM=
+		Z87nTNa89QnUuVPRss9lwt8nmrQ=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		OMYo0wlt+V8B9NQRDIrWWS0cBVM=
+		m4YEmUiwverpGvb6irf7LGpBeyk=
 		</data>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		jFgukCOFIo8wQUWrC+dhYo9/pe0=
+		4l9tfbwiMzC19mq17zTaLI5Je1M=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -55,70 +55,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			x2xlQ0cY+Exnn6xkgK+nhypCf9iy2FebKGpHC63xCog=
+			Y3PUbSNRokqspi0wbrhQaNSDyIq/u1SvZfjrfdit4ig=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vuxMEJG5/JOkp8/ptECVeuAOa0Zo4LpjLab27SMwdjU=
+			cNypqI87WM0cjSgDWEQq9cqi7SGfMRjF+inXXPFVgnk=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JT8mBjpdCBI5dxiAKGejqwncC+Lc8hwF61A2ZS0VZaI=
+			gtZCKJP6cRnmBU7y09WdD8Fi4YA5/9ZnFGS2GSvKu/4=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vuxMEJG5/JOkp8/ptECVeuAOa0Zo4LpjLab27SMwdjU=
+			cNypqI87WM0cjSgDWEQq9cqi7SGfMRjF+inXXPFVgnk=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			EfevJbkIX4OirmVSj4XG5D7Gv26h8kjDduq4Nvdjxhw=
+			17ojRgBXgXWlKqOOaYRL4VPUcaS/NIhRy83el3Quk0k=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			x2xlQ0cY+Exnn6xkgK+nhypCf9iy2FebKGpHC63xCog=
+			Y3PUbSNRokqspi0wbrhQaNSDyIq/u1SvZfjrfdit4ig=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ymyTt87li1xs8T1lzS1a/1kwlYrxII4VLmH6nxkzmss=
+			WxhKE6QkIOYRUe5xsaVP7qsi/v3GeABycl+qgcGbym4=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			bD8EXEYr4tMv/jo/3EFmxwLE9XEVi1aznfdTnTfVQO0=
+			yJpEv/ZYNpytuF/MreUM3LvsFwxZZUvdZE2I7TzMZ18=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ymyTt87li1xs8T1lzS1a/1kwlYrxII4VLmH6nxkzmss=
+			WxhKE6QkIOYRUe5xsaVP7qsi/v3GeABycl+qgcGbym4=
 			</data>
 		</dict>
 		<key>Modules/BleToolsKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			j+FkFPneNWZlMDpOcU9UmFbfO0Cee3I92gFd8sDzfOE=
+			afMwWOTN+JH7X4ujWi40msBpLFp0MBbjAsqtK1d9MPU=
 			</data>
 		</dict>
 	</dict>

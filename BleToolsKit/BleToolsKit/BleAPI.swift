@@ -33,6 +33,14 @@ public final class BleAPI {
     /// 错误回调
     public var onError: ((String) -> Void)?
     
+    /// 日志回调（用于调试）
+    public var onLog: ((String) -> Void)? {
+        didSet {
+            // 同步到 BleCentral
+            central.onLog = onLog
+        }
+    }
+    
     // MARK: - 内部状态（外部不可见）
     private let central = BleCentral.shared
     private var scanToken: ScanToken?
@@ -46,11 +54,12 @@ public final class BleAPI {
     // MARK: - ⭐️ 对外公开的三个核心接口 ⭐️
     
     /// 1️⃣ 扫描设备
-    public func scan() {
+    /// - Parameter includeConnectedDevices: 是否包含系统已连接的设备（默认 true）
+    public func scan(includeConnectedDevices: Bool = true) {
         scanToken?.stop()
         scannedDevices.removeAll()
         
-        let filter = BleFilter(serviceUUIDs: nil, allowDuplicates: false)
+        let filter = BleFilter(serviceUUIDs: nil, allowDuplicates: false, includeConnectedDevices: includeConnectedDevices)
         
         scanToken = central.startScan(filter: filter) { [weak self] device in
             guard let self = self else { return }
@@ -148,22 +157,28 @@ public final class BleAPI {
     
     /// FVC 测试方法
     public func fvc() {
+        onLog?("🔵 [FVC] 开始发送 FVC 测试指令")
         central.fvc { [weak self] error in
             self?.onError?("FVC 测试失败: \(error.localizedDescription)")
+            self?.onLog?("🔴 [FVC] 测试失败: \(error.localizedDescription)")
         }
     }
     
     /// VC 测试方法
     public func vc() {
+        onLog?("🔵 [VC] 开始发送 VC 测试指令")
         central.vc { [weak self] error in
             self?.onError?("VC 测试失败: \(error.localizedDescription)")
+            self?.onLog?("🔴 [VC] 测试失败: \(error.localizedDescription)")
         }
     }
     
     /// MVV 测试方法
     public func mvv() {
+        onLog?("🔵 [MVV] 开始发送 MVV 测试指令")
         central.mvv { [weak self] error in
             self?.onError?("MVV 测试失败: \(error.localizedDescription)")
+            self?.onLog?("🔴 [MVV] 测试失败: \(error.localizedDescription)")
         }
     }
     

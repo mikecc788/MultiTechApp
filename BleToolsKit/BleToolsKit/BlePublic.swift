@@ -34,10 +34,13 @@ internal struct BleFilter {
     let serviceUUIDs: [CBUUID]?
     /// 是否允许重复回调（默认 false：同一设备只回一次）
     let allowDuplicates: Bool
+    /// 是否包含系统已连接的设备（默认 true：扫描时会先返回已连接的设备）
+    let includeConnectedDevices: Bool
 
-    init(serviceUUIDs: [CBUUID]? = nil, allowDuplicates: Bool = false) {
+    init(serviceUUIDs: [CBUUID]? = nil, allowDuplicates: Bool = false, includeConnectedDevices: Bool = true) {
         self.serviceUUIDs = serviceUUIDs
         self.allowDuplicates = allowDuplicates
+        self.includeConnectedDevices = includeConnectedDevices
     }
 }
 

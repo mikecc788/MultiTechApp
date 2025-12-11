@@ -35,9 +35,62 @@ internal final class BleDataConverter {
     
     /// 将 Data 转换为十六进制字符串
     /// - Parameter data: Data 对象
-    /// - Returns: 十六进制字符串，如 "0102FF"
+    /// - Returns: 十六进制字符串，如 "0102ff"（小写）
     static func dataToHexString(_ data: Data) -> String {
-        return data.map { String(format: "%02X", $0) }.joined()
+        return data.map { String(format: "%02x", $0) }.joined()
+    }
+    
+    // MARK: - 时间转换
+    
+    /// 获取当前时间的十六进制表示
+    /// - Returns: 当前时间的十六进制字符串，格式为 yyyyMMddHHmmss 转换后的十六进制
+    static func getCurrentHexTimes() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        
+        let now = Date()
+        let currentTimeString = formatter.string(from: now)
+        
+        // 移除非数字字符(使用正则表达式)
+        let formattedTimeString = currentTimeString.replacingOccurrences(
+            of: "[^0-9\\s]",
+            with: "",
+            options: .regularExpression
+        )
+        
+        // 移除空格
+        let formattedTimeString1 = formattedTimeString.replacingOccurrences(of: " ", with: "")
+        
+        var hexString = ""
+        
+        // 每两位数字转换为十六进制
+        var index = 0
+        while index < formattedTimeString1.count {
+            let startIndex = formattedTimeString1.index(formattedTimeString1.startIndex, offsetBy: index)
+            let endIndex = formattedTimeString1.index(startIndex, offsetBy: min(2, formattedTimeString1.count - index))
+            let subString = String(formattedTimeString1[startIndex..<endIndex])
+            
+            var target = convertToHexadecimalFromDecimal(subString)
+            if target.count == 1 {
+                target = "0" + target
+            }
+            hexString += target
+            
+            index += 2
+        }
+        
+        print("hexString = \(hexString)")
+        return hexString
+    }
+    
+    // MARK: - 进制转换
+    
+    /// 十进制转十六进制
+    /// - Parameter decimalValue: 十进制字符串
+    /// - Returns: 十六进制字符串(小写)
+    static func convertToHexadecimalFromDecimal(_ decimalValue: String) -> String {
+        guard let decimalInt = Int(decimalValue) else { return "" }
+        return String(decimalInt, radix: 16, uppercase: false)
     }
     
 }

@@ -16,10 +16,20 @@ import _SwiftConcurrencyShims
   final public var onConnected: (() -> Swift.Void)?
   final public var onDataReceived: ((Swift.String) -> Swift.Void)?
   final public var onError: ((Swift.String) -> Swift.Void)?
-  final public func scan()
+  final public var onLog: ((Swift.String) -> Swift.Void)? {
+    get
+    set
+  }
+  final public func scan(includeConnectedDevices: Swift.Bool = true)
   final public func connect(deviceId: Swift.String)
   final public func send(_ hexString: Swift.String)
   final public func stopScan()
   final public func disconnect()
+  final public func fvc()
+  final public func vc()
+  final public func mvv()
+  final public func stopFvc()
+  final public func stopVc()
+  final public func stopMvv()
   @objc deinit
 }
